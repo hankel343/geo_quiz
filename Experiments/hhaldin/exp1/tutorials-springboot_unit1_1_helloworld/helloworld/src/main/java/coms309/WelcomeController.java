@@ -16,4 +16,14 @@ class WelcomeController {
     public String welcome(@PathVariable String name) {
         return "Hello and welcome to COMS 309: " + name;
     }
+
+    @GetMapping("/test")
+    public String sayHello() {
+        return "You navigated to the test endpoint";
+    }
+
+    @GetMapping("/schedule")
+    public String getSchedule() {
+        return "Our group meets Mondays and Wednesdays at 1:00pm";
+    }
 }
