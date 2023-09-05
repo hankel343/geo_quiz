@@ -13,6 +13,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.FileReader;
 
+import java.util.HashMap;
+
 /*
 	I'm using a basic text file to model a database in the following controller.
 	POST methods write to data.txt and GET retrieves all the data from it.
@@ -20,26 +22,24 @@ import java.io.FileReader;
 
 @RestController
 public class TestController {
-	
 
+	HashMap<String, String> capitalCities = new HashMap<String, String>();
 
-
+	@GetMapping("/")
+	public String welcome() {
+		return "Welcome to GeoQuiz";
+	}
 	@GetMapping("/getTest")
-	public String getTest(@RequestParam(value = "username", defaultValue = "World") String message) {
-		String fileName = "data.txt";
-		StringBuilder fileContents = new StringBuilder();
+	public String getTest(
+			@RequestParam(value = "country", defaultValue = "some country") String country,
+			@RequestParam(value = "capital", defaultValue = "some city") String capital)
+	{
+		capitalCities.put(country, capital);
 
-		try (BufferedReader reader = new BufferedReader(new FileReader(fileName))){
-			String line;
-			while ((line = reader.readLine()) != null) {
-				fileContents.append(line).append("\n");
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-			return "Failed to read file contents.";
-		}
+		System.out.println(country);
+		System.out.println(capital);
 
-		return fileContents.toString();
+		return String.format("Capital [ %s ] of country [ %s ] added to the list", capital, country);
 	}
 	
 	@PostMapping("/postTest1")
