@@ -1,17 +1,9 @@
 package com.cs309.tutorial.tests;
 
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import java.io.BufferedReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.FileReader;
 
 import java.util.HashMap;
 
@@ -21,9 +13,10 @@ import java.util.HashMap;
  */
 
 @RestController
-public class TestController {
+public class CountryController {
 
-	HashMap<String, String> capitalCities = new HashMap<String, String>();
+	private HashMap<Integer, CountryData> countryList = new HashMap<Integer, CountryData>();
+	private int id = 0;
 
 	@GetMapping("/")
 	public String welcome() {
@@ -34,51 +27,34 @@ public class TestController {
 			@RequestParam(value = "country", defaultValue = "some country") String country,
 			@RequestParam(value = "capital", defaultValue = "some city") String capital)
 	{
-		capitalCities.put(country, capital);
+		CountryData newCountry = new CountryData(country, capital);
+		countryList.put(id++, newCountry);
 
 		System.out.println(country);
 		System.out.println(capital);
 
 		return String.format("Capital [ %s ] of country [ %s ] added to the list", capital, country);
 	}
-	
-	@PostMapping("/postTest1")
-	public String postTest1(@RequestParam(value = "username", defaultValue = "World") String message) {
-		try {
-			FileWriter writer = new FileWriter("data.txt", true); // Append to the file
-			writer.write(message + "\n");
-			writer.close();
-			return String.format("Hello, %s! Your message has been saved to a file.", message);
-		} catch (IOException e) {
-			e.printStackTrace();
-			return "Failed to save the message.";
-		}
+
+	@GetMapping("/countries")
+	public @ResponseBody HashMap<Integer, CountryData> getAllCountries() {
+		return countryList;
 	}
 	
-	@PostMapping("/postTest2")
-	public String postTest2(@RequestBody TestData testData) {
-		// Store the data sent to this endpoint by writing it to a file
-		String message = testData.getMessage();
+	@PostMapping("/postCountry")
+	public String postTest2(@RequestBody CountryData testData) {
+		countryList.put(id++, testData);
 
-		//Save the message to a file
-		try {
-			FileWriter writer = new FileWriter("data.txt", true); // true for appending to existing contents
-			writer.write(message + "\n");
-			writer.close();
-			return String.format("Hello, %s! You sent a post request with a requestbody!", testData.getMessage());
-		} catch (IOException e) {
-			e.printStackTrace();
-			return "Failed to save the message.";
-		}
+		return String.format("Country %s added to the list!", testData.getName());
 	}
 	
 	@DeleteMapping("/deleteTest")
-	public void deleteTest() {
-		//TODO
+	public void deleteTest(@RequestParam(value = "id") int countryID) {
+		countryList.remove(countryID);
 	}
 	
 	@PutMapping("/putTest")
-	public void putTest() {
-		//TODO
+	public void putTest(@RequestParam(value = "id") int countryID) {
+		countryList.get(countryID);
 	}
 }
