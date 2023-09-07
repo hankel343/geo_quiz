@@ -33,6 +33,7 @@ class WelcomeController {
 
     @GetMapping("/schedule")
     public String getSchedule() {
-        return "Our group meets Mondays and Wednesdays at 1:00pm";
+
+        return "Our group meets Mondays and Wednesdays at 1:00pm. Our demo is today!!!";
     }
 }
