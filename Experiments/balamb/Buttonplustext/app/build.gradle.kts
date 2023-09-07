@@ -3,11 +3,11 @@ plugins {
 }
 
 android {
-    namespace = "com.example.buttonandtext"
+    namespace = "com.example.buttonplustext"
     compileSdk = 33
 
     defaultConfig {
-        applicationId = "com.example.buttonandtext"
+        applicationId = "com.example.buttonplustext"
         minSdk = 21
         targetSdk = 33
         versionCode = 1

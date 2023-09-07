@@ -13,6 +13,6 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "buttonandtext"
+rootProject.name = "Button plus text"
 include(":app")
  
