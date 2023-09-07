@@ -1,20 +1,24 @@
 package com.example.twoscreens;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Intent;
 import android.view.View;
 import android.widget.*;
-import java.util.*;
 import android.os.Bundle;
 
 public class MainActivity extends AppCompatActivity {
     Button b1, b2;
+    EditText text;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         b1 = (Button) findViewById(R.id.Meow);
-        b2 = (Button) findViewById(R.id.Screen2);
+        b2 = (Button) findViewById(R.id.SaveMessage);
+        text = (EditText) findViewById(R.id.text);
 
         b1.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -25,7 +29,10 @@ public class MainActivity extends AppCompatActivity {
         b2.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
-                Toast.makeText(getApplicationContext(),"Welcome to Com S 309 Demo1!", Toast.LENGTH_LONG).show();
+                String getText = text.getText().toString();
+                Intent intent = new Intent(MainActivity.this, Screen2.class);
+                intent.putExtra("text", getText);
+                startActivity(intent);
             }
         });
     }
