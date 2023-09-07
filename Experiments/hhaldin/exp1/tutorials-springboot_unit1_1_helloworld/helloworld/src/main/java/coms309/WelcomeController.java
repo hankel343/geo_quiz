@@ -17,6 +17,7 @@ class WelcomeController {
 
     @GetMapping("/{name}")
     public String welcome(@PathVariable String name) {
+        logInList.put(id++, name);
         return "Hello and welcome to COMS 309: " + name;
     }
 
@@ -29,6 +30,11 @@ class WelcomeController {
     @GetMapping("/test")
     public String sayHello() {
         return "You navigated to the test endpoint";
+    }
+
+    @GetMapping("/getPeople")
+    public @ResponseBody HashMap<Integer, String> getPeople() {
+        return logInList;
     }
 
     @GetMapping("/schedule")
