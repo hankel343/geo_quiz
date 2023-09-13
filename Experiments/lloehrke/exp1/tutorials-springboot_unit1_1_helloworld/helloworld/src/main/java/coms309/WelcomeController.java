@@ -10,7 +10,7 @@ import java.util.HashMap;
 class WelcomeController {
 
 	private HashMap<Integer, String> countryList = new HashMap<Integer, String>();
-	private int id = 0;
+	private int idx = 1;
 	
     @GetMapping("/")
     public String welcome() {
@@ -22,10 +22,10 @@ class WelcomeController {
         return "Hello and welcome to COMS 309: " + name;
     }
     
-    @PostMapping("/addcountry")
-    public String addCountry(@RequestParam String countryName) {
-    	countryList.put(id++, countryName);
-    	return String.format("%s added to the list with id %s", countryName, id);
+    @PostMapping("/addCountry/{countryName}")
+    public String addCountry(@PathVariable String countryName) {
+    	countryList.put(idx++, countryName);
+    	return String.format("%s added to index %s in the list", countryName, idx-1);
     }
     
     @GetMapping("/getList")
