@@ -6,4 +6,27 @@
     android:layout_height="match_parent"
     tools:context=".GamescreenActivity">
 
+
+    <Button
+        android:id="@+id/CapitalGameB"
+        android:layout_width="200dp"
+        android:layout_height="75dp"
+        android:layout_marginTop="100dp"
+        android:text="Capitals"
+        android:textSize="16pt"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/FlagGameB"
+        android:layout_width="200dp"
+        android:layout_height="75dp"
+        android:layout_marginTop="200dp"
+        android:text="Flags"
+        android:textSize="16pt"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
