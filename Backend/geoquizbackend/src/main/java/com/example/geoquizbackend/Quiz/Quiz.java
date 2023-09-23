@@ -13,6 +13,8 @@ public class Quiz {
     @GeneratedValue(strategy = GenerationType.AUTO)
     int id;
 
+    QuizType type;
+
     private int score;
 
     private double duration;
@@ -39,6 +41,7 @@ public class Quiz {
     public void setScore(int score) { this.score = score; }
     public double getDuration() { return duration; }
     public void setDuration(double duration) { this.duration = duration; }
+
 
 
 }
