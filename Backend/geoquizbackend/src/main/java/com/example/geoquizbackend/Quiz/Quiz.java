@@ -11,7 +11,7 @@ public class Quiz {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    int quiz_id;
+    int quizId;
 
     QuizType type;
 
@@ -31,10 +31,10 @@ public class Quiz {
     // =============================== Getters and Setters for each field ================================== //
 
     public int getId(){
-        return quiz_id;
+        return quizId;
     }
     public void setId(int id){
-        this.quiz_id = id;
+        this.quizId = id;
     }
 
     public int getScore() { return score; }
