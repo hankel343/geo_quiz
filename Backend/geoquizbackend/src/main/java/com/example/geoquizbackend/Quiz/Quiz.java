@@ -1,10 +1,9 @@
 package com.example.geoquizbackend.Quiz;
 
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.example.geoquizbackend.Student.Student;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
 
 @Entity
 public class Quiz {
@@ -17,10 +16,9 @@ public class Quiz {
 
     private double duration;
 
-    // @ManyToOne
-    // @JoinColumn(name = "user_id")
-    // @JsonIgnore
-    // private Student student
+     @ManyToOne
+     @JsonIgnore
+     private Student student;
 
     public Quiz() {
 

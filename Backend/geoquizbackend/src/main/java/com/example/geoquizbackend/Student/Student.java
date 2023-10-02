@@ -1,10 +1,9 @@
 package com.example.geoquizbackend.Student;
 
 import com.example.geoquizbackend.Quiz.Quiz;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+
+import java.util.Set;
 
 @Entity
 public class Student {
@@ -15,6 +14,10 @@ public class Student {
 
     String name;
     String email;
+
+    @OneToMany
+    Set<Quiz> q;
+
     int[] classCodes;
     float grade;
     public Student() {
