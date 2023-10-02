@@ -6,7 +6,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@CrossOrigin(origins = "*")
 public class QuizController {
 
     @Autowired
@@ -20,12 +19,12 @@ public class QuizController {
         return quizRepository.findAll();
     }
 
-    @GetMapping(path = "quizzes/{id}")
+    @GetMapping(path = "/quizzes/{id}")
     Quiz getQuizById(@PathVariable long id) {
         return quizRepository.findById(id);
     }
 
-    @PostMapping(path = "quizzes")
+    @PostMapping(path = "/quizzes")
     String createQuiz(@RequestBody Quiz quiz) {
         if (quiz == null) {
             return failure;
