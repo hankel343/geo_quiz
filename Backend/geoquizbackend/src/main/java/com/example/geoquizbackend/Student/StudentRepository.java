@@ -6,8 +6,8 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface StudentRepository extends JpaRepository<Student, Long> {
-    Student findByStudentId(int id);
+    Student findById(long id);
 
     @Transactional
-    void deleteByStudentId(int id);
+    void deleteById(long id);
 }
