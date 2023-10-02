@@ -11,9 +11,6 @@ public class QuizController {
     @Autowired
     QuizRepository quizRepository;
 
-    private String success = "{\"Quiz successfully saved!\":\"success\"}";
-    private String failure = "{\"The provided quiz is null.\":\"success\"}";
-
     @GetMapping(path = "/quizzes")
     List<Quiz> getAllQuizzes() {
         return quizRepository.findAll();
@@ -27,10 +24,26 @@ public class QuizController {
     @PostMapping(path = "/quizzes")
     String createQuiz(@RequestBody Quiz quiz) {
         if (quiz == null) {
-            return failure;
+            return "Provided quiz is null.";
         }
 
         quizRepository.save(quiz);
-        return success;
+        return "Quiz successfully saved.";
+    }
+
+    @PutMapping(path = "/quizzes/{id}")
+    Quiz updateQuiz(@PathVariable long id, @RequestBody Quiz req) {
+        Quiz q = quizRepository.findById(id);
+        if (q == null) {
+            return null;
+        }
+        quizRepository.save(req);
+        return quizRepository.findById(id);
+    }
+
+    @DeleteMapping(path = "/quizzes/{id}")
+    String deleteQuiz(@PathVariable long id) {
+        quizRepository.deleteById(id);
+        return "Quiz successfully deleted";
     }
 }
