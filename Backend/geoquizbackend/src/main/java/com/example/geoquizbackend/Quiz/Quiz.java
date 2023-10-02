@@ -13,8 +13,6 @@ public class Quiz {
     @GeneratedValue(strategy = GenerationType.AUTO)
     int id;
 
-    QuizType type;
-
     private int score;
 
     private double duration;

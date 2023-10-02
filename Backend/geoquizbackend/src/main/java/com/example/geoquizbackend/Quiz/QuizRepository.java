@@ -6,6 +6,8 @@ import org.springframework.transaction.annotation.Transactional;
 public interface QuizRepository extends JpaRepository<Quiz, Long> {
     Quiz findById(int id);
 
+
+
     @Transactional
     void deleteById(int id);
 }
