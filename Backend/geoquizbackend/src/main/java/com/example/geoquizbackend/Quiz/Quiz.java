@@ -11,7 +11,7 @@ public class Quiz {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    int id;
+    int quizId;
 
     QuizType type;
 
@@ -22,7 +22,7 @@ public class Quiz {
     // @ManyToOne
     // @JoinColumn(name = "user_id")
     // @JsonIgnore
-    // private Person person
+    // private Student student
 
     public Quiz() {
 
@@ -31,10 +31,10 @@ public class Quiz {
     // =============================== Getters and Setters for each field ================================== //
 
     public int getId(){
-        return id;
+        return quizId;
     }
     public void setId(int id){
-        this.id = id;
+        this.quizId = id;
     }
 
     public int getScore() { return score; }
