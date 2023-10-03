@@ -11,9 +11,6 @@ public class StudentController {
     @Autowired
     StudentRepository studentRepository;
 
-    private String success = "{\"Quiz successfully saved!\":\"success\"}";
-    private String failure = "{\"The provided quiz is null.\":\"success\"}";
-
     @GetMapping(path = "/students")
     List<Student> getAllStudents() { return studentRepository.findAll(); }
 
@@ -23,11 +20,27 @@ public class StudentController {
     @PostMapping(path = "/students")
     String createStudent(@RequestBody Student student) {
         if (student == null) {
-            return failure;
+            return "Provided student is null.";
         }
 
         studentRepository.save(student);
-        return success;
+        return "Student successfully saved!";
     }
 
+    @PutMapping(path = "/students/{id}")
+    Student updateStudent(@PathVariable long id, @RequestBody Student req) {
+        Student student = studentRepository.findById(id);
+        if (req == null) {
+            return null;
+        }
+
+        studentRepository.save(req);
+        return studentRepository.findById(id);
+    }
+
+    @DeleteMapping(path = "students/{id}")
+    String deleteStudent(@PathVariable long id) {
+        studentRepository.deleteById(id);
+        return "Student successfully deleted.";
+    }
 }

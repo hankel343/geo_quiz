@@ -16,7 +16,6 @@ public class Student {
     String email;
     @OneToMany
     Set<Quiz> q;
-    int[] classCodes;
     float grade;
 
     public Student() {
@@ -37,14 +36,6 @@ public class Student {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public int[] getClassCodes() {
-        return classCodes;
-    }
-
-    public void setClassCodes(int[] classCodes) {
-        this.classCodes = classCodes;
     }
 
     public float getGrade() {
