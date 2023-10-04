@@ -1,28 +1,24 @@
 package com.example.geoquizbackend.Quiz;
 
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.example.geoquizbackend.Student.Student;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
 
 @Entity
 public class Quiz {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    int id;
-
-    QuizType type;
+    long id;
 
     private int score;
 
     private double duration;
 
-    // @ManyToOne
-    // @JoinColumn(name = "user_id")
-    // @JsonIgnore
-    // private Person person
+     @ManyToOne
+     @JsonIgnore
+     private Student student;
 
     public Quiz() {
 
@@ -30,10 +26,10 @@ public class Quiz {
 
     // =============================== Getters and Setters for each field ================================== //
 
-    public int getId(){
+    public long getId(){
         return id;
     }
-    public void setId(int id){
+    public void setId(long id){
         this.id = id;
     }
 
