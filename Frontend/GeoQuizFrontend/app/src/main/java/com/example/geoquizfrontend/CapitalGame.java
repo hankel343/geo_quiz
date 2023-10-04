@@ -42,17 +42,21 @@ public class CapitalGame extends AppCompatActivity {
         CapitalA1.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
-                if(getWhatAnswer().toString().trim().equals("1")){
+                if(getWhatAnswer().toString().trim().equals("1")) {
                     Score = Score + 1;
                     scoreText = Integer.toString(Score);
                     ScoreText.setText("Score: " + scoreText);
                 }
                 question = question + 1;
+                if (question > 5) {
+                    Intent intent = new Intent(CapitalGame.this, ResultScreen.class);
+                    startActivity(intent);
+                }
                 whatQuestion = Integer.toString(question);
                 URL_JSON_OBJECT = "https://b137d5c3-5a11-4d97-bcb0-56f3fb9dedc3.mock.pstmn.io/Object/" + whatQuestion;
                 makeJsonObjReq();
-
             }
+
         });
         CapitalA2.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -63,6 +67,10 @@ public class CapitalGame extends AppCompatActivity {
                     ScoreText.setText("Score: " + scoreText);
                 }
                 question = question + 1;
+                if (question > 5) {
+                    Intent intent = new Intent(CapitalGame.this, ResultScreen.class);
+                    startActivity(intent);
+                }
                 whatQuestion = Integer.toString(question);
                 URL_JSON_OBJECT = "https://b137d5c3-5a11-4d97-bcb0-56f3fb9dedc3.mock.pstmn.io/Object/" + whatQuestion;
                 makeJsonObjReq();
@@ -77,6 +85,10 @@ public class CapitalGame extends AppCompatActivity {
                     ScoreText.setText("Score: " + scoreText);
                 }
                 question = question + 1;
+                if (question > 5) {
+                    Intent intent = new Intent(CapitalGame.this, ResultScreen.class);
+                    startActivity(intent);
+                }
                 whatQuestion = Integer.toString(question);
                 URL_JSON_OBJECT = "https://b137d5c3-5a11-4d97-bcb0-56f3fb9dedc3.mock.pstmn.io/Object/" + whatQuestion;
                 makeJsonObjReq();
@@ -91,6 +103,10 @@ public class CapitalGame extends AppCompatActivity {
                     ScoreText.setText("Score: " + scoreText);
                 }
                 question = question + 1;
+                if (question > 5) {
+                    Intent intent = new Intent(CapitalGame.this, ResultScreen.class);
+                    startActivity(intent);
+                }
                 whatQuestion = Integer.toString(question);
                 URL_JSON_OBJECT = "https://b137d5c3-5a11-4d97-bcb0-56f3fb9dedc3.mock.pstmn.io/Object/" + whatQuestion;
                 makeJsonObjReq();
