@@ -1,5 +1,7 @@
 package com.example.geoquizfrontend;
 
+import static com.example.geoquizfrontend.ApiClientFactory.GetCapitalQuizApi;
+
 import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.util.Log;
@@ -49,6 +51,8 @@ public class CapitalGame extends AppCompatActivity {
                 }
                 question = question + 1;
                 if (question > 5) {
+                    //Put newPut = new Put();
+                    //newPut.setScore(Score);
                     Intent intent = new Intent(CapitalGame.this, ResultScreen.class);
                     startActivity(intent);
                 }
@@ -68,6 +72,8 @@ public class CapitalGame extends AppCompatActivity {
                 }
                 question = question + 1;
                 if (question > 5) {
+                  //  Put newPut = new Put();
+                   // newPut.setScore(Score);
                     Intent intent = new Intent(CapitalGame.this, ResultScreen.class);
                     startActivity(intent);
                 }
@@ -86,6 +92,9 @@ public class CapitalGame extends AppCompatActivity {
                 }
                 question = question + 1;
                 if (question > 5) {
+                   // CapitalQuiz newCapitalQuiz = new CapitalQuiz();
+                   // newCapitalQuiz.setScore(Score);
+                    // GetCapitalQuizApi().PostPutByPath(newCapitalQuiz);
                     Intent intent = new Intent(CapitalGame.this, ResultScreen.class);
                     startActivity(intent);
                 }
@@ -104,6 +113,8 @@ public class CapitalGame extends AppCompatActivity {
                 }
                 question = question + 1;
                 if (question > 5) {
+                  //  Put newPut = new Put();
+                   // newPut.setScore(Score);
                     Intent intent = new Intent(CapitalGame.this, ResultScreen.class);
                     startActivity(intent);
                 }
