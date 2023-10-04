@@ -2,12 +2,14 @@ package com.example.geoquizfrontend;
 
 import static com.example.geoquizfrontend.ApiClientFactory.GetCapitalQuizApi;
 
-import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.*;
-import android.os.Bundle;
+import android.widget.Button;
+import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -72,8 +74,9 @@ public class CapitalGame extends AppCompatActivity {
                 }
                 question = question + 1;
                 if (question > 5) {
-                  //  Put newPut = new Put();
-                   // newPut.setScore(Score);
+                    CapitalQuiz newCapitalQuiz = new CapitalQuiz();
+                    newCapitalQuiz.setScore(Score);
+                    GetCapitalQuizApi().PostCapitalQuizByBody(newCapitalQuiz);
                     Intent intent = new Intent(CapitalGame.this, ResultScreen.class);
                     startActivity(intent);
                 }
@@ -92,9 +95,9 @@ public class CapitalGame extends AppCompatActivity {
                 }
                 question = question + 1;
                 if (question > 5) {
-                   // CapitalQuiz newCapitalQuiz = new CapitalQuiz();
-                   // newCapitalQuiz.setScore(Score);
-                    // GetCapitalQuizApi().PostPutByPath(newCapitalQuiz);
+                   CapitalQuiz newCapitalQuiz = new CapitalQuiz();
+                   newCapitalQuiz.setScore(Score);
+                   GetCapitalQuizApi().PostCapitalQuizByBody(newCapitalQuiz);
                     Intent intent = new Intent(CapitalGame.this, ResultScreen.class);
                     startActivity(intent);
                 }
