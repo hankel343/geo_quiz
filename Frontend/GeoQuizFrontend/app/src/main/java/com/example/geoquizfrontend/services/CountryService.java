@@ -15,4 +15,12 @@ public class CountryService {
     public CountryService(Context context) {
         requestQueue = Volley.newRequestQueue(context);
     }
+
+    public void getData(String parameter, Response.Listener<JSONObject> listener, Response.ErrorListener errorListener) {
+        String url = COUNTRY_URL + "/gameDataAll";
+        JsonObjectRequest req = new JsonObjectRequest(Request.Method.GET, url, null, listener, errorListener);
+
+        // Add the request to the queue and execute it
+        requestQueue.add(req);
+    }
 }
