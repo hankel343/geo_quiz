@@ -20,6 +20,9 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.example.geoquizfrontend.services.CountryService;
+import com.example.geoquizfrontend.models.CountryData;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -34,6 +37,15 @@ public class CapitalGame extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_capital_game);
+
+        // Create CountryService object to retrieve raw game data
+        CountryService countryService = new CountryService(this);
+        countryService.getData(response -> {
+
+        }, error -> {
+
+        });
+
         makeJsonObjReq();
         CapitalText = (TextView) findViewById(R.id.CapitalQuestion);
         ScoreText = (TextView) findViewById(R.id.ScoreText);
