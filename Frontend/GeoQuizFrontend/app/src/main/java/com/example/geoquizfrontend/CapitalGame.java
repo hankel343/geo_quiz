@@ -1,17 +1,13 @@
 package com.example.geoquizfrontend;
 
+import static com.example.geoquizfrontend.ApiClientFactory.GetCapitalQuizApi;
 
-import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
-import android.util.Log;
-import android.view.View;
-import android.widget.*;
-
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -69,7 +65,11 @@ public class CapitalGame extends AppCompatActivity {
                 }
                 question = question + 1;
                 if (question > 5) {
+                    CapitalQuiz newCapitalQuiz = new CapitalQuiz();
+                    newCapitalQuiz.setScore(Score);
+                    GetCapitalQuizApi().PostCapitalQuizByBody(newCapitalQuiz);
                     Intent intent = new Intent(CapitalGame.this, ResultScreen.class);
+                    intent.putExtra("DurationText", scoreText);
                     startActivity(intent);
                 }
                 whatQuestion = Integer.toString(question);
@@ -88,7 +88,11 @@ public class CapitalGame extends AppCompatActivity {
                 }
                 question = question + 1;
                 if (question > 5) {
+                    CapitalQuiz newCapitalQuiz = new CapitalQuiz();
+                    newCapitalQuiz.setScore(Score);
+                    GetCapitalQuizApi().PostCapitalQuizByBody(newCapitalQuiz);
                     Intent intent = new Intent(CapitalGame.this, ResultScreen.class);
+                    intent.putExtra("DurationText", scoreText);
                     startActivity(intent);
                 }
                 whatQuestion = Integer.toString(question);
@@ -106,8 +110,12 @@ public class CapitalGame extends AppCompatActivity {
                 }
                 question = question + 1;
                 if (question > 5) {
-                    Intent intent = new Intent(CapitalGame.this, ResultScreen.class);
-                    startActivity(intent);
+                   CapitalQuiz newCapitalQuiz = new CapitalQuiz();
+                   newCapitalQuiz.setScore(Score);
+                   GetCapitalQuizApi().PostCapitalQuizByBody(newCapitalQuiz);
+                   Intent intent = new Intent(CapitalGame.this, ResultScreen.class);
+                   intent.putExtra("DurationText", scoreText);
+                   startActivity(intent);
                 }
                 whatQuestion = Integer.toString(question);
                 URL_JSON_OBJECT = "https://b137d5c3-5a11-4d97-bcb0-56f3fb9dedc3.mock.pstmn.io/Object/" + whatQuestion;
@@ -124,7 +132,11 @@ public class CapitalGame extends AppCompatActivity {
                 }
                 question = question + 1;
                 if (question > 5) {
+                    CapitalQuiz newCapitalQuiz = new CapitalQuiz();
+                    newCapitalQuiz.setScore(Score);
+                    GetCapitalQuizApi().PostCapitalQuizByBody(newCapitalQuiz);
                     Intent intent = new Intent(CapitalGame.this, ResultScreen.class);
+                    intent.putExtra("DurationText", scoreText);
                     startActivity(intent);
                 }
                 whatQuestion = Integer.toString(question);
