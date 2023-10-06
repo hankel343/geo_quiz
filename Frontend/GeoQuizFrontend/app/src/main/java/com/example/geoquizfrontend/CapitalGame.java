@@ -53,9 +53,11 @@ public class CapitalGame extends AppCompatActivity {
                 }
                 question = question + 1;
                 if (question > 5) {
-                    //Put newPut = new Put();
-                    //newPut.setScore(Score);
+                    CapitalQuiz newCapitalQuiz = new CapitalQuiz();
+                    newCapitalQuiz.setScore(Score);
+                    GetCapitalQuizApi().PostCapitalQuizByBody(newCapitalQuiz);
                     Intent intent = new Intent(CapitalGame.this, ResultScreen.class);
+                    intent.putExtra("DurationText", scoreText);
                     startActivity(intent);
                 }
                 whatQuestion = Integer.toString(question);
@@ -78,6 +80,7 @@ public class CapitalGame extends AppCompatActivity {
                     newCapitalQuiz.setScore(Score);
                     GetCapitalQuizApi().PostCapitalQuizByBody(newCapitalQuiz);
                     Intent intent = new Intent(CapitalGame.this, ResultScreen.class);
+                    intent.putExtra("DurationText", scoreText);
                     startActivity(intent);
                 }
                 whatQuestion = Integer.toString(question);
@@ -98,8 +101,9 @@ public class CapitalGame extends AppCompatActivity {
                    CapitalQuiz newCapitalQuiz = new CapitalQuiz();
                    newCapitalQuiz.setScore(Score);
                    GetCapitalQuizApi().PostCapitalQuizByBody(newCapitalQuiz);
-                    Intent intent = new Intent(CapitalGame.this, ResultScreen.class);
-                    startActivity(intent);
+                   Intent intent = new Intent(CapitalGame.this, ResultScreen.class);
+                   intent.putExtra("DurationText", scoreText);
+                   startActivity(intent);
                 }
                 whatQuestion = Integer.toString(question);
                 URL_JSON_OBJECT = "https://b137d5c3-5a11-4d97-bcb0-56f3fb9dedc3.mock.pstmn.io/Object/" + whatQuestion;
@@ -116,9 +120,11 @@ public class CapitalGame extends AppCompatActivity {
                 }
                 question = question + 1;
                 if (question > 5) {
-                  //  Put newPut = new Put();
-                   // newPut.setScore(Score);
+                    CapitalQuiz newCapitalQuiz = new CapitalQuiz();
+                    newCapitalQuiz.setScore(Score);
+                    GetCapitalQuizApi().PostCapitalQuizByBody(newCapitalQuiz);
                     Intent intent = new Intent(CapitalGame.this, ResultScreen.class);
+                    intent.putExtra("DurationText", scoreText);
                     startActivity(intent);
                 }
                 whatQuestion = Integer.toString(question);
