@@ -1,0 +1,3 @@
+com.example.geoquizfrontend.test
+style WhiteBackgroundDialogTheme
+style WhiteBackgroundTheme
