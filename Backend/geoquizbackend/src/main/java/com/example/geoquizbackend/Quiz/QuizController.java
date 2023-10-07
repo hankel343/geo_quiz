@@ -37,7 +37,11 @@ public class QuizController {
         if (q == null) {
             return null;
         }
-        quizRepository.save(req);
+
+        q.setScore(req.getScore());
+        q.setDuration(req.getDuration());
+        quizRepository.save(q);
+
         return quizRepository.findById(id);
     }
 
