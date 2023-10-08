@@ -1,0 +1,34 @@
+package com.example.geoquizfrontend;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.Toast;
+
+public class MainActivity extends AppCompatActivity {
+    Button GuestButton, LoginButton;
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        GuestButton = (Button) findViewById(R.id.GuestB);
+        LoginButton = (Button) findViewById(R.id.LoginB);
+        GuestButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                Intent intent = new Intent(MainActivity.this, GamescreenActivity.class);
+                startActivity(intent);
+            }
+        });
+        LoginButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                Toast.makeText(getApplicationContext(),"Coming Soon!", Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+}
