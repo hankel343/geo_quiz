@@ -1,4 +1,4 @@
-package com.example.geoquizbackend.controllers;
+package com.example.geoquizbackend.external;
 
 import com.example.geoquizbackend.models.CountryData;
 import com.example.geoquizbackend.services.UniqueRandomNumberGenerator;
