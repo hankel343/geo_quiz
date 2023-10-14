@@ -54,6 +54,36 @@ public class ChatServer {
         }
     }
 
+    @OnMessage
+    public void onMessage(Session session, String msg) throws IOException {
+
+        // retrieve username by session
+        String username = sessionUsernameMap.get(session);
+
+        // server side log
+        logger.info("[onMessage] " + username + ": " + msg);
+
+        // send messages to user using format "@username <msg>"
+        if (msg.startsWith("@")) {
+
+            // split by space
+            String[] split_msg = msg.split("\\s+");
+
+            // combine the rest of the msg
+            StringBuilder actualMessageBuilder = new StringBuilder();
+            for (int i = 1; i < split_msg.length; i++) {
+                actualMessageBuilder.append(split_msg[i]).append(" ");
+            }
+
+            String destUserName = split_msg[0].substring(1);
+            String actualMessage = actualMessageBuilder.toString();
+            sendMessageToUser(destUserName, "[DM from " + username + "]: " + actualMessage);
+            sendMessageToUser(username, "[DM from " + username + "]: " + actualMessage);
+        } else {    // broadcast message
+            sendBroadcast(username + ": " + msg);
+        }
+    }
+
     private void sendMessageToUser(String username, String message) {
         try {
             usernameSessionMap.get(username).getBasicRemote().sendText(message);
