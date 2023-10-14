@@ -101,6 +101,14 @@ public class ChatServer {
         sendBroadcast(username + " disconnected");
     }
 
+    @OnError
+    public void OnError(Session session, Throwable throwable) {
+        // get the username from the session-username mapping
+        String username = sessionUsernameMap.get(session);
+
+        logger.info("[OnError]" + username + ": " + throwable.getMessage());
+    }
+
     private void sendMessageToUser(String username, String message) {
         try {
             usernameSessionMap.get(username).getBasicRemote().sendText(message);
