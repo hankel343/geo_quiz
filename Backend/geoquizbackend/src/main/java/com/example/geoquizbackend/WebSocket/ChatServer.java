@@ -84,6 +84,23 @@ public class ChatServer {
         }
     }
 
+
+    @OnClose
+    public void onClose(Session session) throws IOException {
+        // get the username from session-username mapping
+        String username = sessionUsernameMap.get(session);
+
+        // server side log
+        logger.info("[OnClose] " + username);
+
+        // remove user from maps
+        sessionUsernameMap.remove(session);
+        usernameSessionMap.remove(username);
+
+        // send a message to the chat
+        sendBroadcast(username + " disconnected");
+    }
+
     private void sendMessageToUser(String username, String message) {
         try {
             usernameSessionMap.get(username).getBasicRemote().sendText(message);
