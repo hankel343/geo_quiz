@@ -20,14 +20,16 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.example.geoquizfrontend.models.GameData;
 import com.google.gson.Gson;
 
 import com.example.geoquizfrontend.services.CountryService;
-import com.example.geoquizfrontend.models.CountryData;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
+import com.google.gson.reflect.TypeToken;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -40,7 +42,7 @@ public class CapitalGame extends AppCompatActivity {
     static int Score, question;
     private Button CapitalA1, CapitalA2, CapitalA3, CapitalA4;
     String URL_JSON_OBJECT = "https://b137d5c3-5a11-4d97-bcb0-56f3fb9dedc3.mock.pstmn.io/Object/1";
-    List<CountryData> countryDataList;
+    List<GameData> countryDataList;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,20 +52,9 @@ public class CapitalGame extends AppCompatActivity {
         countryDataList = new ArrayList<>();
         CountryService countryService = new CountryService(this);
         countryService.getData(response -> {
-
-            Gson gson = new Gson();
-            JsonArray jsonArray = new JsonArray(response.length());
-
-            for (JsonElement jsonElement : jsonArray) {
-                CountryData countryData = gson.fromJson(jsonElement, CountryData.class);
-                countryDataList.add(countryData);
-            }
-
-            for (CountryData country : countryDataList) {
-                System.out.println(country.getName());
-            }
+            System.out.println(response);
         }, error -> {
-
+            System.out.println(error);
         });
 
         makeJsonObjReq();
