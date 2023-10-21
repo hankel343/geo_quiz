@@ -74,6 +74,7 @@ class countryController {
             country.setCapital(countryData.getCapital().get(0));
             country.setFlag(countryData.getFlag());
             country.setContinent(countryData.getRegion());
+            country.setPopulation(countryData.getPopulation());
 
             gameData.add(country);
         }

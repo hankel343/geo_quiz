@@ -6,6 +6,7 @@ public class GameData {
     private String capital;
     private String flag;
     private String continent;
+    private int population;
 
     public String getName() {
         return name;
@@ -37,5 +38,13 @@ public class GameData {
 
     public void setContinent(String continent) {
         this.continent = continent;
+    }
+
+    public int getPopulation() {
+        return this.population;
+    }
+
+    public void setPopulation(int population) {
+        this.population = population;
     }
 }
