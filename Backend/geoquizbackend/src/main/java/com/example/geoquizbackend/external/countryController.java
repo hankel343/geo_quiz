@@ -1,6 +1,7 @@
 package com.example.geoquizbackend.external;
 
 import com.example.geoquizbackend.models.CountryData;
+import com.example.geoquizbackend.models.GameData;
 import com.example.geoquizbackend.services.UniqueRandomNumberGenerator;
 import com.example.geoquizbackend.services.countryService;
 import org.springframework.web.bind.annotation.*;
@@ -60,16 +61,24 @@ class countryController {
     }
 
     @GetMapping("/gameDataAll")
-    public ArrayList<CountryData> getGameDataAll() {
-        ArrayList<CountryData> GameData = new ArrayList<>(4);
+    public ArrayList<GameData> getGameDataAll() {
+        ArrayList<GameData> gameData = new ArrayList<>(4);
         UniqueRandomNumberGenerator gen = new UniqueRandomNumberGenerator(countryCommonNamesAll.size());
+
+        CountryData countryData = null;
+        GameData country;
         for (int i = 0; i < 4; i++) {
-            GameData.add(
-                    getByName(countryCommonNamesAll.get(gen.generate()))
-            );
+            country = new GameData();
+            countryData = getByName(countryCommonNamesAll.get(gen.generate()));
+            country.setName(countryData.getName().getCommon());
+            country.setCapital(countryData.getCapital().get(0));
+            country.setFlag(countryData.getFlag());
+            country.setContinent(countryData.getRegion());
+
+            gameData.add(country);
         }
 
-        return GameData;
+        return gameData;
     }
 
     @GetMapping("/gameDataAsia")
