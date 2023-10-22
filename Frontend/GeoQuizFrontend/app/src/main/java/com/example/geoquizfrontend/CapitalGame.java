@@ -20,10 +20,19 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.example.geoquizfrontend.services.CountryService;
-import com.example.geoquizfrontend.models.CountryData;
+import com.example.geoquizfrontend.models.GameData;
+import com.google.gson.Gson;
 
+import com.example.geoquizfrontend.services.CountryService;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParser;
+import com.google.gson.reflect.TypeToken;
+
+import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class CapitalGame extends AppCompatActivity {
@@ -33,18 +42,19 @@ public class CapitalGame extends AppCompatActivity {
     static int Score, question;
     private Button CapitalA1, CapitalA2, CapitalA3, CapitalA4;
     String URL_JSON_OBJECT = "https://b137d5c3-5a11-4d97-bcb0-56f3fb9dedc3.mock.pstmn.io/Object/1";
+    List<GameData> countryDataList;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_capital_game);
 
         // Create CountryService object to retrieve raw game data
+        countryDataList = new ArrayList<>();
         CountryService countryService = new CountryService(this);
         countryService.getData(response -> {
-
-        }, error -> {
-
-        });
+            countryDataList = countryService.parseGameDataResponse(response);
+            System.out.println(countryDataList.size());
+        }, error -> {});
 
         makeJsonObjReq();
         CapitalText = (TextView) findViewById(R.id.CapitalQuestion);
@@ -163,7 +173,7 @@ public class CapitalGame extends AppCompatActivity {
                             String capitalB4 = response.getString("buttonfour");
                             String answerQ = response.getString("answer");
                             // Populate text views with the parsed data
-                            CapitalText.setText("What country has the capital " + capital + "?");
+                            CapitalText.setText("What country has the capital " + countryDataList.get(0).getCapital() + "?");
                             CapitalA1.setText(capitalB1);
                             CapitalA2.setText(capitalB2);
                             CapitalA3.setText(capitalB3);
