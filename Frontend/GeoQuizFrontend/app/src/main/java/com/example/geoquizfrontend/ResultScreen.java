@@ -22,7 +22,7 @@ import com.example.geoquizfrontend.CapitalQuiz;
 public class ResultScreen extends AppCompatActivity {
     private TextView YourScore, DurationText;
     int quizScore;
-    private Button SeeScoreB;
+    private Button SeeScoreB, PlayAgainBtn;
     String stringQuizScore;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +31,7 @@ public class ResultScreen extends AppCompatActivity {
         YourScore = (TextView) findViewById(R.id.YourScore);
         DurationText = (TextView) findViewById(R.id.DurationText);
         SeeScoreB = (Button) findViewById(R.id.SeeScoreB);
+        PlayAgainBtn = (Button) findViewById(R.id.playagain_btn);
 
         Intent intent = getIntent();
         String getText = intent.getStringExtra("DurationText");
@@ -48,6 +49,14 @@ public class ResultScreen extends AppCompatActivity {
                     YourScore.setText("Score: " + Integer.toString(quizScore));
                 }));
 
+            }
+        });
+
+        PlayAgainBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(ResultScreen.this, MainActivity.class);
+                startActivity(intent);
             }
         });
     }
