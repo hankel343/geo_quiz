@@ -7,7 +7,7 @@
     tools:context=".CapitalGame">
 
     <TextView
-        android:id="@+id/CapitalQuestion"
+        android:id="@+id/gameText"
         android:layout_width="355dp"
         android:layout_height="83dp"
         android:layout_marginTop="128dp"
@@ -19,7 +19,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/CapitalButtonA1"
+        android:id="@+id/opt0_btn"
         android:layout_width="160dp"
         android:layout_height="75dp"
         android:layout_marginStart="30dp"
@@ -30,7 +30,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/CapitalButtonA2"
+        android:id="@+id/opt1_btn"
         android:layout_width="160dp"
         android:layout_height="75dp"
         android:layout_marginTop="256dp"
@@ -41,7 +41,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/CapitalButtonA3"
+        android:id="@+id/opt2_btn"
         android:layout_width="160dp"
         android:layout_height="75dp"
         android:layout_marginStart="30dp"
@@ -52,7 +52,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/CapitalButtonA4"
+        android:id="@+id/opt3_btn"
         android:layout_width="160dp"
         android:layout_height="75dp"
         android:layout_marginTop="356dp"

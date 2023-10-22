@@ -21,15 +21,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.example.geoquizfrontend.models.GameData;
-import com.google.gson.Gson;
 
 import com.example.geoquizfrontend.services.CountryService;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonParser;
-import com.google.gson.reflect.TypeToken;
 
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -57,12 +51,12 @@ public class CapitalGame extends AppCompatActivity {
         }, error -> {});
 
         makeJsonObjReq();
-        CapitalText = (TextView) findViewById(R.id.CapitalQuestion);
+        CapitalText = (TextView) findViewById(R.id.gameText);
         ScoreText = (TextView) findViewById(R.id.ScoreText);
-        CapitalA1 = (Button) findViewById(R.id.CapitalButtonA1);
-        CapitalA2 = (Button) findViewById(R.id.CapitalButtonA2);
-        CapitalA3 = (Button) findViewById(R.id.CapitalButtonA3);
-        CapitalA4 = (Button) findViewById(R.id.CapitalButtonA4);
+        CapitalA1 = (Button) findViewById(R.id.opt0_btn);
+        CapitalA2 = (Button) findViewById(R.id.opt1_btn);
+        CapitalA3 = (Button) findViewById(R.id.opt2_btn);
+        CapitalA4 = (Button) findViewById(R.id.opt3_btn);
         question = 1;
 
         CapitalA1.setOnClickListener(new View.OnClickListener(){
