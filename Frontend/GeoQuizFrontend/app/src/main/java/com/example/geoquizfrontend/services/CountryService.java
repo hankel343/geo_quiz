@@ -32,14 +32,12 @@ public class CountryService {
         requestQueue.add(req);
     }
 
-    public List<GameData> parseGameDataResponse(JSONObject response) {
+    public List<GameData> parseGameDataResponse(JSONArray response) {
         List<GameData> gameDataList = new ArrayList<>();
 
         try {
-            JSONArray jsonArray = response.getJSONArray("data"); // Assuming the JSON array is under a key called "data"
-
-            for (int i = 0; i < jsonArray.length(); i++) {
-                JSONObject dataObject = jsonArray.getJSONObject(i);
+            for (int i = 0; i < response.length(); i++) {
+                JSONObject dataObject = response.getJSONObject(i);
                 String name = dataObject.getString("name");
                 String capital = dataObject.getString("capital");
                 String flag = dataObject.getString("flag");

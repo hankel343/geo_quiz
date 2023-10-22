@@ -52,10 +52,9 @@ public class CapitalGame extends AppCompatActivity {
         countryDataList = new ArrayList<>();
         CountryService countryService = new CountryService(this);
         countryService.getData(response -> {
-            System.out.println(response);
-        }, error -> {
-            System.out.println(error);
-        });
+            countryDataList = countryService.parseGameDataResponse(response);
+            System.out.println(countryDataList.size());
+        }, error -> {});
 
         makeJsonObjReq();
         CapitalText = (TextView) findViewById(R.id.CapitalQuestion);
@@ -174,7 +173,7 @@ public class CapitalGame extends AppCompatActivity {
                             String capitalB4 = response.getString("buttonfour");
                             String answerQ = response.getString("answer");
                             // Populate text views with the parsed data
-                            CapitalText.setText("What country has the capital " + capital + "?");
+                            CapitalText.setText("What country has the capital " + countryDataList.get(0).getCapital() + "?");
                             CapitalA1.setText(capitalB1);
                             CapitalA2.setText(capitalB2);
                             CapitalA3.setText(capitalB3);
