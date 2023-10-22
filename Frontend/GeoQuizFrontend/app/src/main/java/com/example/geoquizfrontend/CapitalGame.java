@@ -40,7 +40,7 @@ public class CapitalGame extends AppCompatActivity {
 
     static String whatQuestion, scoreText, whatAnswer;
     static int Score, question;
-    private Button CapitalA1, CapitalA2, CapitalA3, CapitalA4;
+    private Button CapitalA1, CapitalA2, CapitalA3, CapitalA4, QuitBtn;
     String URL_JSON_OBJECT = "https://b137d5c3-5a11-4d97-bcb0-56f3fb9dedc3.mock.pstmn.io/Object/1";
     List<GameData> countryDataList;
     @Override
@@ -63,6 +63,7 @@ public class CapitalGame extends AppCompatActivity {
         CapitalA2 = (Button) findViewById(R.id.CapitalButtonA2);
         CapitalA3 = (Button) findViewById(R.id.CapitalButtonA3);
         CapitalA4 = (Button) findViewById(R.id.CapitalButtonA4);
+        QuitBtn = (Button) findViewById(R.id.quit_btn);
         question = 1;
 
         CapitalA1.setOnClickListener(new View.OnClickListener(){
@@ -152,6 +153,14 @@ public class CapitalGame extends AppCompatActivity {
                 whatQuestion = Integer.toString(question);
                 URL_JSON_OBJECT = "https://b137d5c3-5a11-4d97-bcb0-56f3fb9dedc3.mock.pstmn.io/Object/" + whatQuestion;
                 makeJsonObjReq();
+            }
+        });
+
+        QuitBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(CapitalGame.this, MainActivity.class);
+                startActivity(intent);
             }
         });
     }
