@@ -9,7 +9,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 public class GamescreenActivity extends AppCompatActivity {
-    Button flagGame, capitalGame;
+    Button flagGame, capitalGame, backBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,6 +18,7 @@ public class GamescreenActivity extends AppCompatActivity {
 
         capitalGame = (Button) findViewById(R.id.CapitalGameB);
         flagGame = (Button) findViewById(R.id.FlagGameB);
+        backBtn = (Button) findViewById(R.id.back_btn);
         capitalGame.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
@@ -29,6 +30,14 @@ public class GamescreenActivity extends AppCompatActivity {
             @Override
             public void onClick(View view){
                 Intent intent = new Intent(GamescreenActivity.this, FlagGame.class);
+                startActivity(intent);
+            }
+        });
+
+        backBtn.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(GamescreenActivity.this, MainActivity.class);
                 startActivity(intent);
             }
         });
