@@ -1,7 +1,10 @@
 package com.example.geoquizfrontend;
 
+import static com.example.geoquizfrontend.ApiClientFactory.GetCapitalQuizApi;
+
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Looper;
 import android.view.View;
@@ -167,8 +170,12 @@ public class ContinentsQuiz extends AppCompatActivity {
     private void checkGameOver() {
         rounds--;
         if (rounds <= 0) {
-            System.out.println(rounds);
-            GameText.setText("Game over!");
+            CapitalQuiz newCapitalQuiz = new CapitalQuiz();
+            newCapitalQuiz.setScore(score);
+            GetCapitalQuizApi().PostCapitalQuizByBody(newCapitalQuiz);
+            Intent intent = new Intent(ContinentsQuiz.this, ResultScreen.class);
+            intent.putExtra("DurationText", Integer.toString(score));
+            startActivity(intent);
         }
     }
 }
