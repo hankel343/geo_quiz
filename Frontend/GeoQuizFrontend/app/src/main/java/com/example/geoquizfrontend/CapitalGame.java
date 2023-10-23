@@ -4,10 +4,12 @@ import static com.example.geoquizfrontend.ApiClientFactory.GetCapitalQuizApi;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Looper;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -35,6 +37,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+
 public class CapitalGame extends AppCompatActivity {
     private TextView CapitalText, ScoreText;
 
@@ -56,7 +59,15 @@ public class CapitalGame extends AppCompatActivity {
             System.out.println(countryDataList.size());
         }, error -> {});
 
-        makeJsonObjReq();
+        new android.os.Handler(Looper.getMainLooper()).postDelayed(
+                new Runnable() {
+                    @Override
+                    public void run() {
+                        makeJsonObjReq();
+                    }
+                },
+                2000);
+
         CapitalText = (TextView) findViewById(R.id.CapitalQuestion);
         ScoreText = (TextView) findViewById(R.id.ScoreText);
         CapitalA1 = (Button) findViewById(R.id.CapitalButtonA1);
