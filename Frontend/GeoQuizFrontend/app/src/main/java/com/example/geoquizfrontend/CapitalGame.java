@@ -23,15 +23,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.example.geoquizfrontend.models.GameData;
-import com.google.gson.Gson;
 
 import com.example.geoquizfrontend.services.CountryService;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonParser;
-import com.google.gson.reflect.TypeToken;
 
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
