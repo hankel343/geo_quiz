@@ -4,10 +4,12 @@ import static com.example.geoquizfrontend.ApiClientFactory.GetCapitalQuizApi;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Looper;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -29,12 +31,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+
 public class CapitalGame extends AppCompatActivity {
     private TextView CapitalText, ScoreText;
 
     static String whatQuestion, scoreText, whatAnswer;
     static int Score, question;
-    private Button CapitalA1, CapitalA2, CapitalA3, CapitalA4;
+    private Button CapitalA1, CapitalA2, CapitalA3, CapitalA4, QuitBtn;
     String URL_JSON_OBJECT = "https://b137d5c3-5a11-4d97-bcb0-56f3fb9dedc3.mock.pstmn.io/Object/1";
     List<GameData> countryDataList;
     @Override
@@ -50,13 +53,22 @@ public class CapitalGame extends AppCompatActivity {
             System.out.println(countryDataList.size());
         }, error -> {});
 
-        makeJsonObjReq();
-        CapitalText = (TextView) findViewById(R.id.gameText);
+        new android.os.Handler(Looper.getMainLooper()).postDelayed(
+                new Runnable() {
+                    @Override
+                    public void run() {
+                        makeJsonObjReq();
+                    }
+                },
+                2000);
+
+        CapitalText = (TextView) findViewById(R.id.CapitalQuestion);
         ScoreText = (TextView) findViewById(R.id.ScoreText);
-        CapitalA1 = (Button) findViewById(R.id.opt0_btn);
-        CapitalA2 = (Button) findViewById(R.id.opt1_btn);
-        CapitalA3 = (Button) findViewById(R.id.opt2_btn);
-        CapitalA4 = (Button) findViewById(R.id.opt3_btn);
+        CapitalA1 = (Button) findViewById(R.id.CapitalButtonA1);
+        CapitalA2 = (Button) findViewById(R.id.CapitalButtonA2);
+        CapitalA3 = (Button) findViewById(R.id.CapitalButtonA3);
+        CapitalA4 = (Button) findViewById(R.id.CapitalButtonA4);
+        QuitBtn = (Button) findViewById(R.id.quit_btn);
         question = 1;
 
         CapitalA1.setOnClickListener(new View.OnClickListener(){
@@ -146,6 +158,14 @@ public class CapitalGame extends AppCompatActivity {
                 whatQuestion = Integer.toString(question);
                 URL_JSON_OBJECT = "https://b137d5c3-5a11-4d97-bcb0-56f3fb9dedc3.mock.pstmn.io/Object/" + whatQuestion;
                 makeJsonObjReq();
+            }
+        });
+
+        QuitBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(CapitalGame.this, MainActivity.class);
+                startActivity(intent);
             }
         });
     }
