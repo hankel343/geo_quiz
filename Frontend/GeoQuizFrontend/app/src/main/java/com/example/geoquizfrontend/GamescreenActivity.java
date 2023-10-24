@@ -49,6 +49,7 @@ public class GamescreenActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(GamescreenActivity.this, MainActivity.class);
                 startActivity(intent);
-        }
+            }
+        });
     }
 }

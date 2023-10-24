@@ -62,12 +62,12 @@ public class CapitalGame extends AppCompatActivity {
                 },
                 2000);
 
-        CapitalText = (TextView) findViewById(R.id.CapitalQuestion);
+        CapitalText = (TextView) findViewById(R.id.gameText);
         ScoreText = (TextView) findViewById(R.id.ScoreText);
-        CapitalA1 = (Button) findViewById(R.id.CapitalButtonA1);
-        CapitalA2 = (Button) findViewById(R.id.CapitalButtonA2);
-        CapitalA3 = (Button) findViewById(R.id.CapitalButtonA3);
-        CapitalA4 = (Button) findViewById(R.id.CapitalButtonA4);
+        CapitalA1 = (Button) findViewById(R.id.opt0_btn);
+        CapitalA2 = (Button) findViewById(R.id.opt1_btn);
+        CapitalA3 = (Button) findViewById(R.id.opt2_btn);
+        CapitalA4 = (Button) findViewById(R.id.opt3_btn);
         QuitBtn = (Button) findViewById(R.id.quit_btn);
         question = 1;
 
