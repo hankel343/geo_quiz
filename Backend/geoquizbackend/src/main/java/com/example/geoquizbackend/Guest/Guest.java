@@ -19,7 +19,8 @@ public class Guest {
 	@OneToMany
     Set<Quiz> q;
 
-	Public Guest(){
+	public Guest(){
+
 	}
 
 	public int getScore(){
