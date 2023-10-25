@@ -184,6 +184,7 @@ class countryController {
             country.setFlag(countryData.getFlag());
             country.setContinent(countryData.getRegion());
             country.setPopulation(countryData.getPopulation());
+            country.setCoatOfArms(countryData.getCoatOfArms().getPng());
 
             gameData.add(country);
         }
@@ -191,5 +192,3 @@ class countryController {
         return gameData;
     }
 }
-
-// making a change to the file.
