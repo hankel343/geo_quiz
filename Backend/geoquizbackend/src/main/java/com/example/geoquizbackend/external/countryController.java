@@ -75,7 +75,6 @@ class countryController {
             country.setFlag(countryData.getFlag());
             country.setContinent(countryData.getRegion());
             country.setPopulation(countryData.getPopulation());
-            country.setCoatOfArms(countryData.getCoatOfArms().getPng());
 
             gameData.add(country);
         }
@@ -165,6 +164,31 @@ class countryController {
         }
 
         return GameData;
+    }
+
+    @GetMapping("/gameDataCoatOfArms")
+    public ArrayList<GameData> getGameDataCoatOfArms() {
+        ArrayList<GameData> gameData = new ArrayList<>(4);
+        UniqueRandomNumberGenerator gen = new UniqueRandomNumberGenerator(countryCommonNamesAll.size());
+
+        CountryData countryData = null;
+        GameData country;
+        for (int i = 0; i < 4; i++) {
+            country = new GameData();
+            countryData = getByName(countryCommonNamesAll.get(gen.generate()));
+            while (countryData.getCoatOfArms() == null) {
+                countryData = getByName(countryCommonNamesAll.get(gen.generate()));
+            }
+            country.setName(countryData.getName().getCommon());
+            country.setCapital(countryData.getCapital().get(0));
+            country.setFlag(countryData.getFlag());
+            country.setContinent(countryData.getRegion());
+            country.setPopulation(countryData.getPopulation());
+
+            gameData.add(country);
+        }
+
+        return gameData;
     }
 }
 
