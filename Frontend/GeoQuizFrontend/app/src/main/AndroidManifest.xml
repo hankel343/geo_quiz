@@ -16,6 +16,9 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".StudentLogin"
+            android:exported="false" />
+        <activity
             android:name=".Login"
             android:exported="false" />
         <activity
