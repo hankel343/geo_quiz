@@ -5,6 +5,7 @@ public class GameData {
     private String name;
     private String capital;
     private String flag;
+    private String coatOfArms;
     private String continent;
     private int population;
 
@@ -31,6 +32,10 @@ public class GameData {
     public void setFlag(String flag) {
         this.flag = flag;
     }
+
+    public String getCoatOfArms() { return this.coatOfArms; }
+
+    public void setCoatOfArms(String coatOfArms) { this.coatOfArms = coatOfArms; }
 
     public String getContinent() {
         return continent;

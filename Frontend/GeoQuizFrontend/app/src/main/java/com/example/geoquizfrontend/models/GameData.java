@@ -5,15 +5,18 @@ public class GameData {
     private String capital;
     private String flag;
     private String continent;
+    private String coa;
     private int population;
 
     public GameData() {
+
     }
 
-    public GameData(String name, String capital, String flag, String continent, int population) {
+    public GameData(String name, String capital, String flag, String coa, String continent, int population) {
         this.name = name;
         this.capital = capital;
         this.flag = flag;
+        this.coa = coa;
         this.continent = continent;
         this.population = population;
     }
@@ -34,6 +37,9 @@ public class GameData {
     public void setCapital(String capital) {
         this.capital = capital;
     }
+
+    public String getCoatOfArms() { return coa; }
+    public void setCoa(String coa)  { this.coa = coa; }
 
     public String getFlag() {
         return flag;

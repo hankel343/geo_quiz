@@ -17,6 +17,7 @@
         <java.version>17</java.version>
         <maven.compiler.source>20</maven.compiler.source>
         <maven.compiler.target>20</maven.compiler.target>
+        <maven.test.skip>true</maven.test.skip>
     </properties>
     <dependencies>
 

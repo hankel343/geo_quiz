@@ -56,8 +56,13 @@ class countryController {
     }
 
     @GetMapping("/testCommon")
-    public String commonNames() {
-        return String.join(", ", countryCommonNamesAll);
+    public String[] commonNames() {
+        String[] names = new String[countryCommonNamesAll.size()];
+        for (int i = 0; i < countryCommonNamesAll.size(); i++) {
+            names[i] = countryCommonNamesAll.get(i);
+        }
+
+        return names;
     }
 
     @GetMapping("/gameDataAll")
@@ -165,6 +170,30 @@ class countryController {
 
         return GameData;
     }
-}
 
-// making a change to the file.
+    @GetMapping("/gameDataCoatOfArms")
+    public ArrayList<GameData> getGameDataCoatOfArms() {
+        ArrayList<GameData> gameData = new ArrayList<>(4);
+        UniqueRandomNumberGenerator gen = new UniqueRandomNumberGenerator(countryCommonNamesAll.size());
+
+        CountryData countryData = null;
+        GameData country;
+        for (int i = 0; i < 4; i++) {
+            country = new GameData();
+            countryData = getByName(countryCommonNamesAll.get(gen.generate()));
+            while (countryData.getCoatOfArms() == null) {
+                countryData = getByName(countryCommonNamesAll.get(gen.generate()));
+            }
+            country.setName(countryData.getName().getCommon());
+            country.setCapital(countryData.getCapital().get(0));
+            country.setFlag(countryData.getFlag());
+            country.setContinent(countryData.getRegion());
+            country.setPopulation(countryData.getPopulation());
+            country.setCoatOfArms(countryData.getCoatOfArms().getPng());
+
+            gameData.add(country);
+        }
+
+        return gameData;
+    }
+}
