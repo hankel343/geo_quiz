@@ -34,6 +34,7 @@ public class CoatOfArms extends AppCompatActivity {
     private String[] coatOfArms = pngValues;
     private List<GameData> countryDataList;
     RandomNumberGenerator ansIdx = new RandomNumberGenerator(4);
+    RandomNumberGenerator pngIdx = new RandomNumberGenerator(pngValues.length);
     private GameData key = null;
     private int correctAnsIdx = 0;
     @Override
@@ -68,10 +69,6 @@ public class CoatOfArms extends AppCompatActivity {
                         gameTick();
                     }
                 }, 2000);
-
-        RandomNumberGenerator pngIdx = new RandomNumberGenerator(pngValues.length);
-
-        Picasso.get().load(pngValues[pngIdx.generate()]).into(coatOfArmsPNG);
     }
 
     private void gameTick() {
@@ -80,6 +77,8 @@ public class CoatOfArms extends AppCompatActivity {
         correctAnsIdx = ansIdx.generate();
         key = countryDataList.get(correctAnsIdx);
         GameText.setText("What country has the following coat of arms?");
+
+        Picasso.get().load(pngValues[pngIdx.generate()]).into(coatOfArmsPNG);
 
         switch(correctAnsIdx) {
             case 0:
