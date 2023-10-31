@@ -76,10 +76,11 @@ public class CountryService {
                 String name = dataObject.getString("name");
                 String capital = dataObject.getString("capital");
                 String flag = dataObject.getString("flag");
+                String coa = dataObject.getString("coatOfArms");
                 String continent = dataObject.getString("continent");
                 int population = dataObject.getInt("population");
 
-                GameData gameData = new GameData(name, capital, flag, continent, population);
+                GameData gameData = new GameData(name, capital, flag, coa, continent, population);
                 gameDataList.add(gameData);
             }
         } catch (JSONException e) {

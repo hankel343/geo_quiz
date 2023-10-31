@@ -25,5 +25,9 @@ public class CoatOfArms extends AppCompatActivity {
         setContentView(R.layout.activity_coat_of_arms);
         CountryService countryService = new CountryService(this);
         countryNames = countryService.getCountryNames();
+        countryService.getData(response -> {
+            countryDataList = countryService.parseGameDataResponse(response);
+            System.out.println(countryDataList.size());
+        }, error -> {});
     }
 }
