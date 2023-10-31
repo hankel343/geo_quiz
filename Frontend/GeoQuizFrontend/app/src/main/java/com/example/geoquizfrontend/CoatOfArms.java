@@ -17,17 +17,19 @@ public class CoatOfArms extends AppCompatActivity {
 
     private int rounds = 4;
     private int score = 0;
-    private String[] countryNames;
+    private String[] countryNames = CountryNames.countries;
     private List<GameData> countryDataList;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_coat_of_arms);
-        CountryService countryService = new CountryService(this);
-        countryNames = countryService.getCountryNames();
-        countryService.getData(response -> {
-            countryDataList = countryService.parseGameDataResponse(response);
-            System.out.println(countryDataList.size());
-        }, error -> {});
+
+        // External API is timing out
+//        CountryService countryService = new CountryService(this);
+//        countryNames = countryService.getCountryNames();
+//        countryService.getData(response -> {
+//            countryDataList = countryService.parseGameDataResponse(response);
+//            System.out.println(countryDataList.size());
+//        }, error -> {});
     }
 }
