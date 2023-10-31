@@ -11,11 +11,13 @@ import android.os.Bundle;
 import android.os.Looper;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.geoquizfrontend.models.GameData;
 import com.example.geoquizfrontend.services.CountryService;
 import com.example.geoquizfrontend.services.RandomNumberGenerator;
+import com.squareup.picasso.Picasso;
 
 import java.io.InputStream;
 import java.net.URL;
@@ -24,6 +26,7 @@ import java.util.List;
 public class CoatOfArms extends AppCompatActivity {
     TextView GameText, ScoreText;
     Button Opt0, Opt1, Opt2, Opt3;
+    ImageView coatOfArmsPNG;
 
     private int rounds = 4;
     private int score = 0;
@@ -38,12 +41,18 @@ public class CoatOfArms extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_coat_of_arms);
 
+        // text views
         GameText = findViewById(R.id.gameText);
         ScoreText = findViewById(R.id.ScoreText);
+
+        // buttons
         Opt0 = findViewById(R.id.opt0_btn);
         Opt1 = findViewById(R.id.opt1_btn);
         Opt2 = findViewById(R.id.opt2_btn);
         Opt3 = findViewById(R.id.opt3_btn);
+
+        // set image view
+        coatOfArmsPNG = findViewById(R.id.coatOfArms_id);
         
         CountryService countryService = new CountryService(this);
         countryNames = countryService.getCountryNames();
@@ -59,19 +68,18 @@ public class CoatOfArms extends AppCompatActivity {
                         gameTick();
                     }
                 }, 2000);
+
+        RandomNumberGenerator pngIdx = new RandomNumberGenerator(pngValues.length);
+
+        Picasso.get().load(pngValues[pngIdx.generate()]).into(coatOfArmsPNG);
     }
 
     private void gameTick() {
         RandomNumberGenerator optionIdx = new RandomNumberGenerator(countryNames.length);
-        RandomNumberGenerator pngIdx = new RandomNumberGenerator(pngValues.length);
 
         correctAnsIdx = ansIdx.generate();
         key = countryDataList.get(correctAnsIdx);
         GameText.setText("What country has the following coat of arms?");
-
-        System.out.println("Coat of arms url:" + key.getCoatOfArms());
-        LoadImageFromWebOperations(pngValues[pngIdx.generate()]);
-        System.out.println(pngValues[pngIdx.generate()]);
 
         switch(correctAnsIdx) {
             case 0:
