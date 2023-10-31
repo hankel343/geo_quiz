@@ -1,10 +1,12 @@
 package com.example.geoquizfrontend;
 
 import static com.example.geoquizfrontend.ApiClientFactory.GetCapitalQuizApi;
+import static com.example.geoquizfrontend.CountryNames.pngValues;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Looper;
 import android.view.View;
@@ -15,6 +17,8 @@ import com.example.geoquizfrontend.models.GameData;
 import com.example.geoquizfrontend.services.CountryService;
 import com.example.geoquizfrontend.services.RandomNumberGenerator;
 
+import java.io.InputStream;
+import java.net.URL;
 import java.util.List;
 
 public class CoatOfArms extends AppCompatActivity {
@@ -24,6 +28,7 @@ public class CoatOfArms extends AppCompatActivity {
     private int rounds = 4;
     private int score = 0;
     private String[] countryNames = CountryNames.countries;
+    private String[] coatOfArms = pngValues;
     private List<GameData> countryDataList;
     RandomNumberGenerator ansIdx = new RandomNumberGenerator(4);
     private GameData key = null;
@@ -39,14 +44,13 @@ public class CoatOfArms extends AppCompatActivity {
         Opt1 = findViewById(R.id.opt1_btn);
         Opt2 = findViewById(R.id.opt2_btn);
         Opt3 = findViewById(R.id.opt3_btn);
-
-        // External API is timing out
-//        CountryService countryService = new CountryService(this);
-//        countryNames = countryService.getCountryNames();
-//        countryService.getData(response -> {
-//            countryDataList = countryService.parseGameDataResponse(response);
-//            System.out.println(countryDataList.size());
-//        }, error -> {});
+        
+        CountryService countryService = new CountryService(this);
+        countryNames = countryService.getCountryNames();
+        countryService.getData(response -> {
+            countryDataList = countryService.parseGameDataResponse(response);
+            System.out.println(countryDataList.size());
+        }, error -> {});
 
         new android.os.Handler(Looper.getMainLooper()).postDelayed(
                 new Runnable() {
@@ -59,39 +63,40 @@ public class CoatOfArms extends AppCompatActivity {
 
     private void gameTick() {
         RandomNumberGenerator optionIdx = new RandomNumberGenerator(countryNames.length);
+        RandomNumberGenerator pngIdx = new RandomNumberGenerator(pngValues.length);
 
         correctAnsIdx = ansIdx.generate();
-//        key = countryDataList.get(correctAnsIdx); // comment out of external API down
+        key = countryDataList.get(correctAnsIdx);
         GameText.setText("What country has the following coat of arms?");
+
+        System.out.println("Coat of arms url:" + key.getCoatOfArms());
+        LoadImageFromWebOperations(pngValues[pngIdx.generate()]);
+        System.out.println(pngValues[pngIdx.generate()]);
 
         switch(correctAnsIdx) {
             case 0:
-//                Opt0.setText(key.getName());
-                Opt0.setText(countryNames[optionIdx.generate()]);
+                Opt0.setText(key.getName());
 
                 Opt1.setText(countryNames[optionIdx.generate()]);
                 Opt2.setText(countryNames[optionIdx.generate()]);
                 Opt3.setText(countryNames[optionIdx.generate()]);
                 break;
             case 1:
-//                Opt1.setText(key.getName());
-                Opt1.setText(countryNames[optionIdx.generate()]);
+                Opt1.setText(key.getName());
 
                 Opt0.setText(countryNames[optionIdx.generate()]);
                 Opt2.setText(countryNames[optionIdx.generate()]);
                 Opt3.setText(countryNames[optionIdx.generate()]);
                 break;
             case 2:
-//                Opt2.setText(key.getName());
-                Opt2.setText(countryNames[optionIdx.generate()]);
+                Opt2.setText(key.getName());
 
                 Opt0.setText(countryNames[optionIdx.generate()]);
                 Opt1.setText(countryNames[optionIdx.generate()]);
                 Opt3.setText(countryNames[optionIdx.generate()]);
                 break;
             case 3:
-//                Opt3.setText(key.getName());
-                Opt3.setText(countryNames[optionIdx.generate()]);
+                Opt3.setText(key.getName());
 
                 Opt0.setText(countryNames[optionIdx.generate()]);
                 Opt1.setText(countryNames[optionIdx.generate()]);
@@ -161,6 +166,16 @@ public class CoatOfArms extends AppCompatActivity {
             Intent intent = new Intent(CoatOfArms.this, ResultScreen.class);
             intent.putExtra("DurationText", Integer.toString(score));
             startActivity(intent);
+        }
+    }
+
+    public static Drawable LoadImageFromWebOperations(String url) {
+        try {
+            InputStream is = (InputStream) new URL(url).getContent();
+            Drawable d = Drawable.createFromStream(is, "src name");
+            return d;
+        } catch (Exception e) {
+            return null;
         }
     }
 }

@@ -38,7 +38,7 @@ public class GameData {
         this.capital = capital;
     }
 
-    public String getCoatOfArms(String coa) { return coa; }
+    public String getCoatOfArms() { return coa; }
     public void setCoa(String coa)  { this.coa = coa; }
 
     public String getFlag() {
