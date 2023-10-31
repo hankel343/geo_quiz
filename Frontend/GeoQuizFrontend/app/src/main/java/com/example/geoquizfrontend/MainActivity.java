@@ -20,14 +20,17 @@ public class MainActivity extends AppCompatActivity {
         GuestButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
-                Intent intent = new Intent(MainActivity.this, GamescreenActivity.class);
-                startActivity(intent);
+                startActivity(
+                        new Intent(MainActivity.this, GamescreenActivity.class)
+                );
             }
         });
         LoginButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
-                Toast.makeText(getApplicationContext(),"Coming Soon!", Toast.LENGTH_LONG).show();
+                startActivity(
+                        new Intent(MainActivity.this, Login.class)
+                );
             }
         });
     }
