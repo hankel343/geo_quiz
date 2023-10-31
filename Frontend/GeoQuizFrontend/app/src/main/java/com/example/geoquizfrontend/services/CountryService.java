@@ -8,6 +8,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.geoquizfrontend.CountryNames;
 import com.example.geoquizfrontend.models.GameData;
 
 import org.json.JSONArray;
@@ -25,7 +26,7 @@ public class CountryService {
     private static final String COUNTRY_URL = "http://coms-309-012.class.las.iastate.edu:8080/countries";
     private final RequestQueue requestQueue;
 
-    private final String[] countryNames = new String[243];
+    private final String[] countryNames = CountryNames.countries;
 
     public CountryService(Context context) {
         requestQueue = Volley.newRequestQueue(context);
