@@ -33,7 +33,7 @@ import java.util.Map;
 
 
 public class CapitalGame extends AppCompatActivity {
-    private TextView CapitalText, ScoreText;
+    private TextView CapitalText, ScoreText, TimerText;
 
     static String whatQuestion, scoreText, whatAnswer;
     static int Score, question;
@@ -64,6 +64,7 @@ public class CapitalGame extends AppCompatActivity {
 
         CapitalText = (TextView) findViewById(R.id.gameText);
         ScoreText = (TextView) findViewById(R.id.ScoreText);
+        TimerText = (TextView) findViewById(R.id.timer);
         CapitalA1 = (Button) findViewById(R.id.opt0_btn);
         CapitalA2 = (Button) findViewById(R.id.opt1_btn);
         CapitalA3 = (Button) findViewById(R.id.opt2_btn);
