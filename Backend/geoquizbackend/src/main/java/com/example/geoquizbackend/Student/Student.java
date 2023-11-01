@@ -13,24 +13,29 @@ public class Student {
     @GeneratedValue(strategy = GenerationType.AUTO)
     long id;
 
-    String name;
+    String firstName;
+    String lastName;
     String email;
     String password;
+    private String classCode;
+    float grade;
     @OneToMany
     Set<Quiz> q;
-    float grade;
 
     public Student() {
 
     }
 
-    public String getName() {
-        return name;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setFirstName(String name) {
+        this.firstName = name;
     }
+
+    public String getLastName() { return lastName; }
+    public void setLastName(String name) { this.lastName = name; }
 
     public void getPassword() { this.password = password; }
     public void setPassword(String password) {
