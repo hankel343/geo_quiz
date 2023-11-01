@@ -22,6 +22,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.example.geoquizfrontend.models.CapitalQuiz;
 import com.example.geoquizfrontend.models.GameData;
 
 import com.example.geoquizfrontend.services.CountryService;

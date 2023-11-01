@@ -1,6 +1,6 @@
 package com.example.geoquizfrontend.services;
 
-import com.example.geoquizfrontend.CapitalQuiz;
+import com.example.geoquizfrontend.models.CapitalQuiz;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
