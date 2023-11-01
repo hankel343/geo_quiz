@@ -2,6 +2,7 @@ package com.example.geoquizbackend.Student;
 
 import com.example.geoquizbackend.Quiz.Quiz;
 import jakarta.persistence.*;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.util.Set;
 
@@ -14,6 +15,7 @@ public class Student {
 
     String name;
     String email;
+    String password;
     @OneToMany
     Set<Quiz> q;
     float grade;
@@ -30,6 +32,15 @@ public class Student {
         this.name = name;
     }
 
+    public void getPassword() { this.password = password; }
+    public void setPassword(String password) {
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        this.password = encoder.encode(password);
+    }
+    public boolean checkPassword(String password) {
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        return encoder.matches(password, this.password);
+    }
     public String getEmail() {
         return email;
     }
