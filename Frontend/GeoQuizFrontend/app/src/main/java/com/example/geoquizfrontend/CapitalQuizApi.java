@@ -1,6 +1,7 @@
 package com.example.geoquizfrontend;
 
 import com.example.geoquizfrontend.models.CapitalQuiz;
+import com.example.geoquizfrontend.models.Student;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -19,4 +20,7 @@ public interface CapitalQuizApi {
 
     @GET("quizzes/{id}")
     Call<CapitalQuiz> GetCapitalQuizByPath(@Path("id") String id);
+
+    @POST("/students")
+    Call<Student> PostNewStudent(@Body Student newStudent);
 }
