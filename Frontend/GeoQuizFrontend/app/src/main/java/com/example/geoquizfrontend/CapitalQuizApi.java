@@ -22,5 +22,5 @@ public interface CapitalQuizApi {
     Call<CapitalQuiz> GetCapitalQuizByPath(@Path("id") String id);
 
     @POST("/students")
-    Call<Student> PostNewStudent(@Body Student newStudent);
+    Call<Student> postNewStudent(@Body Student newStudent);
 }

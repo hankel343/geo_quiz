@@ -7,7 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-public class Login extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity {
 
     Button StudentLogin;
 
@@ -22,7 +22,7 @@ public class Login extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 startActivity(
-                        new Intent(Login.this, StudentLogin.class)
+                        new Intent(LoginActivity.this, StudentAccountCreation.class)
                 );
             }
         });
