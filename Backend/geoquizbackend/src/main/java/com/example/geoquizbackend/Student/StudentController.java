@@ -1,6 +1,8 @@
 package com.example.geoquizbackend.Student;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,13 +20,17 @@ public class StudentController {
     Student getStudentById(@PathVariable long id) { return studentRepository.findById(id); }
 
     @PostMapping(path = "/students")
-    String createStudent(@RequestBody Student student) {
+    ResponseEntity<String> createStudent(@RequestBody Student student) {
         if (student == null) {
-            return "Provided student is null.";
+            return new ResponseEntity<>("Provided student is null.", HttpStatus.BAD_REQUEST);
         }
 
-        studentRepository.save(student);
-        return "Student successfully saved!";
+        try {
+            studentRepository.save(student);
+            return new ResponseEntity<>("Student successfully saved!", HttpStatus.CREATED);
+        } catch (Exception e) {
+            return new ResponseEntity<>("Failed to create student.", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @PutMapping(path = "/students/{id}")
