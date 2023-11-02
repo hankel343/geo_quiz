@@ -25,6 +25,10 @@ import java.io.InputStream;
 import java.net.URL;
 import java.util.List;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class CoatOfArms extends AppCompatActivity {
     TextView GameText, ScoreText, TimerText;
     Button Opt0, Opt1, Opt2, Opt3;
@@ -60,23 +64,26 @@ public class CoatOfArms extends AppCompatActivity {
 
         // set image view
         coatOfArmsPNG = findViewById(R.id.coatOfArms_id);
-        
-        CountryService countryService = new CountryService(this);
-        countryNames = countryService.getCountryNames();
-        countryService.getData(response -> {
-            countryDataList = countryService.parseGameDataResponse(response);
-            System.out.println(countryDataList.size());
-        }, error -> {});
 
-        new android.os.Handler(Looper.getMainLooper()).postDelayed(
-                new Runnable() {
-                    @Override
-                    public void run() {
-                        gameTick();
-                    }
-                }, 2000);
-        startTimer();
-        updateTimer();
+        CapitalQuizApi apiService = ApiClientFactory.GetCapitalQuizApi();
+        Call<List<GameData>> call = apiService.GetGameDataALL();
+
+        call.enqueue(new Callback<List<GameData>>() {
+            @Override
+            public void onResponse(Call<List<GameData>> call, Response<List<GameData>> response) {
+                if (response.isSuccessful()) {
+                    countryDataList = response.body();
+                    gameTick();
+                    startTimer();
+                    updateTimer();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<GameData>> call, Throwable t) {
+
+            }
+        });
     }
 
     private void gameTick() {

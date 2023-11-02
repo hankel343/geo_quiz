@@ -1,7 +1,10 @@
 package com.example.geoquizfrontend;
 
 import com.example.geoquizfrontend.models.CapitalQuiz;
+import com.example.geoquizfrontend.models.GameData;
 import com.example.geoquizfrontend.models.Student;
+
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -11,7 +14,10 @@ import retrofit2.http.PUT;
 import retrofit2.http.Path;
 
 public interface CapitalQuizApi {
-
+    // Country data endpoints
+    @GET("countries/gameDataAll")
+    Call<List<GameData>> GetGameDataALL();
+    // Quiz endpoints
     @PUT("quizzes/{id}")
     Call<CapitalQuiz> PutCapitalQuizByPath(@Path("id") int id, @Body CapitalQuiz newCapitalQuiz);
 
@@ -21,6 +27,7 @@ public interface CapitalQuizApi {
     @GET("quizzes/{id}")
     Call<CapitalQuiz> GetCapitalQuizByPath(@Path("id") String id);
 
+    // Student endpoints
     @POST("/students")
     Call<Student> postNewStudent(@Body Student newStudent);
 }
