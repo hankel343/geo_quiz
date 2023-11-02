@@ -38,10 +38,11 @@ public class Student {
     public void setLastName(String name) { this.lastName = name; }
 
     public void getPassword() { this.password = password; }
-//    public void setPassword(String password) {
+    public void setPassword(String password) {
+        this.password = password;
 //        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 //        this.password = encoder.encode(password);
-//    }
+    }
 //    public boolean checkPassword(String password) {
 //        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 //        return encoder.matches(password, this.password);
@@ -61,4 +62,6 @@ public class Student {
     public void setGrade(float grade) {
         this.grade = grade;
     }
+    public void setClassCode(String classCode) { this.classCode = classCode; }
+    public String getClassCode() { return this.classCode; }
 }
