@@ -66,6 +66,7 @@ public class StudentAccountCreation extends AppCompatActivity {
 
                                 SharedPreferences sharedPreferences = getSharedPreferences("UserInfo", MODE_PRIVATE);
                                 SharedPreferences.Editor editor = sharedPreferences.edit();
+                                editor.putLong("id", returnedStudent.getId());
                                 editor.putString("firstName", returnedStudent.getFirstName());
                                 editor.putString("lastName", returnedStudent.getLastName());
                                 editor.putString("email", returnedStudent.getEmail());
