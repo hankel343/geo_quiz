@@ -2,6 +2,7 @@ package com.example.geoquizfrontend;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
@@ -70,9 +71,10 @@ public class StudentAccountCreation extends AppCompatActivity {
                                 editor.putString("email", returnedStudent.getEmail());
                                 editor.apply();
 
-                                System.out.println("User firstname: " + sharedPreferences.getString("firstName", ""));
-
-                                Toast.makeText(getApplicationContext(), "Account created successfully", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getApplicationContext(), "Welcome, " + sharedPreferences.getString("firstName", ""), Toast.LENGTH_SHORT).show();
+                                startActivity(
+                                        new Intent(StudentAccountCreation.this, AccountHomeActivity.class)
+                                );
                             } else {
                                 Toast.makeText(getApplicationContext(), "Failed to create account", Toast.LENGTH_SHORT).show();
                             }
