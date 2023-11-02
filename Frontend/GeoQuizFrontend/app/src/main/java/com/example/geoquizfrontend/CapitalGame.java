@@ -4,6 +4,7 @@ import static com.example.geoquizfrontend.ApiClientFactory.GetCapitalQuizApi;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.Looper;
 import android.util.Log;
 import android.view.View;
@@ -38,6 +39,9 @@ public class CapitalGame extends AppCompatActivity {
     static String whatQuestion, scoreText, whatAnswer;
     static int Score, question;
     private Button CapitalA1, CapitalA2, CapitalA3, CapitalA4, QuitBtn;
+    private CountDownTimer countDownTimer;
+    private long timeLeftInMilliseconds = 60000;
+    private boolean timerRunning;
     String URL_JSON_OBJECT = "https://b137d5c3-5a11-4d97-bcb0-56f3fb9dedc3.mock.pstmn.io/Object/1";
     List<GameData> countryDataList;
     @Override
@@ -72,11 +76,14 @@ public class CapitalGame extends AppCompatActivity {
         QuitBtn = (Button) findViewById(R.id.quit_btn);
         question = 1;
 
+        startTimer();
+        updateTimer();
         CapitalA1.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
+                startStop();
                 if(getWhatAnswer().toString().trim().equals("1")) {
-                    Score = Score + 1;
+                    Score = Score + 1 + (5*(Math.toIntExact(timeLeftInMilliseconds) / 1000));
                     scoreText = Integer.toString(Score);
                     ScoreText.setText("Score: " + scoreText);
                 }
@@ -92,14 +99,17 @@ public class CapitalGame extends AppCompatActivity {
                 whatQuestion = Integer.toString(question);
                 URL_JSON_OBJECT = "https://b137d5c3-5a11-4d97-bcb0-56f3fb9dedc3.mock.pstmn.io/Object/" + whatQuestion;
                 makeJsonObjReq();
+                timeLeftInMilliseconds = 60000;
+                startStop();
             }
 
         });
         CapitalA2.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
+                startStop();
                 if(getWhatAnswer().toString().trim().equals("2")){
-                    Score = Score + 1;
+                    Score = Score + 1 + (5*(Math.toIntExact(timeLeftInMilliseconds) / 1000));
                     scoreText = Integer.toString(Score);
                     ScoreText.setText("Score: " + scoreText);
                 }
@@ -115,13 +125,16 @@ public class CapitalGame extends AppCompatActivity {
                 whatQuestion = Integer.toString(question);
                 URL_JSON_OBJECT = "https://b137d5c3-5a11-4d97-bcb0-56f3fb9dedc3.mock.pstmn.io/Object/" + whatQuestion;
                 makeJsonObjReq();
+                timeLeftInMilliseconds = 60000;
+                startStop();
             }
         });
         CapitalA3.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
+                startStop();
                 if(getWhatAnswer().toString().trim().equals("3")){
-                    Score = Score + 1;
+                    Score = Score + 1 + (5*(Math.toIntExact(timeLeftInMilliseconds) / 1000));
                     scoreText = Integer.toString(Score);
                     ScoreText.setText("Score: " + scoreText);
                 }
@@ -137,13 +150,16 @@ public class CapitalGame extends AppCompatActivity {
                 whatQuestion = Integer.toString(question);
                 URL_JSON_OBJECT = "https://b137d5c3-5a11-4d97-bcb0-56f3fb9dedc3.mock.pstmn.io/Object/" + whatQuestion;
                 makeJsonObjReq();
+                timeLeftInMilliseconds = 60000;
+                startStop();
             }
         });
         CapitalA4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view){
+                startStop();
                 if(getWhatAnswer().toString().trim().equals("4")){
-                    Score = Score + 1;
+                    Score = Score + 1 + (5*(Math.toIntExact(timeLeftInMilliseconds) / 1000));
                     scoreText = Integer.toString(Score);
                     ScoreText.setText("Score: " + scoreText);
                 }
@@ -159,6 +175,8 @@ public class CapitalGame extends AppCompatActivity {
                 whatQuestion = Integer.toString(question);
                 URL_JSON_OBJECT = "https://b137d5c3-5a11-4d97-bcb0-56f3fb9dedc3.mock.pstmn.io/Object/" + whatQuestion;
                 makeJsonObjReq();
+                timeLeftInMilliseconds = 60000;
+                startStop();
             }
         });
 
@@ -236,4 +254,47 @@ public class CapitalGame extends AppCompatActivity {
     {
         this.whatAnswer = whatAnswer;
     }
+    public void startStop(){
+        if(timerRunning){
+            stopTimer();
+        }else{
+            startTimer();
+        }
+    }
+    public void startTimer(){
+        countDownTimer = new CountDownTimer(timeLeftInMilliseconds, 1000) {
+            @Override
+            public void onTick(long l) {
+                timeLeftInMilliseconds = l;
+                updateTimer();
+            }
+
+            @Override
+            public void onFinish() {
+
+            }
+        }.start();
+
+        timerRunning = true;
+    }
+
+    public void stopTimer(){
+        countDownTimer.cancel();
+        timerRunning = false;
+    }
+
+    public void updateTimer(){
+        int minutes = (int) timeLeftInMilliseconds / 60000;
+        int seconds = (int) timeLeftInMilliseconds % 60000 / 1000;
+
+        String timeLeftText;
+
+        timeLeftText = "" + minutes;
+        timeLeftText += ":";
+        if(seconds < 10) timeLeftText += "0";
+        timeLeftText += seconds;
+
+        TimerText.setText(timeLeftText);
+    }
+
 }
