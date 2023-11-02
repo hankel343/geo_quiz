@@ -25,7 +25,7 @@ public class Student {
     public Student() {
 
     }
-
+    public long getId() { return id; }
     public String getFirstName() {
         return firstName;
     }
