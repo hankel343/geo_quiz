@@ -60,14 +60,15 @@ public class StudentAccountCreation extends AppCompatActivity {
                         public void onResponse(Call<Student> call, Response<Student> response) {
                             if (response.isSuccessful()) {
                                 // route to home page; success toast message
+                                Toast.makeText(getApplicationContext(), "Account created successfully", Toast.LENGTH_SHORT).show();
                             } else {
-                                // Failed to create toast message
+                                Toast.makeText(getApplicationContext(), "Failed to create account", Toast.LENGTH_SHORT).show();
                             }
                         }
 
                         @Override
                         public void onFailure(Call<Student> call, Throwable t) {
-                            // network error
+                            Toast.makeText(getApplicationContext(), "Network error", Toast.LENGTH_SHORT).show();
                         }
                     });
                 }
