@@ -20,16 +20,16 @@ public class StudentController {
     Student getStudentById(@PathVariable long id) { return studentRepository.findById(id); }
 
     @PostMapping(path = "/students")
-    ResponseEntity<String> createStudent(@RequestBody Student student) {
+    ResponseEntity<Student> createStudent(@RequestBody Student student) {
         if (student == null) {
-            return new ResponseEntity<>("Provided student is null.", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         }
 
         try {
-            studentRepository.save(student);
-            return new ResponseEntity<>("Student successfully saved!", HttpStatus.CREATED);
+            Student savedStudent = studentRepository.save(student);
+            return new ResponseEntity<>(savedStudent, HttpStatus.CREATED);
         } catch (Exception e) {
-            return new ResponseEntity<>("Failed to create student.", HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
