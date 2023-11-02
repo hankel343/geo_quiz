@@ -73,7 +73,7 @@ public class ContinentsQuiz extends AppCompatActivity {
                         gameTick();
                     }
                 },
-        2000);
+        3000);
     }
 
     private void gameTick() {

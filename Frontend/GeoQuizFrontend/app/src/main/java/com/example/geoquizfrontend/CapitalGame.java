@@ -61,7 +61,7 @@ public class CapitalGame extends AppCompatActivity {
                         makeJsonObjReq();
                     }
                 },
-                2000);
+                3000);
 
         CapitalText = (TextView) findViewById(R.id.gameText);
         ScoreText = (TextView) findViewById(R.id.ScoreText);

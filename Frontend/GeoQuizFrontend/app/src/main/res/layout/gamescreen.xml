@@ -9,6 +9,21 @@
 
 
     <com.google.android.material.button.MaterialButton
+        android:id="@+id/Account_btn"
+        android:layout_width="148dp"
+        android:layout_height="66dp"
+        android:layout_marginTop="16dp"
+        android:backgroundTint="@android:color/holo_green_dark"
+        android:text="Account"
+        android:textColor="@color/black"
+        android:textSize="24dp"
+        app:cornerRadius="0dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.939"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/continents_btn"
         android:layout_width="410dp"
         android:layout_height="55dp"
@@ -38,7 +53,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/FlagGameB"
         android:layout_width="410dp"
         android:layout_height="55dp"
