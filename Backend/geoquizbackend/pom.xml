@@ -75,6 +75,11 @@
             <version>2.0.2</version>
         </dependency>
 
+        <!--        password encryption-->
+<!--        <dependency>-->
+<!--            <groupId>org.springframework.boot</groupId>-->
+<!--            <artifactId>spring-boot-starter-security</artifactId>-->
+<!--        </dependency>-->
 
     </dependencies>
 

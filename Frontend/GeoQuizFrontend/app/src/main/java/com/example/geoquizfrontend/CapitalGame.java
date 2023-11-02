@@ -23,6 +23,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.example.geoquizfrontend.models.CapitalQuiz;
 import com.example.geoquizfrontend.models.GameData;
 
 import com.example.geoquizfrontend.services.CountryService;
@@ -64,7 +65,7 @@ public class CapitalGame extends AppCompatActivity {
                         makeJsonObjReq();
                     }
                 },
-                2000);
+                3000);
 
         CapitalText = (TextView) findViewById(R.id.gameText);
         ScoreText = (TextView) findViewById(R.id.ScoreText);

@@ -11,10 +11,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.geoquizfrontend.models.CapitalQuiz;
 import com.example.geoquizfrontend.models.GameData;
 import com.example.geoquizfrontend.services.CountryService;
 import com.example.geoquizfrontend.services.RandomNumberGenerator;
-import com.google.android.material.color.utilities.Score;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -73,7 +73,7 @@ public class ContinentsQuiz extends AppCompatActivity {
                         gameTick();
                     }
                 },
-        2000);
+        3000);
     }
 
     private void gameTick() {

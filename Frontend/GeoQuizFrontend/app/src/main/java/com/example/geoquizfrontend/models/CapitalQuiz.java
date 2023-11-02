@@ -1,4 +1,4 @@
-package com.example.geoquizfrontend;
+package com.example.geoquizfrontend.models;
 import com.google.gson.annotations.SerializedName;
 
 public class CapitalQuiz{
