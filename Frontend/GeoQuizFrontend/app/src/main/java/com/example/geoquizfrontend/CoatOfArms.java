@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.Looper;
 import android.view.View;
 import android.widget.Button;
@@ -24,9 +25,12 @@ import java.net.URL;
 import java.util.List;
 
 public class CoatOfArms extends AppCompatActivity {
-    TextView GameText, ScoreText;
+    TextView GameText, ScoreText, TimerText;
     Button Opt0, Opt1, Opt2, Opt3;
     ImageView coatOfArmsPNG;
+    private CountDownTimer countDownTimer;
+    private long timeLeftInMilliseconds = 60000;
+    private boolean timerRunning;
 
     private int rounds = 4;
     private int score = 0;
@@ -45,6 +49,7 @@ public class CoatOfArms extends AppCompatActivity {
         // text views
         GameText = findViewById(R.id.gameText);
         ScoreText = findViewById(R.id.ScoreText);
+        TimerText = (TextView) findViewById(R.id.COAtimer);
 
         // buttons
         Opt0 = findViewById(R.id.opt0_btn);
@@ -69,6 +74,8 @@ public class CoatOfArms extends AppCompatActivity {
                         gameTick();
                     }
                 }, 2000);
+        startTimer();
+        updateTimer();
     }
 
     private void gameTick() {
@@ -114,22 +121,28 @@ public class CoatOfArms extends AppCompatActivity {
         Opt0.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
+                startStop();
                 if (correctAnsIdx == 0) {
                     updateScore();
                 }
 
                 checkGameOver();
+                timeLeftInMilliseconds = 60000;
+                startStop();
                 gameTick();
             }
         });
         Opt1.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
+                startStop();
                 if (correctAnsIdx == 1) {
                     updateScore();
                 }
 
                 checkGameOver();
+                timeLeftInMilliseconds = 60000;
+                startStop();
                 gameTick();
             }
         });
@@ -137,11 +150,14 @@ public class CoatOfArms extends AppCompatActivity {
         Opt2.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
+                startStop();
                 if (correctAnsIdx == 2) {
                     updateScore();
                 }
 
                 checkGameOver();
+                timeLeftInMilliseconds = 60000;
+                startStop();
                 gameTick();
             }
         });
@@ -149,19 +165,22 @@ public class CoatOfArms extends AppCompatActivity {
         Opt3.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
+                startStop();
                 if (correctAnsIdx == 3) {
                     updateScore();
                 }
 
                 checkGameOver();
+                timeLeftInMilliseconds = 60000;
+                startStop();
                 gameTick();
             }
         });
     }
 
     private void updateScore() {
-        score += 1;
-        ScoreText.setText(Integer.toString(score));
+        score += 1 + (5*(Math.toIntExact(timeLeftInMilliseconds) / 1000));
+        ScoreText.setText("Score: " + Integer.toString(score));
     }
 
     private void checkGameOver() {
@@ -174,5 +193,47 @@ public class CoatOfArms extends AppCompatActivity {
             intent.putExtra("DurationText", Integer.toString(score));
             startActivity(intent);
         }
+    }
+    public void startStop(){
+        if(timerRunning){
+            stopTimer();
+        }else{
+            startTimer();
+        }
+    }
+    public void startTimer(){
+        countDownTimer = new CountDownTimer(timeLeftInMilliseconds, 1000) {
+            @Override
+            public void onTick(long l) {
+                timeLeftInMilliseconds = l;
+                updateTimer();
+            }
+
+            @Override
+            public void onFinish() {
+
+            }
+        }.start();
+
+        timerRunning = true;
+    }
+
+    public void stopTimer(){
+        countDownTimer.cancel();
+        timerRunning = false;
+    }
+
+    public void updateTimer(){
+        int minutes = (int) timeLeftInMilliseconds / 60000;
+        int seconds = (int) timeLeftInMilliseconds % 60000 / 1000;
+
+        String timeLeftText;
+
+        timeLeftText = "" + minutes;
+        timeLeftText += ":";
+        if(seconds < 10) timeLeftText += "0";
+        timeLeftText += seconds;
+
+        TimerText.setText(timeLeftText);
     }
 }
