@@ -43,15 +43,15 @@
         android:id="@+id/CapitalGameB"
         android:layout_width="410dp"
         android:layout_height="55dp"
-        android:layout_marginTop="22dp"
+        android:layout_marginTop="20dp"
         android:backgroundTint="@android:color/holo_green_dark"
-        android:text="Capitols"
         android:gravity="center"
+        android:text="Capitols"
         android:textColor="@color/black"
         android:textSize="24dp"
         app:cornerRadius="0dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/FlagGameB" />
 
