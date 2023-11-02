@@ -2,6 +2,7 @@ package com.example.geoquizfrontend;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -60,6 +61,17 @@ public class StudentAccountCreation extends AppCompatActivity {
                         public void onResponse(Call<Student> call, Response<Student> response) {
                             if (response.isSuccessful()) {
                                 // route to home page; success toast message
+                                Student returnedStudent = response.body();
+
+                                SharedPreferences sharedPreferences = getSharedPreferences("UserInfo", MODE_PRIVATE);
+                                SharedPreferences.Editor editor = sharedPreferences.edit();
+                                editor.putString("firstName", returnedStudent.getFirstName());
+                                editor.putString("lastName", returnedStudent.getLastName());
+                                editor.putString("email", returnedStudent.getEmail());
+                                editor.apply();
+
+                                System.out.println("User firstname: " + sharedPreferences.getString("firstName", ""));
+
                                 Toast.makeText(getApplicationContext(), "Account created successfully", Toast.LENGTH_SHORT).show();
                             } else {
                                 Toast.makeText(getApplicationContext(), "Failed to create account", Toast.LENGTH_SHORT).show();
