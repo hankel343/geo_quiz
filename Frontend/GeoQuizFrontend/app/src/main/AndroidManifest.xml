@@ -25,6 +25,12 @@
             android:name=".LoginActivity"
             android:exported="false" />
         <activity
+            android:name=".PopulationHiLo"
+            android:exported="false" />
+        <activity
+            android:name=".CoatOfArms"
+            android:exported="false" />
+        <activity
             android:name=".ContinentsQuiz"
             android:exported="false" />
         <activity

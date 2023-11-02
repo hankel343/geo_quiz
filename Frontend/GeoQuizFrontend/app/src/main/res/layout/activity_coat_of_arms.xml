@@ -2,17 +2,16 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/cnst_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/home_image"
-    tools:context=".CapitalGame">
+    tools:context=".ContinentsQuiz">
 
     <TextView
         android:id="@+id/gameText"
         android:layout_width="355dp"
         android:layout_height="83dp"
         android:layout_marginTop="128dp"
-        android:text="What country has capital ?"
         android:textSize="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.464"
@@ -23,9 +22,8 @@
         android:id="@+id/opt0_btn"
         android:layout_width="160dp"
         android:layout_height="75dp"
-        android:layout_marginStart="30dp"
-        android:layout_marginTop="256dp"
-        android:text="France"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="428dp"
         android:textSize="10pt"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -34,9 +32,8 @@
         android:id="@+id/opt1_btn"
         android:layout_width="160dp"
         android:layout_height="75dp"
-        android:layout_marginTop="256dp"
-        android:layout_marginEnd="30dp"
-        android:text="United States"
+        android:layout_marginTop="428dp"
+        android:layout_marginEnd="28dp"
         android:textSize="10pt"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -45,9 +42,8 @@
         android:id="@+id/opt2_btn"
         android:layout_width="160dp"
         android:layout_height="75dp"
-        android:layout_marginStart="30dp"
-        android:layout_marginTop="356dp"
-        android:text="Germany"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="504dp"
         android:textSize="10pt"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -56,42 +52,45 @@
         android:id="@+id/opt3_btn"
         android:layout_width="160dp"
         android:layout_height="75dp"
-        android:layout_marginTop="356dp"
-        android:layout_marginEnd="30dp"
-        android:text="Canada"
+        android:layout_marginTop="504dp"
+        android:layout_marginEnd="28dp"
         android:textSize="10pt"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/ScoreText"
-        android:layout_width="52dp"
-        android:layout_height="45dp"
-        android:layout_marginBottom="172dp"
+        android:layout_width="177dp"
+        android:layout_height="62dp"
+        android:layout_marginBottom="52dp"
         android:text="Score: 0"
+        android:textSize="32dp"
+        android:gravity="center"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <Button
-        android:id="@+id/quit_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Quit"
-        tools:layout_editor_absoluteX="304dp"
-        tools:layout_editor_absoluteY="667dp" />
+    <ImageView
+        android:id="@+id/coatOfArms_id"
+        android:layout_width="187dp"
+        android:layout_height="153dp"
+        app:layout_constraintBottom_toTopOf="@+id/ScoreText"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/gameText"
+        app:layout_constraintVertical_bias="0.133"
+        tools:srcCompat="@tools:sample/avatars" />
 
     <TextView
-        android:id="@+id/timer"
+        android:id="@+id/COAtimer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="120dp"
+        android:layout_marginTop="48dp"
         android:text="404"
-        android:textSize="30dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:textSize="48dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent" />
-
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
