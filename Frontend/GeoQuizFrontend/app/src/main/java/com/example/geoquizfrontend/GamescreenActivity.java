@@ -43,13 +43,5 @@ public class GamescreenActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
-        backBtn.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(GamescreenActivity.this, MainActivity.class);
-                startActivity(intent);
-            }
-        });
     }
 }
