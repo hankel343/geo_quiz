@@ -63,7 +63,7 @@
         android:layout_width="150dp"
         android:layout_height="50dp"
         android:layout_marginTop="325dp"
-        android:text="broken"
+        android:text="test"
         android:textSize="24dp"
         android:gravity="center"
         app:layout_constraintEnd_toEndOf="parent"
