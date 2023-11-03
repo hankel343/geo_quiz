@@ -45,8 +45,26 @@ public class PopulationHiLo extends AppCompatActivity {
         HigherBtn = (Button) findViewById(R.id.HigherBtn);
         LowerBtn = (Button) findViewById(R.id.LowerBtn);
 
-        //CapitalQuizApi apiService = ApiClientFactory.GetCapitalQuizApi();
-        //Call<List<GameData>> call = apiService.GetGameDataALL();
+        CapitalQuizApi apiService = ApiClientFactory.GetCapitalQuizApi();
+        Call<GameData> call = apiService.GetGameData();
+
+        call.enqueue(new Callback<GameData>() {
+            @Override
+            public void onResponse(Call<GameData> call, Response<GameData> response) {
+                if (response.isSuccessful()) {
+                    // assign game data objects here
+                    // e.g.
+                    GameData dummy = response.body();
+
+                    System.out.println(dummy.getPopulation());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<GameData> call, Throwable t) {
+
+            }
+        });
 
 //        call.enqueue(new Callback<List<GameData>>() {
 //            @Override
