@@ -86,7 +86,20 @@ class countryController {
 
         return gameData;
     }
+    @GetMapping("/gameDataOne")
+    public GameData getGameDataOne() {
+        UniqueRandomNumberGenerator gen = new UniqueRandomNumberGenerator(countryCommonNamesAll.size());
+        CountryData countryData = getByName(countryCommonNamesAll.get(gen.generate()));
 
+        GameData country = new GameData();
+        country.setName(countryData.getName().getCommon());
+        country.setCapital(countryData.getCapital().get(0));
+        country.setFlag(countryData.getFlag());
+        country.setContinent(countryData.getRegion());
+        country.setPopulation(countryData.getPopulation());
+
+        return country;
+    }
     @GetMapping("/gameDataAsia")
     public ArrayList<CountryData> getGameDataAsia() {
 
