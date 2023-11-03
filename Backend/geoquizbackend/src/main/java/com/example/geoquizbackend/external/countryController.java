@@ -65,14 +65,14 @@ class countryController {
         return names;
     }
 
-    @GetMapping("/gameDataAll")
-    public ArrayList<GameData> getGameDataAll() {
-        ArrayList<GameData> gameData = new ArrayList<>(4);
+    @GetMapping("/gameData")
+    public ArrayList<GameData> getGameDataAll(@RequestParam(value = "count", defaultValue = "1") int count) {
+        ArrayList<GameData> gameData = new ArrayList<>(count);
         UniqueRandomNumberGenerator gen = new UniqueRandomNumberGenerator(countryCommonNamesAll.size());
 
-        CountryData countryData = null;
         GameData country;
-        for (int i = 0; i < 4; i++) {
+        CountryData countryData = null;
+        for (int i = 0; i < count; i++) {
             country = new GameData();
             countryData = getByName(countryCommonNamesAll.get(gen.generate()));
             country.setName(countryData.getName().getCommon());
@@ -85,20 +85,6 @@ class countryController {
         }
 
         return gameData;
-    }
-    @GetMapping("/gameDataOne")
-    public GameData getGameDataOne() {
-        UniqueRandomNumberGenerator gen = new UniqueRandomNumberGenerator(countryCommonNamesAll.size());
-        CountryData countryData = getByName(countryCommonNamesAll.get(gen.generate()));
-
-        GameData country = new GameData();
-        country.setName(countryData.getName().getCommon());
-        country.setCapital(countryData.getCapital().get(0));
-        country.setFlag(countryData.getFlag());
-        country.setContinent(countryData.getRegion());
-        country.setPopulation(countryData.getPopulation());
-
-        return country;
     }
     @GetMapping("/gameDataAsia")
     public ArrayList<CountryData> getGameDataAsia() {
