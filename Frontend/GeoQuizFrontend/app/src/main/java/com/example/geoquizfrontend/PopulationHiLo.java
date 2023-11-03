@@ -5,6 +5,7 @@ import static com.example.geoquizfrontend.ApiClientFactory.GetCapitalQuizApi;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Looper;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -21,12 +22,13 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class PopulationHiLo extends AppCompatActivity {
-    private TextView PopulationRules1, PopulationRules2, Countryone, PopulationOne, Countrytwo, Populationtwo, PopScore, HighPopScore;
+    private TextView PopulationRules1, PopulationRules2, Countryone, PopulationOne, Countrytwo, PopulationTwo, PopScore, HighPopScore;
     private Button HigherBtn, LowerBtn;
     private int score = 0;
+    private int highScore = 0;
     private int populationOne = 0;
     private int populationTwo = 0;
-    private String countryOne = "broken";
+    private String countryOne = "testing";
     private String countryTwo = "broken";
 
     @Override
@@ -39,7 +41,7 @@ public class PopulationHiLo extends AppCompatActivity {
         Countryone = (TextView) findViewById(R.id.Countryone);
         PopulationOne = (TextView) findViewById(R.id.PopulationOne);
         Countrytwo = (TextView) findViewById(R.id.Countrytwo);
-        Populationtwo = (TextView) findViewById(R.id.Populationtwo);
+        PopulationTwo = (TextView) findViewById(R.id.Populationtwo);
         PopScore = (TextView) findViewById(R.id.PopScore);
         HighPopScore = (TextView) findViewById(R.id.HighPopScore);
         HigherBtn = (Button) findViewById(R.id.HigherBtn);
@@ -48,6 +50,8 @@ public class PopulationHiLo extends AppCompatActivity {
         CapitalQuizApi apiService = ApiClientFactory.GetCapitalQuizApi();
         Call<GameData> call = apiService.GetGameData();
 
+
+
         call.enqueue(new Callback<GameData>() {
             @Override
             public void onResponse(Call<GameData> call, Response<GameData> response) {
@@ -55,7 +59,10 @@ public class PopulationHiLo extends AppCompatActivity {
                     // assign game data objects here
                     // e.g.
                     GameData dummy = response.body();
-
+                    countryTwo = dummy.getName();
+                    populationTwo = dummy.getPopulation();
+                    Countrytwo.setText(countryTwo);
+                    PopulationTwo.setText(Integer.toString(populationTwo));
                     System.out.println(dummy.getPopulation());
                 }
             }
@@ -66,28 +73,22 @@ public class PopulationHiLo extends AppCompatActivity {
             }
         });
 
-//        call.enqueue(new Callback<List<GameData>>() {
-//            @Override
-//            public void onResponse(Call<List<GameData>> call, Response<List<GameData>> response) {
-//                if (response.isSuccessful()) {
-//                    countryDataList = response.body();
-//                    gameTick();
-//                }
-//            }
-//
-//            @Override
-//            public void onFailure(Call<List<GameData>> call, Throwable t) {
-//
-//            }
-//        });
+
+
+
         HigherBtn.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
                 if(populationOne >= populationTwo){
-                    Populationtwo.setTextColor(Color.GREEN);
+                    PopulationOne.setTextColor(Color.GREEN);
                     Countryone.setText(countryTwo);
                     PopulationOne.setText(Integer.toString(populationTwo));
                     updateScore();
+                }else{
+                    resetScore();
+                    PopulationOne.setTextColor(Color.RED);
+                    Countryone.setText(countryTwo);
+                    PopulationOne.setText(Integer.toString(populationTwo));
                 }
             }
         });
@@ -96,12 +97,15 @@ public class PopulationHiLo extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if(populationOne <= populationTwo){
-                    Populationtwo.setTextColor(Color.GREEN);
+                    PopulationOne.setTextColor(Color.GREEN);
                     Countryone.setText(countryTwo);
                     PopulationOne.setText(Integer.toString(populationTwo));
                     updateScore();
                 }else{
-
+                    resetScore();
+                    PopulationOne.setTextColor(Color.RED);
+                    Countryone.setText(countryTwo);
+                    PopulationOne.setText(Integer.toString(populationTwo));
                 }
 
             }
@@ -109,6 +113,13 @@ public class PopulationHiLo extends AppCompatActivity {
     }
     private void updateScore() {
         score += 1;
-        PopScore.setText(Integer.toString(score));
+        PopScore.setText("Score: " + Integer.toString(score));
+    }
+    private void resetScore() {
+        if(score > highScore){
+            HighPopScore.setText("High Score: " + Integer.toString(score));
+        }
+        score = 0;
+        PopScore.setText("Score: " + Integer.toString(score));
     }
 }
