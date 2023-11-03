@@ -14,6 +14,7 @@ import com.example.geoquizfrontend.models.CapitalQuiz;
 import com.example.geoquizfrontend.services.CountryService;
 import com.example.geoquizfrontend.services.RandomNumberGenerator;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -46,22 +47,20 @@ public class PopulationHiLo extends AppCompatActivity {
         LowerBtn = (Button) findViewById(R.id.LowerBtn);
 
         CapitalQuizApi apiService = ApiClientFactory.GetCapitalQuizApi();
-        Call<GameData> call = apiService.GetGameData();
+        Call<ArrayList<GameData>> call = apiService.GetGameData(2);
 
-        call.enqueue(new Callback<GameData>() {
+        call.enqueue(new Callback<ArrayList<GameData>>() {
             @Override
-            public void onResponse(Call<GameData> call, Response<GameData> response) {
+            public void onResponse(Call<ArrayList<GameData>> call, Response<ArrayList<GameData>> response) {
                 if (response.isSuccessful()) {
                     // assign game data objects here
                     // e.g.
-                    GameData dummy = response.body();
-
-                    System.out.println(dummy.getPopulation());
+                    ArrayList<GameData> dummy = response.body();
                 }
             }
 
             @Override
-            public void onFailure(Call<GameData> call, Throwable t) {
+            public void onFailure(Call<ArrayList<GameData>> call, Throwable t) {
 
             }
         });
