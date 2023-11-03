@@ -1,6 +1,7 @@
 package com.example.geoquizfrontend;
 
 import com.example.geoquizfrontend.models.CapitalQuiz;
+import com.example.geoquizfrontend.models.GameData;
 import com.example.geoquizfrontend.models.Student;
 
 import retrofit2.Call;
@@ -11,7 +12,8 @@ import retrofit2.http.PUT;
 import retrofit2.http.Path;
 
 public interface CapitalQuizApi {
-
+    @GET("countries/gameDataOne")
+    Call<GameData> GetGameData();
     @PUT("quizzes/{id}")
     Call<CapitalQuiz> PutCapitalQuizByPath(@Path("id") int id, @Body CapitalQuiz newCapitalQuiz);
 
