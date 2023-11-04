@@ -2,6 +2,7 @@ package com.example.geoquizfrontend;
 
 import com.example.geoquizfrontend.models.CapitalQuiz;
 import com.example.geoquizfrontend.models.GameData;
+import com.example.geoquizfrontend.models.Professor;
 import com.example.geoquizfrontend.models.Student;
 
 import java.util.ArrayList;
@@ -32,4 +33,8 @@ public interface CapitalQuizApi {
     // Student endpoints
     @POST("/students")
     Call<Student> postNewStudent(@Body Student newStudent);
+    // professor endpoints
+    @POST("/professors")
+    Call<Professor> postNewProfessor(@Body Professor newProfessor);
+
 }
