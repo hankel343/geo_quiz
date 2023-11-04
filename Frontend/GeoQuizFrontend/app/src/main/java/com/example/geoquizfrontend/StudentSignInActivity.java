@@ -15,7 +15,6 @@ import com.google.android.material.textfield.TextInputEditText;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
 
 public class StudentSignInActivity extends AppCompatActivity {
 
@@ -69,7 +68,7 @@ public class StudentSignInActivity extends AppCompatActivity {
 
                                             Toast.makeText(StudentSignInActivity.this, "Welcome, " + sharedPreferences.getString("firstName", ""), Toast.LENGTH_SHORT).show();
                                             startActivity(
-                                                    new Intent(StudentSignInActivity.this, AccountHomeActivity.class)
+                                                    new Intent(StudentSignInActivity.this, StudentAccountHome.class)
                                             );
                                         } else {
                                             // The student is not authenticated

@@ -16,10 +16,16 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".ProfessorAccountHome"
+            android:exported="false" />
+        <activity
+            android:name=".ProfessorAccountCreation"
+            android:exported="false" />
+        <activity
             android:name=".StudentSignInActivity"
             android:exported="false" />
         <activity
-            android:name=".AccountHomeActivity"
+            android:name=".StudentAccountHome"
             android:exported="false" />
         <activity
             android:name=".StudentAccountCreation"

@@ -1,5 +1,6 @@
 package com.example.geoquizbackend.Student;
 
+import com.example.geoquizbackend.Professor.Professor;
 import com.example.geoquizbackend.Quiz.Quiz;
 import jakarta.persistence.*;
 //import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -21,7 +22,9 @@ public class Student {
     float grade;
     @OneToMany
     Set<Quiz> q;
-
+    @ManyToOne
+    @JoinColumn(name="professor_id")
+    Professor professor;
     public Student() {
 
     }

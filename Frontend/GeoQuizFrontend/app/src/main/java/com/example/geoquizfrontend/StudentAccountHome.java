@@ -9,14 +9,14 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-public class AccountHomeActivity extends AppCompatActivity {
+public class StudentAccountHome extends AppCompatActivity {
 
     Button SignOutBtn, PlayQuizBtn, PastScoresBtn;
     TextView WelcomeText, EmailText;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_account_home);
+        setContentView(R.layout.activity_student_account_home);
 
         SharedPreferences sharedPreferences = getSharedPreferences("UserInfo", MODE_PRIVATE);
 
@@ -38,7 +38,7 @@ public class AccountHomeActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 startActivity(
-                        new Intent(AccountHomeActivity.this, GamescreenActivity.class)
+                        new Intent(StudentAccountHome.this, GamescreenActivity.class)
                 );
             }
         });
@@ -51,7 +51,7 @@ public class AccountHomeActivity extends AppCompatActivity {
                 editor.apply();
 
                 startActivity(
-                        new Intent(AccountHomeActivity.this, MainActivity.class)
+                        new Intent(StudentAccountHome.this, MainActivity.class)
                 );
             }
         });

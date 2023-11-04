@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/holo_blue_dark"
-    tools:context=".AccountHomeActivity">
+    tools:context=".StudentAccountHome">
 
     <TextView
         android:id="@+id/AccountHome_title"
@@ -64,6 +64,7 @@
         app:layout_constraintHorizontal_bias="0.946"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
 
     <TextView
         android:id="@+id/welcome_text"

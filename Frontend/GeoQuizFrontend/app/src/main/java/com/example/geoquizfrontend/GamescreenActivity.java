@@ -2,13 +2,11 @@ package com.example.geoquizfrontend;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.accounts.Account;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
 
 public class GamescreenActivity extends AppCompatActivity {
     Button flagGame, capitalGame, continentsGame, coatOfArmsGame, AccountHome, populationHiLo;
@@ -80,7 +78,7 @@ public class GamescreenActivity extends AppCompatActivity {
             public void onClick(View view) {
                 if (isLoggedIn) {
                     startActivity(
-                            new Intent(GamescreenActivity.this, AccountHomeActivity.class)
+                            new Intent(GamescreenActivity.this, StudentAccountHome.class)
                     );
                 } else {
                     startActivity(
