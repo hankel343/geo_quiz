@@ -22,7 +22,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 startActivity(
-                        new Intent(LoginActivity.this, StudentAccountCreation.class)
+                        new Intent(LoginActivity.this, StudentSignInActivity.class)
                 );
             }
         });
