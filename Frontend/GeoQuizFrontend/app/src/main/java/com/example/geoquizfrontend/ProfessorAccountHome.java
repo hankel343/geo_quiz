@@ -9,14 +9,15 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-public class StudentAccountHome extends AppCompatActivity {
+public class ProfessorAccountHome extends AppCompatActivity {
 
-    Button SignOutBtn, PlayQuizBtn, PastScoresBtn;
+    Button SignOutBtn, CreateClassBtn, ViewClassesBtn;
     TextView WelcomeText, EmailText;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_student_account_home);
+        setContentView(R.layout.activity_professor_account_home);
 
         SharedPreferences sharedPreferences = getSharedPreferences("UserInfo", MODE_PRIVATE);
 
@@ -30,16 +31,16 @@ public class StudentAccountHome extends AppCompatActivity {
         EmailText = (TextView) findViewById(R.id.email_text);
         EmailText.setText("Email: " + email);
 
-        PlayQuizBtn = (Button) findViewById(R.id.playQuizzes_btn);
-        PastScoresBtn = (Button) findViewById(R.id.pastScores_btn);
+        CreateClassBtn = (Button) findViewById(R.id.createClass_btn);
+        ViewClassesBtn = (Button) findViewById(R.id.viewClasses_btn);
         SignOutBtn = (Button) findViewById(R.id.signOut_btn);
 
-        PlayQuizBtn.setOnClickListener(new View.OnClickListener() {
+        CreateClassBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(
-                        new Intent(StudentAccountHome.this, GamescreenActivity.class)
-                );
+//                startActivity(
+//                        new Intent(ProfessorAccountHome.this, CreateClassActivity.class)
+//                );
             }
         });
 
@@ -51,7 +52,7 @@ public class StudentAccountHome extends AppCompatActivity {
                 editor.apply();
 
                 startActivity(
-                        new Intent(StudentAccountHome.this, MainActivity.class)
+                        new Intent(ProfessorAccountHome.this, MainActivity.class)
                 );
             }
         });

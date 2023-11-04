@@ -73,7 +73,7 @@ public class ProfessorAccountCreation extends AppCompatActivity {
 
                             Toast.makeText(getApplicationContext(), "Welcome, " + sharedPreferences.getString("firstName", ""), Toast.LENGTH_SHORT).show();
                             startActivity(
-                                    new Intent(ProfessorAccountCreation.this, StudentAccountHome.class)
+                                    new Intent(ProfessorAccountCreation.this, ProfessorAccountHome.class)
                             );
                         } else {
                             Toast.makeText(getApplicationContext(), "Failed to create account", Toast.LENGTH_SHORT).show();
