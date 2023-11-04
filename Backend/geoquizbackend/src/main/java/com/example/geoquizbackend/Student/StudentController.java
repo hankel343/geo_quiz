@@ -18,8 +18,13 @@ public class StudentController {
     Student getStudentById(@PathVariable long id) { return studentRepository.findById(id); }
     @GetMapping("/students/exists")
     public ResponseEntity<Boolean> existsByEmail(@RequestParam String email) {
-        boolean exists = studentRepository.existsbyEmail(email);
+        boolean exists = studentRepository.existsByEmail(email);
         return ResponseEntity.ok(exists);
+    }
+    @GetMapping("/students/authenticate")
+    public ResponseEntity<Boolean> authenticate(@RequestParam String email, @RequestParam String password) {
+        Student student = studentRepository.findByEmailAndPassword(email, password);
+        return ResponseEntity.ok(student != null);
     }
     @PostMapping(path = "/students")
     ResponseEntity<Student> createStudent(@RequestBody Student student) {
