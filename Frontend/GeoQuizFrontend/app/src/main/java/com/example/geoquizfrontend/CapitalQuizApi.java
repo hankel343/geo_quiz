@@ -18,18 +18,18 @@ public interface CapitalQuizApi {
     // country data endpoints
     @GET("countries/gameData")
     Call<ArrayList<GameData>> GetGameData(@Query("count") int count);
-
-    // Quiz endpoints
+    // quiz endpoints
     @PUT("quizzes/{id}")
     Call<CapitalQuiz> PutCapitalQuizByPath(@Path("id") int id, @Body CapitalQuiz newCapitalQuiz);
-
     @POST("quizzes")
     Call<CapitalQuiz> PostCapitalQuizByBody(@Body CapitalQuiz newCapitalQuiz);
-
     @GET("quizzes/{id}")
     Call<CapitalQuiz> GetCapitalQuizByPath(@Path("id") String id);
-
-    // Student endpoints
+    // student endpoints
+    @GET("/students/exists")
+    Call<Boolean> existsByEmail(@Query("email") String email);
+    @GET("/students/authenticate")
+    Call<Student> authenticate(@Query("email") String email, @Query("password") String password);
     @POST("/students")
     Call<Student> postNewStudent(@Body Student newStudent);
 }
