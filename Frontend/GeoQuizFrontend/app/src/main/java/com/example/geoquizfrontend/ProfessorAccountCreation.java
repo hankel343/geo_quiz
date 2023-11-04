@@ -1,5 +1,7 @@
 package com.example.geoquizfrontend;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -40,6 +42,12 @@ public class ProfessorAccountCreation extends AppCompatActivity {
                 String lastName = editTextLastName.getText().toString();
                 String email = editTextEmail.getText().toString();
                 String password = editTextPassword.getText().toString();
+                String confirmPassword = editTextConfirmPassword.getText().toString();
+
+                if (!password.equals(confirmPassword)) {
+                    Toast.makeText(getApplicationContext(), "Passwords do not match", Toast.LENGTH_SHORT).show();
+                    return;
+                }
 
                 Professor professor = new Professor();
                 professor.setFirstName(firstName);
@@ -53,8 +61,26 @@ public class ProfessorAccountCreation extends AppCompatActivity {
                 call.enqueue(new Callback<Professor>() {
                     @Override
                     public void onResponse(Call<Professor> call, Response<Professor> response) {
-                        // Similar to the StudentAccountCreation class
-                        // ...
+                        if (response.isSuccessful()) {
+                            // route to home page; success toast message
+                            Professor returnedProfessor = response.body();
+
+                            SharedPreferences sharedPreferences = getSharedPreferences("UserInfo", MODE_PRIVATE);
+                            SharedPreferences.Editor editor = sharedPreferences.edit();
+                            assert returnedProfessor != null;
+                            editor.putLong("id", returnedProfessor.getId());
+                            editor.putString("firstName", returnedProfessor.getFirstName());
+                            editor.putString("lastName", returnedProfessor.getLastName());
+                            editor.putString("email", returnedProfessor.getEmail());
+                            editor.apply();
+
+                            Toast.makeText(getApplicationContext(), "Welcome, " + sharedPreferences.getString("firstName", ""), Toast.LENGTH_SHORT).show();
+                            startActivity(
+                                    new Intent(ProfessorAccountCreation.this, AccountHomeActivity.class)
+                            );
+                        } else {
+                            Toast.makeText(getApplicationContext(), "Failed to create account", Toast.LENGTH_SHORT).show();
+                        }
                     }
 
                     @Override
