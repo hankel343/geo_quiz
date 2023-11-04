@@ -1,6 +1,7 @@
 package com.example.geoquizfrontend.services;
 
 import com.example.geoquizfrontend.models.CapitalQuiz;
+import com.example.geoquizfrontend.models.GameData;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -10,7 +11,6 @@ import retrofit2.http.PUT;
 import retrofit2.http.Path;
 
 public interface ApiService {
-
     @PUT("quizzes/{id}")
     Call<CapitalQuiz> PutCapitalQuizByPath(@Path("id") int id, @Body CapitalQuiz newCapitalQuiz);
 
