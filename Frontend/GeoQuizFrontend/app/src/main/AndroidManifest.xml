@@ -22,7 +22,7 @@
             android:name=".StudentSignInActivity"
             android:exported="false" />
         <activity
-            android:name=".AccountHomeActivity"
+            android:name=".StudentAccountHome"
             android:exported="false" />
         <activity
             android:name=".StudentAccountCreation"

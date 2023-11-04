@@ -10,9 +10,6 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.geoquizfrontend.ApiClientFactory;
-import com.example.geoquizfrontend.CapitalQuizApi;
-import com.example.geoquizfrontend.R;
 import com.example.geoquizfrontend.models.Professor;
 
 import retrofit2.Call;
@@ -76,7 +73,7 @@ public class ProfessorAccountCreation extends AppCompatActivity {
 
                             Toast.makeText(getApplicationContext(), "Welcome, " + sharedPreferences.getString("firstName", ""), Toast.LENGTH_SHORT).show();
                             startActivity(
-                                    new Intent(ProfessorAccountCreation.this, AccountHomeActivity.class)
+                                    new Intent(ProfessorAccountCreation.this, StudentAccountHome.class)
                             );
                         } else {
                             Toast.makeText(getApplicationContext(), "Failed to create account", Toast.LENGTH_SHORT).show();
