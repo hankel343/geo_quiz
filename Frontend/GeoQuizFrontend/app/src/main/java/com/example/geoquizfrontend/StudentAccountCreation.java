@@ -22,7 +22,7 @@ public class StudentAccountCreation extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_student_login);
+        setContentView(R.layout.activity_student_account_creation);
 
         EditText editTextFirstName = findViewById(R.id.firstName_text);
         EditText editTestLastName = findViewById(R.id.lastName_text);

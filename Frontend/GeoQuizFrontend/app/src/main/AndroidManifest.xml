@@ -19,6 +19,9 @@
             android:name=".ProfessorAccountCreation"
             android:exported="false" />
         <activity
+            android:name=".StudentSignInActivity"
+            android:exported="false" />
+        <activity
             android:name=".AccountHomeActivity"
             android:exported="false" />
         <activity
