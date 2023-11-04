@@ -15,8 +15,11 @@ import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 public interface CapitalQuizApi {
+    // country data endpoints
     @GET("countries/gameData")
     Call<ArrayList<GameData>> GetGameData(@Query("count") int count);
+
+    // Quiz endpoints
     @PUT("quizzes/{id}")
     Call<CapitalQuiz> PutCapitalQuizByPath(@Path("id") int id, @Body CapitalQuiz newCapitalQuiz);
 
@@ -26,6 +29,7 @@ public interface CapitalQuizApi {
     @GET("quizzes/{id}")
     Call<CapitalQuiz> GetCapitalQuizByPath(@Path("id") String id);
 
+    // Student endpoints
     @POST("/students")
     Call<Student> postNewStudent(@Body Student newStudent);
 }
