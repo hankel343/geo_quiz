@@ -6,4 +6,138 @@
     android:layout_height="match_parent"
     tools:context=".PopulationHiLo">
 
+    <TextView
+        android:id="@+id/PopulationRules1"
+        android:layout_width="300dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="50dp"
+        android:text="Is the population of"
+        android:textSize="24dp"
+        android:gravity="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/PopulationRules2"
+        android:layout_width="300dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="225dp"
+        android:text="Higher or Lower than"
+        android:textSize="24dp"
+        android:gravity="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/Countryone"
+        android:layout_width="150dp"
+        android:layout_height="75dp"
+        android:layout_marginTop="125dp"
+        android:gravity="center"
+        android:text="broken"
+        android:textSize="24dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.175"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+
+    <TextView
+        android:id="@+id/PopulationOne"
+        android:layout_width="150dp"
+        android:layout_height="75dp"
+        android:layout_marginTop="125dp"
+        android:gravity="center"
+        android:text="Unknown"
+        android:textSize="24dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.875"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/Countrytwo"
+        android:layout_width="150dp"
+        android:layout_height="75dp"
+        android:layout_marginTop="300dp"
+        android:text="broken"
+        android:textSize="24dp"
+        android:gravity="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintHorizontal_bias="0.175"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/Populationtwo"
+        android:layout_width="150dp"
+        android:layout_height="75dp"
+        android:layout_marginTop="300dp"
+        android:text="broken"
+        android:textSize="24dp"
+        android:gravity="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintHorizontal_bias="0.875"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/HigherBtn"
+        android:layout_width="150dp"
+        android:layout_height="75dp"
+        android:layout_marginBottom="250dp"
+        android:text="HIGHER"
+        android:textColor="@color/black"
+        android:backgroundTint="#00FF00"
+        android:textSize="26dp"
+        app:cornerRadius="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.175"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/LowerBtn"
+        android:layout_width="150dp"
+        android:layout_height="75dp"
+        android:layout_marginBottom="250dp"
+        android:text="LOWER"
+        android:textColor="@color/black"
+        android:backgroundTint="#FF0000"
+        android:textSize="26dp"
+        app:cornerRadius="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.875"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/PopScore"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="100dp"
+        android:gravity="center"
+        android:text="Score: NA"
+        android:textSize="24dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/HighPopScore"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="50dp"
+        android:gravity="center"
+        android:text="High Score: NA"
+        android:textSize="24dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

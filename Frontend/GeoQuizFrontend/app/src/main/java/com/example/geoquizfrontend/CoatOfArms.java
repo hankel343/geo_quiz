@@ -23,6 +23,7 @@ import com.squareup.picasso.Picasso;
 
 import java.io.InputStream;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -66,11 +67,11 @@ public class CoatOfArms extends AppCompatActivity {
         coatOfArmsPNG = findViewById(R.id.coatOfArms_id);
 
         CapitalQuizApi apiService = ApiClientFactory.GetCapitalQuizApi();
-        Call<List<GameData>> call = apiService.GetGameDataALL();
+        Call<ArrayList<GameData>> call = apiService.GetGameData(4);
 
-        call.enqueue(new Callback<List<GameData>>() {
+        call.enqueue(new Callback<ArrayList<GameData>>() {
             @Override
-            public void onResponse(Call<List<GameData>> call, Response<List<GameData>> response) {
+            public void onResponse(Call<ArrayList<GameData>> call, Response<ArrayList<GameData>> response) {
                 if (response.isSuccessful()) {
                     countryDataList = response.body();
                     gameTick();
@@ -80,7 +81,7 @@ public class CoatOfArms extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<List<GameData>> call, Throwable t) {
+            public void onFailure(Call<ArrayList<GameData>> call, Throwable t) {
 
             }
         });

@@ -11,7 +11,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 public class GamescreenActivity extends AppCompatActivity {
-    Button flagGame, capitalGame, continentsGame, coatOfArmsGame, AccountHome;
+    Button flagGame, capitalGame, continentsGame, coatOfArmsGame, AccountHome, populationHiLo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +26,7 @@ public class GamescreenActivity extends AppCompatActivity {
         continentsGame = (Button) findViewById(R.id.continents_btn);
         coatOfArmsGame = (Button) findViewById(R.id.coatOfArms_btn);
         AccountHome = (Button) findViewById(R.id.Account_btn);
+        populationHiLo = (Button) findViewById(R.id.PopulationHiLo_btn);
         
         // set text according to who is logged in
         AccountHome.setText(isLoggedIn ? "Account" : "Home");
@@ -61,6 +62,15 @@ public class GamescreenActivity extends AppCompatActivity {
             public void onClick(View view) {
                 startActivity(
                         new Intent(GamescreenActivity.this, CoatOfArms.class)
+                );
+            }
+        });
+
+        populationHiLo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(
+                        new Intent(GamescreenActivity.this, PopulationHiLo.class)
                 );
             }
         });
