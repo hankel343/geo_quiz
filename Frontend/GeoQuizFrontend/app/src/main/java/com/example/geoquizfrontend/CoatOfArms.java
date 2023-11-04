@@ -23,7 +23,12 @@ import com.squareup.picasso.Picasso;
 
 import java.io.InputStream;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class CoatOfArms extends AppCompatActivity {
     TextView GameText, ScoreText, TimerText;
@@ -60,27 +65,30 @@ public class CoatOfArms extends AppCompatActivity {
 
         // set image view
         coatOfArmsPNG = findViewById(R.id.coatOfArms_id);
-        
-        CountryService countryService = new CountryService(this);
-        countryNames = countryService.getCountryNames();
-        countryService.getData(response -> {
-            countryDataList = countryService.parseGameDataResponse(response);
-            System.out.println(countryDataList.size());
-        }, error -> {});
 
-        new android.os.Handler(Looper.getMainLooper()).postDelayed(
-                new Runnable() {
-                    @Override
-                    public void run() {
-                        gameTick();
-                    }
-                }, 2000);
-        startTimer();
-        updateTimer();
+        CapitalQuizApi apiService = ApiClientFactory.GetCapitalQuizApi();
+        Call<ArrayList<GameData>> call = apiService.GetGameData(4);
+
+        call.enqueue(new Callback<ArrayList<GameData>>() {
+            @Override
+            public void onResponse(Call<ArrayList<GameData>> call, Response<ArrayList<GameData>> response) {
+                if (response.isSuccessful()) {
+                    countryDataList = response.body();
+                    gameTick();
+                    startTimer();
+                    updateTimer();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ArrayList<GameData>> call, Throwable t) {
+
+            }
+        });
     }
 
     private void gameTick() {
-        RandomNumberGenerator optionIdx = new RandomNumberGenerator(countryNames.length);
+        RandomNumberGenerator optionIdx = new RandomNumberGenerator(countryDataList.size());
 
         correctAnsIdx = ansIdx.generate();
         key = countryDataList.get(correctAnsIdx);
@@ -92,30 +100,30 @@ public class CoatOfArms extends AppCompatActivity {
             case 0:
                 Opt0.setText(key.getName());
 
-                Opt1.setText(countryNames[optionIdx.generate()]);
-                Opt2.setText(countryNames[optionIdx.generate()]);
-                Opt3.setText(countryNames[optionIdx.generate()]);
+                Opt1.setText(countryDataList.get(optionIdx.generate()).getName());
+                Opt2.setText(countryDataList.get(optionIdx.generate()).getName());
+                Opt3.setText(countryDataList.get(optionIdx.generate()).getName());
                 break;
             case 1:
                 Opt1.setText(key.getName());
 
-                Opt0.setText(countryNames[optionIdx.generate()]);
-                Opt2.setText(countryNames[optionIdx.generate()]);
-                Opt3.setText(countryNames[optionIdx.generate()]);
+                Opt0.setText(countryDataList.get(optionIdx.generate()).getName());
+                Opt2.setText(countryDataList.get(optionIdx.generate()).getName());
+                Opt3.setText(countryDataList.get(optionIdx.generate()).getName());
                 break;
             case 2:
                 Opt2.setText(key.getName());
 
-                Opt0.setText(countryNames[optionIdx.generate()]);
-                Opt1.setText(countryNames[optionIdx.generate()]);
-                Opt3.setText(countryNames[optionIdx.generate()]);
+                Opt0.setText(countryDataList.get(optionIdx.generate()).getName());
+                Opt1.setText(countryDataList.get(optionIdx.generate()).getName());
+                Opt3.setText(countryDataList.get(optionIdx.generate()).getName());
                 break;
             case 3:
                 Opt3.setText(key.getName());
 
-                Opt0.setText(countryNames[optionIdx.generate()]);
-                Opt1.setText(countryNames[optionIdx.generate()]);
-                Opt2.setText(countryNames[optionIdx.generate()]);
+                Opt0.setText(countryDataList.get(optionIdx.generate()).getName());
+                Opt1.setText(countryDataList.get(optionIdx.generate()).getName());
+                Opt2.setText(countryDataList.get(optionIdx.generate()).getName());
                 break;
         }
 
