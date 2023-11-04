@@ -9,16 +9,18 @@ import java.util.List;
 
 @RestController
 public class StudentController {
-
     @Autowired
     StudentRepository studentRepository;
-
     @GetMapping(path = "/students")
     List<Student> getAllStudents() { return studentRepository.findAll(); }
 
     @GetMapping(path = "/students/{id}")
     Student getStudentById(@PathVariable long id) { return studentRepository.findById(id); }
-
+    @GetMapping("/students/exists")
+    public ResponseEntity<Boolean> existsByEmail(@RequestParam String email) {
+        boolean exists = studentRepository.existsbyEmail(email);
+        return ResponseEntity.ok(exists);
+    }
     @PostMapping(path = "/students")
     ResponseEntity<Student> createStudent(@RequestBody Student student) {
         if (student == null) {
@@ -32,7 +34,6 @@ public class StudentController {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-
     @PutMapping(path = "/students/{id}")
     Student updateStudent(@PathVariable long id, @RequestBody Student req) {
         Student student = studentRepository.findById(id);
@@ -43,7 +44,6 @@ public class StudentController {
         studentRepository.save(req);
         return studentRepository.findById(id);
     }
-
     @DeleteMapping(path = "students/{id}")
     String deleteStudent(@PathVariable long id) {
         studentRepository.deleteById(id);
