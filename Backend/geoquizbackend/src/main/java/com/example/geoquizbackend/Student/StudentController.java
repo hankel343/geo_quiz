@@ -22,9 +22,9 @@ public class StudentController {
         return ResponseEntity.ok(exists);
     }
     @GetMapping("/students/authenticate")
-    public ResponseEntity<Boolean> authenticate(@RequestParam String email, @RequestParam String password) {
+    public ResponseEntity<Student> authenticate(@RequestParam String email, @RequestParam String password) {
         Student student = studentRepository.findByEmailAndPassword(email, password);
-        return ResponseEntity.ok(student != null);
+        return ResponseEntity.ok(student);
     }
     @PostMapping(path = "/students")
     ResponseEntity<Student> createStudent(@RequestBody Student student) {
