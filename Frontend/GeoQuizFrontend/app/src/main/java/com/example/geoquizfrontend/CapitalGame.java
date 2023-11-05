@@ -1,6 +1,6 @@
 package com.example.geoquizfrontend;
 
-import static com.example.geoquizfrontend.ApiClientFactory.GetCapitalQuizApi;
+import static com.example.geoquizfrontend.ApiClientFactory.GetGeoQuizApi;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -22,7 +22,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.example.geoquizfrontend.models.CapitalQuiz;
+import com.example.geoquizfrontend.models.Quiz;
 import com.example.geoquizfrontend.models.GameData;
 
 import com.example.geoquizfrontend.services.CountryService;

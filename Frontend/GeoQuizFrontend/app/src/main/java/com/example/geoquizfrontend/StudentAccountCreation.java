@@ -11,6 +11,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.geoquizfrontend.models.Student;
+import com.example.geoquizfrontend.services.ApiService;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -54,7 +55,7 @@ public class StudentAccountCreation extends AppCompatActivity {
                     student.setPassword(password);
                     student.setClassCode(classCode);
 
-                    CapitalQuizApi apiService = ApiClientFactory.GetCapitalQuizApi();
+                    ApiService apiService = ApiClientFactory.GetGeoQuizApi();
                     Call<Student> call = apiService.postNewStudent(student);
 
                     call.enqueue(new Callback<Student>() {

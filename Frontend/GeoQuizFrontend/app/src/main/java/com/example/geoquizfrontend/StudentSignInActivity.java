@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.example.geoquizfrontend.models.Student;
+import com.example.geoquizfrontend.services.ApiService;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 
@@ -39,7 +40,7 @@ public class StudentSignInActivity extends AppCompatActivity {
                 String email = emailInput.getText().toString().trim();
                 String password = passwordInput.getText().toString().trim();
 
-                CapitalQuizApi api = ApiClientFactory.GetCapitalQuizApi();
+                ApiService api = ApiClientFactory.GetGeoQuizApi();
                 Call<Boolean> call = api.existsByEmail(email);
 
                 call.enqueue(new Callback<Boolean>() {

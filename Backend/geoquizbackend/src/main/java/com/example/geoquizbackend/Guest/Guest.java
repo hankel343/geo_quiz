@@ -11,14 +11,10 @@ public class Guest {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	long id;
-	
 	int score;
-	
 	String initials;
-	
 	@OneToMany
     Set<Quiz> q;
-
 	public Guest(){
 
 	}

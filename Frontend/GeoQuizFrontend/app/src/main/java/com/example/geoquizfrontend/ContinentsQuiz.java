@@ -1,19 +1,18 @@
 package com.example.geoquizfrontend;
 
-import static com.example.geoquizfrontend.ApiClientFactory.GetCapitalQuizApi;
+import static com.example.geoquizfrontend.ApiClientFactory.GetGeoQuizApi;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Looper;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.example.geoquizfrontend.models.CapitalQuiz;
+import com.example.geoquizfrontend.models.Quiz;
 import com.example.geoquizfrontend.models.GameData;
-import com.example.geoquizfrontend.services.CountryService;
+import com.example.geoquizfrontend.services.ApiService;
 import com.example.geoquizfrontend.services.RandomNumberGenerator;
 
 import java.util.ArrayList;
@@ -61,7 +60,7 @@ public class ContinentsQuiz extends AppCompatActivity {
         Opt3 = findViewById(R.id.opt3_btn);
 
 
-        CapitalQuizApi apiService = ApiClientFactory.GetCapitalQuizApi();
+        ApiService apiService = GetGeoQuizApi();
         Call<ArrayList<GameData>> call = apiService.GetGameData(4);
 
         call.enqueue(new Callback<ArrayList<GameData>>() {
@@ -189,9 +188,9 @@ public class ContinentsQuiz extends AppCompatActivity {
     private void checkGameOver() {
         rounds--;
         if (rounds <= 0) {
-            CapitalQuiz newCapitalQuiz = new CapitalQuiz();
-            newCapitalQuiz.setScore(score);
-            GetCapitalQuizApi().PostCapitalQuizByBody(newCapitalQuiz);
+            Quiz newQuiz = new Quiz();
+            newQuiz.setScore(score);
+            GetGeoQuizApi().PostCapitalQuizByBody(newQuiz);
             Intent intent = new Intent(ContinentsQuiz.this, ResultScreen.class);
             intent.putExtra("DurationText", Integer.toString(score));
             startActivity(intent);

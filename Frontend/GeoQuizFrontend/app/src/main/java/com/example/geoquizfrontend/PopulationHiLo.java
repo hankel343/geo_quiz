@@ -1,27 +1,21 @@
 package com.example.geoquizfrontend;
 
 import androidx.appcompat.app.AppCompatActivity;
-import static com.example.geoquizfrontend.ApiClientFactory.GetCapitalQuizApi;
 
 import android.graphics.Color;
 import android.os.Bundle;
-import android.os.Looper;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.geoquizfrontend.models.GameData;
-import com.example.geoquizfrontend.models.CapitalQuiz;
-import com.example.geoquizfrontend.services.CountryService;
-import com.example.geoquizfrontend.services.RandomNumberGenerator;
+import com.example.geoquizfrontend.services.ApiService;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.http.HEAD;
 
 public class PopulationHiLo extends AppCompatActivity {
     private TextView PopulationRules1, PopulationRules2, Countryone, PopulationOne, Countrytwo, PopulationTwo, PopScore, HighPopScore;
@@ -49,7 +43,7 @@ public class PopulationHiLo extends AppCompatActivity {
         HigherBtn = (Button) findViewById(R.id.HigherBtn);
         LowerBtn = (Button) findViewById(R.id.LowerBtn);
 
-        CapitalQuizApi apiService = ApiClientFactory.GetCapitalQuizApi();
+        ApiService apiService = ApiClientFactory.GetGeoQuizApi();
         Call<ArrayList<GameData>> call = apiService.GetGameData(2);
 
 
