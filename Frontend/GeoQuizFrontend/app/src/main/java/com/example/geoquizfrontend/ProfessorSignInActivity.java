@@ -17,7 +17,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class ProfessorSignInActiivity extends AppCompatActivity {
+public class ProfessorSignInActivity extends AppCompatActivity {
     private MaterialButton signInBtn, newUserBtn;
     private EditText emailInput, passwordInput;
     @Override
@@ -38,7 +38,7 @@ public class ProfessorSignInActiivity extends AppCompatActivity {
                 String password = passwordInput.getText().toString().trim();
 
                 ApiService api = ApiClientFactory.GetGeoQuizApi();
-                Call<Boolean> call = api.existsByEmail(email);
+                Call<Boolean> call = api.professorExistsByEmail(email);
 
                 call.enqueue(new Callback<Boolean>() {
                     @Override
@@ -91,5 +91,13 @@ public class ProfessorSignInActiivity extends AppCompatActivity {
             }
         });
 
+        newUserBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(
+                        new Intent(ProfessorSignInActivity.this, ProfessorAccountCreation.class)
+                );
+            }
+        });
     }
 }

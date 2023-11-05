@@ -41,7 +41,7 @@ public class StudentSignInActivity extends AppCompatActivity {
                 String password = passwordInput.getText().toString().trim();
 
                 ApiService api = ApiClientFactory.GetGeoQuizApi();
-                Call<Boolean> call = api.existsByEmail(email);
+                Call<Boolean> call = api.studentExistsByEmail(email);
 
                 call.enqueue(new Callback<Boolean>() {
                     @Override
