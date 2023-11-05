@@ -6,29 +6,28 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.Toast;
 
-import com.example.geoquizfrontend.models.Student;
+import com.example.geoquizfrontend.models.Professor;
 import com.example.geoquizfrontend.services.ApiService;
 import com.google.android.material.button.MaterialButton;
-import com.google.android.material.textfield.TextInputEditText;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class StudentSignInActivity extends AppCompatActivity {
-    private MaterialButton signInBtn;
-    private MaterialButton newUserBtn;
-    private TextInputEditText emailInput;
-    private TextInputEditText passwordInput;
+public class ProfessorSignInActivity extends AppCompatActivity {
+    private MaterialButton signInBtn, newUserBtn;
+    private EditText emailInput, passwordInput;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_student_sign_in);
+        setContentView(R.layout.activity_professor_sign_in_actiivity);
 
         signInBtn = findViewById(R.id.sign_in_btn);
         newUserBtn = findViewById(R.id.new_user_btn);
+
         emailInput = findViewById(R.id.email_input);
         passwordInput = findViewById(R.id.password_input);
 
@@ -39,7 +38,7 @@ public class StudentSignInActivity extends AppCompatActivity {
                 String password = passwordInput.getText().toString().trim();
 
                 ApiService api = ApiClientFactory.GetGeoQuizApi();
-                Call<Boolean> call = api.studentExistsByEmail(email);
+                Call<Boolean> call = api.professorExistsByEmail(email);
 
                 call.enqueue(new Callback<Boolean>() {
                     @Override
@@ -47,41 +46,39 @@ public class StudentSignInActivity extends AppCompatActivity {
                         if (response.isSuccessful()) {
                             boolean exists = response.body();
                             if (exists) {
-                                Call<Student> authenticateCall = api.authenticate(email, password);
-                                authenticateCall.enqueue(new Callback<Student>() {
+                                Call<Professor> authenticateCall = api.authenticateProfessor(email, password);
+                                authenticateCall.enqueue(new Callback<Professor>() {
                                     @Override
-                                    public void onResponse(Call<Student> call, Response<Student> response) {
+                                    public void onResponse(Call<Professor> call, Response<Professor> response) {
                                         if (response.isSuccessful()) {
-                                            // The student's information is retrieved
-                                            Student student = response.body();
+                                            // The professor's information is retrieved
+                                            Professor professor = response.body();
 
                                             SharedPreferences sharedPreferences = getSharedPreferences("UserInfo", MODE_PRIVATE);
                                             SharedPreferences.Editor editor = sharedPreferences.edit();
-                                            editor.putLong("id", student.getId());
-                                            editor.putString("firstName", student.getFirstName());
-                                            editor.putString("lastName", student.getLastName());
-                                            editor.putString("email", student.getEmail());
-                                            editor.putString("classCode", student.getClassCode());
-                                            editor.putFloat("grade", student.getGrade());
+                                            editor.putLong("id", professor.getId());
+                                            editor.putString("firstName", professor.getFirstName());
+                                            editor.putString("lastName", professor.getLastName());
+                                            editor.putString("email", professor.getEmail());
                                             editor.apply();
 
-                                            Toast.makeText(StudentSignInActivity.this, "Welcome, " + sharedPreferences.getString("firstName", ""), Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(ProfessorSignInActivity.this, "Welcome, " + sharedPreferences.getString("firstName", ""), Toast.LENGTH_SHORT).show();
                                             startActivity(
-                                                    new Intent(StudentSignInActivity.this, StudentAccountHome.class)
+                                                    new Intent(ProfessorSignInActivity.this, ProfessorAccountHome.class)
                                             );
                                         } else {
-                                            // The student is not authenticated
-                                            Toast.makeText(StudentSignInActivity.this, "Incorrect password", Toast.LENGTH_SHORT).show();
+                                            // The professor is not authenticated
+                                            Toast.makeText(ProfessorSignInActivity.this, "Incorrect password", Toast.LENGTH_SHORT).show();
                                         }
                                     }
 
                                     @Override
-                                    public void onFailure(Call<Student> call, Throwable t) {
+                                    public void onFailure(Call<Professor> call, Throwable t) {
                                         // Handle the error
                                     }
                                 });
                             } else {
-                                Toast.makeText(StudentSignInActivity.this, "No account associated with email: " + email, Toast.LENGTH_SHORT).show();
+                                Toast.makeText(ProfessorSignInActivity.this, "No account associated with email: " + email, Toast.LENGTH_SHORT).show();
                             }
                         }
                     }
@@ -93,11 +90,12 @@ public class StudentSignInActivity extends AppCompatActivity {
                 });
             }
         });
+
         newUserBtn.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
                 startActivity(
-                        new Intent(StudentSignInActivity.this, StudentAccountCreation.class)
+                        new Intent(ProfessorSignInActivity.this, ProfessorAccountCreation.class)
                 );
             }
         });

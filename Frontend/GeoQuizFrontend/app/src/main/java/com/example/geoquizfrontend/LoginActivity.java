@@ -32,7 +32,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 startActivity(
-                        new Intent(LoginActivity.this, ProfessorAccountCreation.class)
+                        new Intent(LoginActivity.this, ProfessorSignInActivity.class)
                 );
             }
         });

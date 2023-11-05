@@ -31,7 +31,7 @@ public interface ApiService {
     Call<Quiz> GetCapitalQuizByPath(@Path("id") String id);
     // student endpoints
     @GET("/students/exists")
-    Call<Boolean> existsByEmail(@Query("email") String email);
+    Call<Boolean> studentExistsByEmail(@Query("email") String email);
     @GET("/students/authenticate")
     Call<Student> authenticate(@Query("email") String email, @Query("password") String password);
     @POST("/students")
@@ -39,5 +39,8 @@ public interface ApiService {
     // professor endpoints
     @POST("/professors")
     Call<Professor> postNewProfessor(@Body Professor newProfessor);
-
+    @GET("/professors/authenticate")
+    Call<Professor> authenticateProfessor(@Query("email") String email, @Query("password") String password);
+    @GET("/professors/exists")
+    Call<Boolean> professorExistsByEmail(@Query("email") String email);
 }
