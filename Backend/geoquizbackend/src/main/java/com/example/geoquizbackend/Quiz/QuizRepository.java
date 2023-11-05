@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface QuizRepository extends JpaRepository<Quiz, Long> {
     Quiz findById(long id);
-    List<Quiz> findAllByOrderByScoreDesc();
+    List<Quiz> findTopNByOrderByScoreDesc(int n);
     @Transactional
     void deleteById(long id);
 }

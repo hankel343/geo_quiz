@@ -17,6 +17,10 @@ public class QuizController {
     Quiz getQuizById(@PathVariable long id) {
         return quizRepository.findById(id);
     }
+    @GetMapping(path = "/quizzes/top/{n}")
+    List<Quiz> getTopNQuizzes(@PathVariable int n) {
+        return quizRepository.findTopNByOrderByScoreDesc(n);
+    }
     @PostMapping(path = "/quizzes")
     @ResponseBody
     public Quiz createQuiz(@RequestBody Quiz quiz) {
