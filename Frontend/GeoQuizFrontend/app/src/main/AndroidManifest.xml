@@ -19,6 +19,12 @@
             android:name=".GuestLoginActivity"
             android:exported="false" />
         <activity
+            android:name=".LeaderboardScreen"
+            android:exported="false" />
+        <activity
+            android:name=".AccountHomeActivity"
+            android:exported="false" />
+        <activity
             android:name=".ProfessorAccountHome"
             android:exported="false" />
         <activity

@@ -28,7 +28,7 @@ public class ResultScreen extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_result_screen);
 
-        SharedPreferences sharedPreferences = getSharedPreferences("UserInfo", MODE_PRIVATE);
+//        SharedPreferences sharedPreferences = getSharedPreferences("UserInfo", MODE_PRIVATE);
 
         YourScore = (TextView) findViewById(R.id.YourScore);
         PlayAgainBtn = (Button) findViewById(R.id.playagain_btn);
