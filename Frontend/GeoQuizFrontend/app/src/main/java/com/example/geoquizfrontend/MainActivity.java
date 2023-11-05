@@ -26,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view){
                 startActivity(
-                        new Intent(MainActivity.this, GamescreenActivity.class)
+                        new Intent(MainActivity.this, GuestLoginActivity.class)
                 );
             }
         });
