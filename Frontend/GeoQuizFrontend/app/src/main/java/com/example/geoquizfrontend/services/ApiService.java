@@ -26,7 +26,7 @@ public interface ApiService {
     @POST("quizzes")
     Call<Quiz> PostCapitalQuizByBody(@Body Quiz newQuiz);
     @GET("/quizzes/top/{n}")
-    Call<List<Quiz>> GetLeaderboardScores(@Path("id") int n);
+    Call<List<Quiz>> GetLeaderboardScores(@Path("n") int n);
     @GET("quizzes/{id}")
     Call<Quiz> GetCapitalQuizByPath(@Path("id") String id);
     // student endpoints
