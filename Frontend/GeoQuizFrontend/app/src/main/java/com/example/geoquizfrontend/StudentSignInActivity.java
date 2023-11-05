@@ -18,12 +18,10 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class StudentSignInActivity extends AppCompatActivity {
-
     private MaterialButton signInBtn;
     private MaterialButton newUserBtn;
     private TextInputEditText emailInput;
     private TextInputEditText passwordInput;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -103,6 +101,5 @@ public class StudentSignInActivity extends AppCompatActivity {
                 );
             }
         });
-
     }
 }
