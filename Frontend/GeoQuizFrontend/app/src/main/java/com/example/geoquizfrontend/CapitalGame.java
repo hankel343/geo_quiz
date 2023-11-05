@@ -103,15 +103,7 @@ public class CapitalGame extends AppCompatActivity {
                 startStop();
                 if(answer == 0){
                     updateScore();
-                    question += 1;
-                    if (question > questions) {
-                        Quiz newCapitalQuiz = new Quiz();
-                        newCapitalQuiz.setScore(score);
-                        GetCapitalQuizApi().PostCapitalQuizByBody(newCapitalQuiz).enqueue(new SlimCallback<CapitalQuiz>(CapitalQuiz->{
-                        }));
-                        Intent intent = new Intent(CapitalGame.this, ResultScreen.class);
-                        startActivity(intent);
-                    }
+                    checkGameOver();
 
                     ApiService apiService = ApiClientFactory.GetGeoQuizApi();;
                     Call<ArrayList<GameData>> call = apiService.GetGameData(4);
@@ -144,15 +136,7 @@ public class CapitalGame extends AppCompatActivity {
                         }
                     });
                 }else{
-                    question += 1;
-                    if (question > questions) {
-                        Quiz newCapitalQuiz = new Quiz();
-                        newCapitalQuiz.setScore(score);
-                        GetCapitalQuizApi().PostCapitalQuizByBody(newCapitalQuiz).enqueue(new SlimCallback<CapitalQuiz>(CapitalQuiz->{
-                        }));
-                        Intent intent = new Intent(CapitalGame.this, ResultScreen.class);
-                        startActivity(intent);
-                    }
+                    checkGameOver();
 
                     ApiService apiService = ApiClientFactory.GetGeoQuizApi();
                     Call<ArrayList<GameData>> call = apiService.GetGameData(4);
@@ -193,15 +177,7 @@ public class CapitalGame extends AppCompatActivity {
                 startStop();
                 if(answer == 1){
                     updateScore();
-                    question += 1;
-                    if (question > questions) {
-                        Quiz newCapitalQuiz = new Quiz();
-                        newCapitalQuiz.setScore(score);
-                        GetCapitalQuizApi().PostCapitalQuizByBody(newCapitalQuiz).enqueue(new SlimCallback<CapitalQuiz>(CapitalQuiz->{
-                        }));
-                        Intent intent = new Intent(CapitalGame.this, ResultScreen.class);
-                        startActivity(intent);
-                    }
+                    checkGameOver();
 
                     ApiService apiService = ApiClientFactory.GetGeoQuizApi();
                     Call<ArrayList<GameData>> call = apiService.GetGameData(4);
@@ -234,15 +210,7 @@ public class CapitalGame extends AppCompatActivity {
                         }
                     });
                 }else{
-                    question += 1;
-                    if (question > questions) {
-                        Quiz newCapitalQuiz = new Quiz();
-                        newCapitalQuiz.setScore(score);
-                        GetCapitalQuizApi().PostCapitalQuizByBody(newCapitalQuiz).enqueue(new SlimCallback<CapitalQuiz>(CapitalQuiz->{
-                        }));
-                        Intent intent = new Intent(CapitalGame.this, ResultScreen.class);
-                        startActivity(intent);
-                    }
+                    checkGameOver();
 
                     ApiService apiService = ApiClientFactory.GetGeoQuizApi();
                     Call<ArrayList<GameData>> call = apiService.GetGameData(4);
@@ -283,15 +251,7 @@ public class CapitalGame extends AppCompatActivity {
                 startStop();
                 if(answer == 2){
                     updateScore();
-                    question += 1;
-                    if (question > questions) {
-                        Quiz newCapitalQuiz = new Quiz();
-                        newCapitalQuiz.setScore(score);
-                        GetGeoQuizApi().PutCapitalQuizByPath(1, newCapitalQuiz).enqueue(new SlimCallback<Quiz>(CapitalQuiz->{
-                        }));
-                        Intent intent = new Intent(CapitalGame.this, ResultScreen.class);
-                        startActivity(intent);
-                    }
+                    checkGameOver();
 
                     ApiService apiService = ApiClientFactory.GetGeoQuizApi();
                     Call<ArrayList<GameData>> call = apiService.GetGameData(4);
@@ -324,15 +284,7 @@ public class CapitalGame extends AppCompatActivity {
                         }
                     });
                 }else{
-                    question += 1;
-                    if (question > questions) {
-                        Quiz newCapitalQuiz = new Quiz();
-                        newCapitalQuiz.setScore(score);
-                        GetGeoQuizApi().PutCapitalQuizByPath(1, newCapitalQuiz).enqueue(new SlimCallback<Quiz>(CapitalQuiz->{
-                        }));
-                        Intent intent = new Intent(CapitalGame.this, ResultScreen.class);
-                        startActivity(intent);
-                    }
+                    checkGameOver();
 
                     ApiService apiService = ApiClientFactory.GetGeoQuizApi();
                     Call<ArrayList<GameData>> call = apiService.GetGameData(4);
@@ -373,15 +325,7 @@ public class CapitalGame extends AppCompatActivity {
                 startStop();
                 if(answer == 3){
                     updateScore();
-                    question += 1;
-                    if (question > questions) {
-                        Quiz newCapitalQuiz = new Quiz();
-                        newCapitalQuiz.setScore(score);
-                        GetGeoQuizApi().PutCapitalQuizByPath(1, newCapitalQuiz).enqueue(new SlimCallback<Quiz>(CapitalQuiz->{
-                        }));
-                        Intent intent = new Intent(CapitalGame.this, ResultScreen.class);
-                        startActivity(intent);
-                    }
+                    checkGameOver();
 
                     ApiService apiService = ApiClientFactory.GetGeoQuizApi();
                     Call<ArrayList<GameData>> call = apiService.GetGameData(4);
@@ -414,15 +358,7 @@ public class CapitalGame extends AppCompatActivity {
                         }
                     });
                 }else{
-                    question += 1;
-                    if (question > questions) {
-                        Quiz newCapitalQuiz = new Quiz();
-                        newCapitalQuiz.setScore(score);
-                        GetGeoQuizApi().PutCapitalQuizByPath(1, newCapitalQuiz).enqueue(new SlimCallback<Quiz>(CapitalQuiz->{
-                        }));
-                        Intent intent = new Intent(CapitalGame.this, ResultScreen.class);
-                        startActivity(intent);
-                    }
+                    checkGameOver();
 
                     ApiService apiService = ApiClientFactory.GetGeoQuizApi();
                     Call<ArrayList<GameData>> call = apiService.GetGameData(4);
@@ -515,5 +451,13 @@ public class CapitalGame extends AppCompatActivity {
     private void updateScore() {
         score += 1 + (5*(Math.toIntExact(timeLeftInMilliseconds) / 1000));
         ScoreText.setText("Score: " + Integer.toString(score));
+    }
+    private void checkGameOver() {
+        question += 1;
+        if (question > questions) {
+            Intent intent = new Intent(CapitalGame.this, ResultScreen.class);
+            intent.putExtra("score", score);
+            startActivity(intent);
+        }
     }
 }

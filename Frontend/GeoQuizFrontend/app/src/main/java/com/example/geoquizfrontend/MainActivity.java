@@ -9,7 +9,7 @@ import android.view.View;
 import android.widget.Button;
 
 public class MainActivity extends AppCompatActivity {
-    Button GuestButton, LoginButton;
+    Button GuestButton, LoginButton, LeaderboardButton;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -22,6 +22,7 @@ public class MainActivity extends AppCompatActivity {
 
         GuestButton = (Button) findViewById(R.id.GuestB);
         LoginButton = (Button) findViewById(R.id.LoginB);
+        LeaderboardButton = (Button) findViewById(R.id.LeaderboardB);
         GuestButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
@@ -35,6 +36,14 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view){
                 startActivity(
                         new Intent(MainActivity.this, LoginActivity.class)
+                );
+            }
+        });
+        LeaderboardButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                startActivity(
+                        new Intent(MainActivity.this, LeaderboardScreen.class)
                 );
             }
         });

@@ -6,6 +6,7 @@ import com.example.geoquizfrontend.models.Professor;
 import com.example.geoquizfrontend.models.Student;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -24,6 +25,8 @@ public interface ApiService {
     Call<Quiz> PutCapitalQuizByPath(@Path("id") int id, @Body Quiz newQuiz);
     @POST("quizzes")
     Call<Quiz> PostCapitalQuizByBody(@Body Quiz newQuiz);
+    @GET("/quizzes/top/{n}")
+    Call<List<Quiz>> GetLeaderboardScores(@Path("n") int n);
     @GET("quizzes/{id}")
     Call<Quiz> GetCapitalQuizByPath(@Path("id") String id);
     // student endpoints

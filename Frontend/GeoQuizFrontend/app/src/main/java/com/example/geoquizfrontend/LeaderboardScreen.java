@@ -9,10 +9,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.example.geoquizfrontend.models.CapitalQuiz;
 import com.example.geoquizfrontend.models.GameData;
+import com.example.geoquizfrontend.models.Quiz;
+import com.example.geoquizfrontend.services.ApiService;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -41,30 +43,30 @@ public class LeaderboardScreen extends AppCompatActivity {
         UpdateLeaderboardbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                CapitalQuizApi apiService = ApiClientFactory.GetCapitalQuizApi();
-                Call<ArrayList<GameData>> call = apiService.GetGameData(10);
-                call.enqueue(new Callback<ArrayList<GameData>>() {
+                ApiService apiService = ApiClientFactory.GetGeoQuizApi();
+                Call<List<Quiz>> call = apiService.GetLeaderboardScores(10);
+                call.enqueue(new Callback<List<Quiz>>() {
                     @Override
-                    public void onResponse(Call<ArrayList<GameData>> call, Response<ArrayList<GameData>> response) {
+                    public void onResponse(Call<List<Quiz>> call, Response<List<Quiz>> response) {
                         if (response.isSuccessful()) {
                             // assign game data objects here
                             // e.g.
-                            ArrayList<GameData> CapitalGame = response.body();
-//                            score1.setText(Integer.toString());
-//                            score2.setText(Integer.toString());
-//                            score3.setText(Integer.toString());
-//                            score4.setText(Integer.toString());
-//                            score5.setText(Integer.toString());
-//                            score6.setText(Integer.toString());
-//                            score7.setText(Integer.toString());
-//                            score8.setText(Integer.toString());
-//                            score9.setText(Integer.toString());
-//                            score10.setText(Integer.toString());
+                            List<Quiz> Leaderboard = response.body();
+                            score1.setText(Integer.toString(Leaderboard.get(0).getScore()));
+                            score2.setText(Integer.toString(Leaderboard.get(1).getScore()));
+                            score3.setText(Integer.toString(Leaderboard.get(2).getScore()));
+                            score4.setText(Integer.toString(Leaderboard.get(3).getScore()));
+                            score5.setText(Integer.toString(Leaderboard.get(4).getScore()));
+                            score6.setText(Integer.toString(Leaderboard.get(5).getScore()));
+                            score7.setText(Integer.toString(Leaderboard.get(6).getScore()));
+                            score8.setText(Integer.toString(Leaderboard.get(7).getScore()));
+                            score9.setText(Integer.toString(Leaderboard.get(8).getScore()));
+                            score10.setText(Integer.toString(Leaderboard.get(9).getScore()));
                         }
                     }
 
                     @Override
-                    public void onFailure(Call<ArrayList<GameData>> call, Throwable t) {
+                    public void onFailure(Call<List<Quiz>> call, Throwable t) {
 
                     }
                 });

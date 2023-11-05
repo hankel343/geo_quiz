@@ -1,9 +1,13 @@
 package com.example.geoquizbackend.Quiz;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 public class QuizController {
@@ -19,7 +23,9 @@ public class QuizController {
     }
     @GetMapping(path = "/quizzes/top/{n}")
     List<Quiz> getTopNQuizzes(@PathVariable int n) {
-        return quizRepository.findTopNByOrderByScoreDesc(n);
+        return quizRepository.findAllByOrderByScoreDesc().stream()
+                .limit(n)
+                .collect(Collectors.toList());
     }
     @PostMapping(path = "/quizzes")
     @ResponseBody
