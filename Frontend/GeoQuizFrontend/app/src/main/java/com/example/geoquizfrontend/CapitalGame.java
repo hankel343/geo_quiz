@@ -106,7 +106,7 @@ public class CapitalGame extends AppCompatActivity {
                     if (question > questions) {
                         CapitalQuiz newCapitalQuiz = new CapitalQuiz();
                         newCapitalQuiz.setScore(score);
-                        GetCapitalQuizApi().PutCapitalQuizByPath(1, newCapitalQuiz).enqueue(new SlimCallback<CapitalQuiz>(CapitalQuiz->{
+                        GetCapitalQuizApi().PostCapitalQuizByBody(newCapitalQuiz).enqueue(new SlimCallback<CapitalQuiz>(CapitalQuiz->{
                         }));
                         Intent intent = new Intent(CapitalGame.this, ResultScreen.class);
                         startActivity(intent);
@@ -147,7 +147,7 @@ public class CapitalGame extends AppCompatActivity {
                     if (question > questions) {
                         CapitalQuiz newCapitalQuiz = new CapitalQuiz();
                         newCapitalQuiz.setScore(score);
-                        GetCapitalQuizApi().PutCapitalQuizByPath(1, newCapitalQuiz).enqueue(new SlimCallback<CapitalQuiz>(CapitalQuiz->{
+                        GetCapitalQuizApi().PostCapitalQuizByBody(newCapitalQuiz).enqueue(new SlimCallback<CapitalQuiz>(CapitalQuiz->{
                         }));
                         Intent intent = new Intent(CapitalGame.this, ResultScreen.class);
                         startActivity(intent);
@@ -196,7 +196,7 @@ public class CapitalGame extends AppCompatActivity {
                     if (question > questions) {
                         CapitalQuiz newCapitalQuiz = new CapitalQuiz();
                         newCapitalQuiz.setScore(score);
-                        GetCapitalQuizApi().PutCapitalQuizByPath(1, newCapitalQuiz).enqueue(new SlimCallback<CapitalQuiz>(CapitalQuiz->{
+                        GetCapitalQuizApi().PostCapitalQuizByBody(newCapitalQuiz).enqueue(new SlimCallback<CapitalQuiz>(CapitalQuiz->{
                         }));
                         Intent intent = new Intent(CapitalGame.this, ResultScreen.class);
                         startActivity(intent);
@@ -237,7 +237,7 @@ public class CapitalGame extends AppCompatActivity {
                     if (question > questions) {
                         CapitalQuiz newCapitalQuiz = new CapitalQuiz();
                         newCapitalQuiz.setScore(score);
-                        GetCapitalQuizApi().PutCapitalQuizByPath(1, newCapitalQuiz).enqueue(new SlimCallback<CapitalQuiz>(CapitalQuiz->{
+                        GetCapitalQuizApi().PostCapitalQuizByBody(newCapitalQuiz).enqueue(new SlimCallback<CapitalQuiz>(CapitalQuiz->{
                         }));
                         Intent intent = new Intent(CapitalGame.this, ResultScreen.class);
                         startActivity(intent);
