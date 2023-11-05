@@ -1,6 +1,6 @@
 package com.example.geoquizbackend.Quiz;
 
-
+import com.example.geoquizbackend.Guest.Guest;
 import com.example.geoquizbackend.Student.Student;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
@@ -11,15 +11,13 @@ public class Quiz {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     long id;
-
     private int score;
-
     private double duration;
-
      @ManyToOne
      @JsonIgnore
      private Student student;
-
+     @ManyToOne
+     private Guest guest;
     public Quiz() {
 
     }
