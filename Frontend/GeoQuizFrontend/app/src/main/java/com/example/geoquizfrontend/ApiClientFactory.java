@@ -18,8 +18,8 @@ public class ApiClientFactory {
     }
 
 
-    public static CapitalQuizApi GetCapitalQuizApi(){
-        return GetApiClientSeed().create(CapitalQuizApi.class);
+    public static ApiService GetCapitalQuizApi(){
+        return GetApiClientSeed().create(ApiService.class);
     }
 
 

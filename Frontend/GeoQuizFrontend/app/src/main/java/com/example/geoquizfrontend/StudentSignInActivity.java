@@ -39,7 +39,7 @@ public class StudentSignInActivity extends AppCompatActivity {
                 String email = emailInput.getText().toString().trim();
                 String password = passwordInput.getText().toString().trim();
 
-                CapitalQuizApi api = ApiClientFactory.GetCapitalQuizApi();
+                ApiService api = ApiClientFactory.GetCapitalQuizApi();
                 Call<Boolean> call = api.existsByEmail(email);
 
                 call.enqueue(new Callback<Boolean>() {

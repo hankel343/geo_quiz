@@ -15,7 +15,7 @@ import retrofit2.http.PUT;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
-public interface CapitalQuizApi {
+public interface ApiService {
     // country data endpoints
     @GET("countries/gameData")
     Call<ArrayList<GameData>> GetGameData(@Query("count") int count);

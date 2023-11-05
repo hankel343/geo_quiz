@@ -59,7 +59,7 @@ public class ContinentsQuiz extends AppCompatActivity {
         Opt3 = findViewById(R.id.opt3_btn);
 
 
-        CapitalQuizApi apiService = ApiClientFactory.GetCapitalQuizApi();
+        ApiService apiService = ApiClientFactory.GetCapitalQuizApi();
         Call<ArrayList<GameData>> call = apiService.GetGameData(4);
 
         call.enqueue(new Callback<ArrayList<GameData>>() {

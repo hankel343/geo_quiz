@@ -42,7 +42,7 @@ public class PopulationHiLo extends AppCompatActivity {
         HigherBtn = (Button) findViewById(R.id.HigherBtn);
         LowerBtn = (Button) findViewById(R.id.LowerBtn);
 
-        CapitalQuizApi apiService = ApiClientFactory.GetCapitalQuizApi();
+        ApiService apiService = ApiClientFactory.GetCapitalQuizApi();
         Call<ArrayList<GameData>> call = apiService.GetGameData(2);
 
 

@@ -61,7 +61,7 @@ public class CoatOfArms extends AppCompatActivity {
         // set image view
         coatOfArmsPNG = findViewById(R.id.coatOfArms_id);
 
-        CapitalQuizApi apiService = ApiClientFactory.GetCapitalQuizApi();
+        ApiService apiService = ApiClientFactory.GetCapitalQuizApi();
         Call<ArrayList<GameData>> call = apiService.GetGameData(4);
 
         call.enqueue(new Callback<ArrayList<GameData>>() {
