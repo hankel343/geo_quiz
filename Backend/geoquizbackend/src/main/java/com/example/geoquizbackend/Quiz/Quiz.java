@@ -1,6 +1,6 @@
 package com.example.geoquizbackend.Quiz;
 
-
+import com.example.geoquizbackend.Guest.Guest;
 import com.example.geoquizbackend.Student.Student;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
