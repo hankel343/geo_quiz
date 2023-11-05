@@ -19,6 +19,10 @@ import com.example.geoquizfrontend.services.RandomNumberGenerator;
 import java.util.ArrayList;
 import java.util.List;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class ContinentsQuiz extends AppCompatActivity {
 
     TextView GameText, ScoreText;
@@ -57,23 +61,38 @@ public class ContinentsQuiz extends AppCompatActivity {
         Opt3 = findViewById(R.id.opt3_btn);
 
 
+        CapitalQuizApi apiService = ApiClientFactory.GetCapitalQuizApi();
+        Call<ArrayList<GameData>> call = apiService.GetGameData(4);
 
-        countryDataList = new ArrayList<>();
-        CountryService countryService = new CountryService(this);
-        countryService.getData(response -> {
-            countryDataList = countryService.parseGameDataResponse(response);
-            System.out.println(countryDataList.size());
-        }, error -> {});
+        call.enqueue(new Callback<ArrayList<GameData>>() {
+            @Override
+            public void onResponse(Call<ArrayList<GameData>> call, Response<ArrayList<GameData>> response) {
+                countryDataList = response.body();
+                gameTick();
+            }
 
-        new android.os.Handler(Looper.getMainLooper()).postDelayed(
-                new Runnable() {
-                    @Override
-                    public void run() {
+            @Override
+            public void onFailure(Call<ArrayList<GameData>> call, Throwable t) {
 
-                        gameTick();
-                    }
-                },
-        3000);
+            }
+        });
+
+//        countryDataList = new ArrayList<>();
+//        CountryService countryService = new CountryService(this);
+//        countryService.getData(response -> {
+//            countryDataList = countryService.parseGameDataResponse(response);
+//            System.out.println(countryDataList.size());
+//        }, error -> {});
+
+//        new android.os.Handler(Looper.getMainLooper()).postDelayed(
+//                new Runnable() {
+//                    @Override
+//                    public void run() {
+//
+//                        gameTick();
+//                    }
+//                },
+//        3000);
     }
 
     private void gameTick() {

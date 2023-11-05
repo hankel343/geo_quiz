@@ -22,7 +22,7 @@ public class StudentAccountCreation extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_student_login);
+        setContentView(R.layout.activity_student_account_creation);
 
         EditText editTextFirstName = findViewById(R.id.firstName_text);
         EditText editTestLastName = findViewById(R.id.lastName_text);
@@ -74,7 +74,7 @@ public class StudentAccountCreation extends AppCompatActivity {
 
                                 Toast.makeText(getApplicationContext(), "Welcome, " + sharedPreferences.getString("firstName", ""), Toast.LENGTH_SHORT).show();
                                 startActivity(
-                                        new Intent(StudentAccountCreation.this, AccountHomeActivity.class)
+                                        new Intent(StudentAccountCreation.this, StudentAccountHome.class)
                                 );
                             } else {
                                 Toast.makeText(getApplicationContext(), "Failed to create account", Toast.LENGTH_SHORT).show();

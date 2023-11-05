@@ -16,7 +16,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
-import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 
@@ -32,155 +31,431 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 
 public class CapitalGame extends AppCompatActivity {
     private TextView CapitalText, ScoreText, TimerText;
 
     static String whatQuestion, scoreText, whatAnswer;
-    static int Score, question;
-    private Button CapitalA1, CapitalA2, CapitalA3, CapitalA4, QuitBtn;
+    static int score, question, questions, answer;
+    private Button Countrybtn1, Countrybtn2, Countrybtn3, Countrybtn4, QuitBtn;
+    private String country1, country2, country3, country4, capitalQuestion;
     private CountDownTimer countDownTimer;
-    private long timeLeftInMilliseconds = 60000;
+    private long timeLeftInMilliseconds = 90000;
     private boolean timerRunning;
-    String URL_JSON_OBJECT = "https://b137d5c3-5a11-4d97-bcb0-56f3fb9dedc3.mock.pstmn.io/Object/1";
-    List<GameData> countryDataList;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_capital_game);
 
-        // Create CountryService object to retrieve raw game data
-        countryDataList = new ArrayList<>();
-        CountryService countryService = new CountryService(this);
-        countryService.getData(response -> {
-            countryDataList = countryService.parseGameDataResponse(response);
-            System.out.println(countryDataList.size());
-        }, error -> {});
-
-        new android.os.Handler(Looper.getMainLooper()).postDelayed(
-                new Runnable() {
-                    @Override
-                    public void run() {
-                        makeJsonObjReq();
-                    }
-                },
-                3000);
-
         CapitalText = (TextView) findViewById(R.id.gameText);
         ScoreText = (TextView) findViewById(R.id.ScoreText);
         TimerText = (TextView) findViewById(R.id.timer);
-        CapitalA1 = (Button) findViewById(R.id.opt0_btn);
-        CapitalA2 = (Button) findViewById(R.id.opt1_btn);
-        CapitalA3 = (Button) findViewById(R.id.opt2_btn);
-        CapitalA4 = (Button) findViewById(R.id.opt3_btn);
+        Countrybtn1 = (Button) findViewById(R.id.opt0_btn);
+        Countrybtn2 = (Button) findViewById(R.id.opt1_btn);
+        Countrybtn3 = (Button) findViewById(R.id.opt2_btn);
+        Countrybtn4 = (Button) findViewById(R.id.opt3_btn);
         QuitBtn = (Button) findViewById(R.id.quit_btn);
+
+        questions = 5;
         question = 1;
 
-        startTimer();
-        updateTimer();
-        CapitalA1.setOnClickListener(new View.OnClickListener(){
+        CapitalQuizApi apiService = ApiClientFactory.GetCapitalQuizApi();
+        Call<ArrayList<GameData>> call = apiService.GetGameData(4);
+
+
+        call.enqueue(new Callback<ArrayList<GameData>>() {
             @Override
-            public void onClick(View view){
-                startStop();
-                if(getWhatAnswer().toString().trim().equals("1")) {
-                    Score = Score + 1 + (5*(Math.toIntExact(timeLeftInMilliseconds) / 1000));
-                    scoreText = Integer.toString(Score);
-                    ScoreText.setText("Score: " + scoreText);
+            public void onResponse(Call<ArrayList<GameData>> call, Response<ArrayList<GameData>> response) {
+                if (response.isSuccessful()) {
+                    // assign game data objects here
+                    // e.g.
+                    answer = getRandomNumber(0, 3);
+                    ArrayList<GameData> CapitalGame = response.body();
+                    country1 = CapitalGame.get(0).getName();
+                    country2 = CapitalGame.get(1).getName();
+                    country3 = CapitalGame.get(2).getName();
+                    country4 = CapitalGame.get(3).getName();
+                    capitalQuestion = CapitalGame.get(answer).getCapital();
+                    Countrybtn1.setText(country1);
+                    Countrybtn2.setText(country2);
+                    Countrybtn3.setText(country3);
+                    Countrybtn4.setText(country4);
+                    CapitalText.setText("What country has " + capitalQuestion + " as their capital?");
+                    startTimer();
                 }
-                question = question + 1;
-                if (question > 5) {
-                    CapitalQuiz newCapitalQuiz = new CapitalQuiz();
-                    newCapitalQuiz.setScore(Score);
-                    GetCapitalQuizApi().PostCapitalQuizByBody(newCapitalQuiz);
-                    Intent intent = new Intent(CapitalGame.this, ResultScreen.class);
-                    intent.putExtra("DurationText", scoreText);
-                    startActivity(intent);
-                }
-                whatQuestion = Integer.toString(question);
-                URL_JSON_OBJECT = "https://b137d5c3-5a11-4d97-bcb0-56f3fb9dedc3.mock.pstmn.io/Object/" + whatQuestion;
-                makeJsonObjReq();
-                timeLeftInMilliseconds = 60000;
-                startStop();
             }
 
-        });
-        CapitalA2.setOnClickListener(new View.OnClickListener(){
             @Override
-            public void onClick(View view){
-                startStop();
-                if(getWhatAnswer().toString().trim().equals("2")){
-                    Score = Score + 1 + (5*(Math.toIntExact(timeLeftInMilliseconds) / 1000));
-                    scoreText = Integer.toString(Score);
-                    ScoreText.setText("Score: " + scoreText);
-                }
-                question = question + 1;
-                if (question > 5) {
-                    CapitalQuiz newCapitalQuiz = new CapitalQuiz();
-                    newCapitalQuiz.setScore(Score);
-                    GetCapitalQuizApi().PostCapitalQuizByBody(newCapitalQuiz);
-                    Intent intent = new Intent(CapitalGame.this, ResultScreen.class);
-                    intent.putExtra("DurationText", scoreText);
-                    startActivity(intent);
-                }
-                whatQuestion = Integer.toString(question);
-                URL_JSON_OBJECT = "https://b137d5c3-5a11-4d97-bcb0-56f3fb9dedc3.mock.pstmn.io/Object/" + whatQuestion;
-                makeJsonObjReq();
-                timeLeftInMilliseconds = 60000;
-                startStop();
-            }
-        });
-        CapitalA3.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view){
-                startStop();
-                if(getWhatAnswer().toString().trim().equals("3")){
-                    Score = Score + 1 + (5*(Math.toIntExact(timeLeftInMilliseconds) / 1000));
-                    scoreText = Integer.toString(Score);
-                    ScoreText.setText("Score: " + scoreText);
-                }
-                question = question + 1;
-                if (question > 5) {
-                   CapitalQuiz newCapitalQuiz = new CapitalQuiz();
-                   newCapitalQuiz.setScore(Score);
-                   GetCapitalQuizApi().PostCapitalQuizByBody(newCapitalQuiz);
-                   Intent intent = new Intent(CapitalGame.this, ResultScreen.class);
-                   intent.putExtra("DurationText", scoreText);
-                   startActivity(intent);
-                }
-                whatQuestion = Integer.toString(question);
-                URL_JSON_OBJECT = "https://b137d5c3-5a11-4d97-bcb0-56f3fb9dedc3.mock.pstmn.io/Object/" + whatQuestion;
-                makeJsonObjReq();
-                timeLeftInMilliseconds = 60000;
-                startStop();
-            }
-        });
-        CapitalA4.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view){
-                startStop();
-                if(getWhatAnswer().toString().trim().equals("4")){
-                    Score = Score + 1 + (5*(Math.toIntExact(timeLeftInMilliseconds) / 1000));
-                    scoreText = Integer.toString(Score);
-                    ScoreText.setText("Score: " + scoreText);
-                }
-                question = question + 1;
-                if (question > 5) {
-                    CapitalQuiz newCapitalQuiz = new CapitalQuiz();
-                    newCapitalQuiz.setScore(Score);
-                    GetCapitalQuizApi().PostCapitalQuizByBody(newCapitalQuiz);
-                    Intent intent = new Intent(CapitalGame.this, ResultScreen.class);
-                    intent.putExtra("DurationText", scoreText);
-                    startActivity(intent);
-                }
-                whatQuestion = Integer.toString(question);
-                URL_JSON_OBJECT = "https://b137d5c3-5a11-4d97-bcb0-56f3fb9dedc3.mock.pstmn.io/Object/" + whatQuestion;
-                makeJsonObjReq();
-                timeLeftInMilliseconds = 60000;
-                startStop();
-            }
-        });
+            public void onFailure(Call<ArrayList<GameData>> call, Throwable t) {
 
+            }
+        });
+        Countrybtn1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startStop();
+                if(answer == 0){
+                    updateScore();
+                    question += 1;
+                    if (question > questions) {
+                        CapitalQuiz newCapitalQuiz = new CapitalQuiz();
+                        newCapitalQuiz.setScore(score);
+                        GetCapitalQuizApi().PutCapitalQuizByPath(1, newCapitalQuiz).enqueue(new SlimCallback<CapitalQuiz>(CapitalQuiz->{
+                        }));
+                        Intent intent = new Intent(CapitalGame.this, ResultScreen.class);
+                        startActivity(intent);
+                    }
+
+                    CapitalQuizApi apiService = ApiClientFactory.GetCapitalQuizApi();
+                    Call<ArrayList<GameData>> call = apiService.GetGameData(4);
+                    call.enqueue(new Callback<ArrayList<GameData>>() {
+                        @Override
+                        public void onResponse(Call<ArrayList<GameData>> call, Response<ArrayList<GameData>> response) {
+                            if (response.isSuccessful()) {
+                                // assign game data objects here
+                                // e.g.
+                                answer = getRandomNumber(0, 3);
+                                ArrayList<GameData> CapitalGame = response.body();
+                                country1 = CapitalGame.get(0).getName();
+                                country2 = CapitalGame.get(1).getName();
+                                country3 = CapitalGame.get(2).getName();
+                                country4 = CapitalGame.get(3).getName();
+                                capitalQuestion = CapitalGame.get(answer).getCapital();
+                                Countrybtn1.setText(country1);
+                                Countrybtn2.setText(country2);
+                                Countrybtn3.setText(country3);
+                                Countrybtn4.setText(country4);
+                                CapitalText.setText("What country has " + capitalQuestion + " as their capital?");
+                                timeLeftInMilliseconds = 90000;
+                                startStop();
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<ArrayList<GameData>> call, Throwable t) {
+
+                        }
+                    });
+                }else{
+                    question += 1;
+                    if (question > questions) {
+                        CapitalQuiz newCapitalQuiz = new CapitalQuiz();
+                        newCapitalQuiz.setScore(score);
+                        GetCapitalQuizApi().PutCapitalQuizByPath(1, newCapitalQuiz).enqueue(new SlimCallback<CapitalQuiz>(CapitalQuiz->{
+                        }));
+                        Intent intent = new Intent(CapitalGame.this, ResultScreen.class);
+                        startActivity(intent);
+                    }
+
+                    CapitalQuizApi apiService = ApiClientFactory.GetCapitalQuizApi();
+                    Call<ArrayList<GameData>> call = apiService.GetGameData(4);
+                    call.enqueue(new Callback<ArrayList<GameData>>() {
+                        @Override
+                        public void onResponse(Call<ArrayList<GameData>> call, Response<ArrayList<GameData>> response) {
+                            if (response.isSuccessful()) {
+                                // assign game data objects here
+                                // e.g.
+                                answer = getRandomNumber(0, 3);
+                                ArrayList<GameData> CapitalGame = response.body();
+                                country1 = CapitalGame.get(0).getName();
+                                country2 = CapitalGame.get(1).getName();
+                                country3 = CapitalGame.get(2).getName();
+                                country4 = CapitalGame.get(3).getName();
+                                capitalQuestion = CapitalGame.get(answer).getCapital();
+                                Countrybtn1.setText(country1);
+                                Countrybtn2.setText(country2);
+                                Countrybtn3.setText(country3);
+                                Countrybtn4.setText(country4);
+                                CapitalText.setText("What country has " + capitalQuestion + " as their capital?");
+                                timeLeftInMilliseconds = 90000;
+                                startStop();
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<ArrayList<GameData>> call, Throwable t) {
+
+                        }
+                    });
+                }
+            }
+        });
+        Countrybtn2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startStop();
+                if(answer == 1){
+                    updateScore();
+                    question += 1;
+                    if (question > questions) {
+                        CapitalQuiz newCapitalQuiz = new CapitalQuiz();
+                        newCapitalQuiz.setScore(score);
+                        GetCapitalQuizApi().PutCapitalQuizByPath(1, newCapitalQuiz).enqueue(new SlimCallback<CapitalQuiz>(CapitalQuiz->{
+                        }));
+                        Intent intent = new Intent(CapitalGame.this, ResultScreen.class);
+                        startActivity(intent);
+                    }
+
+                    CapitalQuizApi apiService = ApiClientFactory.GetCapitalQuizApi();
+                    Call<ArrayList<GameData>> call = apiService.GetGameData(4);
+                    call.enqueue(new Callback<ArrayList<GameData>>() {
+                        @Override
+                        public void onResponse(Call<ArrayList<GameData>> call, Response<ArrayList<GameData>> response) {
+                            if (response.isSuccessful()) {
+                                // assign game data objects here
+                                // e.g.
+                                answer = getRandomNumber(0, 3);
+                                ArrayList<GameData> CapitalGame = response.body();
+                                country1 = CapitalGame.get(0).getName();
+                                country2 = CapitalGame.get(1).getName();
+                                country3 = CapitalGame.get(2).getName();
+                                country4 = CapitalGame.get(3).getName();
+                                capitalQuestion = CapitalGame.get(answer).getCapital();
+                                Countrybtn1.setText(country1);
+                                Countrybtn2.setText(country2);
+                                Countrybtn3.setText(country3);
+                                Countrybtn4.setText(country4);
+                                CapitalText.setText("What country has " + capitalQuestion + " as their capital?");
+                                timeLeftInMilliseconds = 90000;
+                                startStop();
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<ArrayList<GameData>> call, Throwable t) {
+
+                        }
+                    });
+                }else{
+                    question += 1;
+                    if (question > questions) {
+                        CapitalQuiz newCapitalQuiz = new CapitalQuiz();
+                        newCapitalQuiz.setScore(score);
+                        GetCapitalQuizApi().PutCapitalQuizByPath(1, newCapitalQuiz).enqueue(new SlimCallback<CapitalQuiz>(CapitalQuiz->{
+                        }));
+                        Intent intent = new Intent(CapitalGame.this, ResultScreen.class);
+                        startActivity(intent);
+                    }
+
+                    CapitalQuizApi apiService = ApiClientFactory.GetCapitalQuizApi();
+                    Call<ArrayList<GameData>> call = apiService.GetGameData(4);
+                    call.enqueue(new Callback<ArrayList<GameData>>() {
+                        @Override
+                        public void onResponse(Call<ArrayList<GameData>> call, Response<ArrayList<GameData>> response) {
+                            if (response.isSuccessful()) {
+                                // assign game data objects here
+                                // e.g.
+                                answer = getRandomNumber(0, 3);
+                                ArrayList<GameData> CapitalGame = response.body();
+                                country1 = CapitalGame.get(0).getName();
+                                country2 = CapitalGame.get(1).getName();
+                                country3 = CapitalGame.get(2).getName();
+                                country4 = CapitalGame.get(3).getName();
+                                capitalQuestion = CapitalGame.get(answer).getCapital();
+                                Countrybtn1.setText(country1);
+                                Countrybtn2.setText(country2);
+                                Countrybtn3.setText(country3);
+                                Countrybtn4.setText(country4);
+                                CapitalText.setText("What country has " + capitalQuestion + " as their capital?");
+                                timeLeftInMilliseconds = 90000;
+                                startStop();
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<ArrayList<GameData>> call, Throwable t) {
+
+                        }
+                    });
+                }
+            }
+        });
+        Countrybtn3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startStop();
+                if(answer == 2){
+                    updateScore();
+                    question += 1;
+                    if (question > questions) {
+                        CapitalQuiz newCapitalQuiz = new CapitalQuiz();
+                        newCapitalQuiz.setScore(score);
+                        GetCapitalQuizApi().PutCapitalQuizByPath(1, newCapitalQuiz).enqueue(new SlimCallback<CapitalQuiz>(CapitalQuiz->{
+                        }));
+                        Intent intent = new Intent(CapitalGame.this, ResultScreen.class);
+                        startActivity(intent);
+                    }
+
+                    CapitalQuizApi apiService = ApiClientFactory.GetCapitalQuizApi();
+                    Call<ArrayList<GameData>> call = apiService.GetGameData(4);
+                    call.enqueue(new Callback<ArrayList<GameData>>() {
+                        @Override
+                        public void onResponse(Call<ArrayList<GameData>> call, Response<ArrayList<GameData>> response) {
+                            if (response.isSuccessful()) {
+                                // assign game data objects here
+                                // e.g.
+                                answer = getRandomNumber(0, 3);
+                                ArrayList<GameData> CapitalGame = response.body();
+                                country1 = CapitalGame.get(0).getName();
+                                country2 = CapitalGame.get(1).getName();
+                                country3 = CapitalGame.get(2).getName();
+                                country4 = CapitalGame.get(3).getName();
+                                capitalQuestion = CapitalGame.get(answer).getCapital();
+                                Countrybtn1.setText(country1);
+                                Countrybtn2.setText(country2);
+                                Countrybtn3.setText(country3);
+                                Countrybtn4.setText(country4);
+                                CapitalText.setText("What country has " + capitalQuestion + " as their capital?");
+                                timeLeftInMilliseconds = 90000;
+                                startStop();
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<ArrayList<GameData>> call, Throwable t) {
+
+                        }
+                    });
+                }else{
+                    question += 1;
+                    if (question > questions) {
+                        CapitalQuiz newCapitalQuiz = new CapitalQuiz();
+                        newCapitalQuiz.setScore(score);
+                        GetCapitalQuizApi().PutCapitalQuizByPath(1, newCapitalQuiz).enqueue(new SlimCallback<CapitalQuiz>(CapitalQuiz->{
+                        }));
+                        Intent intent = new Intent(CapitalGame.this, ResultScreen.class);
+                        startActivity(intent);
+                    }
+
+                    CapitalQuizApi apiService = ApiClientFactory.GetCapitalQuizApi();
+                    Call<ArrayList<GameData>> call = apiService.GetGameData(4);
+                    call.enqueue(new Callback<ArrayList<GameData>>() {
+                        @Override
+                        public void onResponse(Call<ArrayList<GameData>> call, Response<ArrayList<GameData>> response) {
+                            if (response.isSuccessful()) {
+                                // assign game data objects here
+                                // e.g.
+                                answer = getRandomNumber(0, 3);
+                                ArrayList<GameData> CapitalGame = response.body();
+                                country1 = CapitalGame.get(0).getName();
+                                country2 = CapitalGame.get(1).getName();
+                                country3 = CapitalGame.get(2).getName();
+                                country4 = CapitalGame.get(3).getName();
+                                capitalQuestion = CapitalGame.get(answer).getCapital();
+                                Countrybtn1.setText(country1);
+                                Countrybtn2.setText(country2);
+                                Countrybtn3.setText(country3);
+                                Countrybtn4.setText(country4);
+                                CapitalText.setText("What country has " + capitalQuestion + " as their capital?");
+                                timeLeftInMilliseconds = 90000;
+                                startStop();
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<ArrayList<GameData>> call, Throwable t) {
+
+                        }
+                    });
+                }
+            }
+        });
+        Countrybtn4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startStop();
+                if(answer == 3){
+                    updateScore();
+                    question += 1;
+                    if (question > questions) {
+                        CapitalQuiz newCapitalQuiz = new CapitalQuiz();
+                        newCapitalQuiz.setScore(score);
+                        GetCapitalQuizApi().PutCapitalQuizByPath(1, newCapitalQuiz).enqueue(new SlimCallback<CapitalQuiz>(CapitalQuiz->{
+                        }));
+                        Intent intent = new Intent(CapitalGame.this, ResultScreen.class);
+                        startActivity(intent);
+                    }
+
+                    CapitalQuizApi apiService = ApiClientFactory.GetCapitalQuizApi();
+                    Call<ArrayList<GameData>> call = apiService.GetGameData(4);
+                    call.enqueue(new Callback<ArrayList<GameData>>() {
+                        @Override
+                        public void onResponse(Call<ArrayList<GameData>> call, Response<ArrayList<GameData>> response) {
+                            if (response.isSuccessful()) {
+                                // assign game data objects here
+                                // e.g.
+                                answer = getRandomNumber(0, 3);
+                                ArrayList<GameData> CapitalGame = response.body();
+                                country1 = CapitalGame.get(0).getName();
+                                country2 = CapitalGame.get(1).getName();
+                                country3 = CapitalGame.get(2).getName();
+                                country4 = CapitalGame.get(3).getName();
+                                capitalQuestion = CapitalGame.get(answer).getCapital();
+                                Countrybtn1.setText(country1);
+                                Countrybtn2.setText(country2);
+                                Countrybtn3.setText(country3);
+                                Countrybtn4.setText(country4);
+                                CapitalText.setText("What country has " + capitalQuestion + " as their capital?");
+                                timeLeftInMilliseconds = 90000;
+                                startStop();
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<ArrayList<GameData>> call, Throwable t) {
+
+                        }
+                    });
+                }else{
+                    question += 1;
+                    if (question > questions) {
+                        CapitalQuiz newCapitalQuiz = new CapitalQuiz();
+                        newCapitalQuiz.setScore(score);
+                        GetCapitalQuizApi().PutCapitalQuizByPath(1, newCapitalQuiz).enqueue(new SlimCallback<CapitalQuiz>(CapitalQuiz->{
+                        }));
+                        Intent intent = new Intent(CapitalGame.this, ResultScreen.class);
+                        startActivity(intent);
+                    }
+
+                    CapitalQuizApi apiService = ApiClientFactory.GetCapitalQuizApi();
+                    Call<ArrayList<GameData>> call = apiService.GetGameData(4);
+                    call.enqueue(new Callback<ArrayList<GameData>>() {
+                        @Override
+                        public void onResponse(Call<ArrayList<GameData>> call, Response<ArrayList<GameData>> response) {
+                            if (response.isSuccessful()) {
+                                // assign game data objects here
+                                // e.g.
+                                answer = getRandomNumber(0, 3);
+                                ArrayList<GameData> CapitalGame = response.body();
+                                country1 = CapitalGame.get(0).getName();
+                                country2 = CapitalGame.get(1).getName();
+                                country3 = CapitalGame.get(2).getName();
+                                country4 = CapitalGame.get(3).getName();
+                                capitalQuestion = CapitalGame.get(answer).getCapital();
+                                Countrybtn1.setText(country1);
+                                Countrybtn2.setText(country2);
+                                Countrybtn3.setText(country3);
+                                Countrybtn4.setText(country4);
+                                CapitalText.setText("What country has " + capitalQuestion + " as their capital?");
+                                timeLeftInMilliseconds = 90000;
+                                startStop();
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<ArrayList<GameData>> call, Throwable t) {
+
+                        }
+                    });
+                }
+            }
+        });
         QuitBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -188,72 +463,11 @@ public class CapitalGame extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+
     }
-    private void makeJsonObjReq() {
-        JsonObjectRequest jsonObjReq = new JsonObjectRequest(
-                Request.Method.GET,
-                URL_JSON_OBJECT,
-                null, // Pass null as the request body since it's a GET request
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        Log.d("Volley Response", response.toString());
-                        try {
-                            // Parse JSON object data
-                            String capital = response.getString("capital");
-                            String capitalB1 = response.getString("buttonone");
-                            String capitalB2 = response.getString("buttontwo");
-                            String capitalB3 = response.getString("buttonthree");
-                            String capitalB4 = response.getString("buttonfour");
-                            String answerQ = response.getString("answer");
-                            // Populate text views with the parsed data
-                            CapitalText.setText("What country has the capital " + countryDataList.get(0).getCapital() + "?");
-                            CapitalA1.setText(capitalB1);
-                            CapitalA2.setText(capitalB2);
-                            CapitalA3.setText(capitalB3);
-                            CapitalA4.setText(capitalB4);
-                            setWhatAnswer(answerQ);
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Log.e("Volley Error", error.toString());
-                    }
-                }
-        ) {
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                HashMap<String, String> headers = new HashMap<String, String>();
-//                headers.put("Authorization", "Bearer YOUR_ACCESS_TOKEN");
-//                headers.put("Content-Type", "application/json");
-                return headers;
-            }
-
-            @Override
-            protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<String, String>();
-//                params.put("param1", "value1");
-//                params.put("param2", "value2");
-                return params;
-            }
-        };
-
-        // Adding request to request queue
-        VolleySingleton.getInstance(getApplicationContext()).addToRequestQueue(jsonObjReq);
-    }
-    public String getWhatAnswer()
-    {
-        return whatAnswer;
-    }
-
-    public void setWhatAnswer(String whatAnswer)
-    {
-        this.whatAnswer = whatAnswer;
+    public static int getRandomNumber(int min, int max) {
+        return (new Random()).nextInt((max - min) + 1) + min;
     }
     public void startStop(){
         if(timerRunning){
@@ -297,5 +511,8 @@ public class CapitalGame extends AppCompatActivity {
 
         TimerText.setText(timeLeftText);
     }
-
+    private void updateScore() {
+        score += 1 + (5*(Math.toIntExact(timeLeftInMilliseconds) / 1000));
+        ScoreText.setText("Score: " + Integer.toString(score));
+    }
 }

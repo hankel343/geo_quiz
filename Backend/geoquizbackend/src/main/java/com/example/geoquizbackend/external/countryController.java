@@ -76,9 +76,15 @@ class countryController {
             country = new GameData();
             countryData = getByName(countryCommonNamesAll.get(gen.generate()));
             country.setName(countryData.getName().getCommon());
-            country.setCapital(countryData.getCapital().get(0));
+
+            List<String> capital = countryData.getCapital();
+            if (capital != null && !capital.isEmpty()) {
+                country.setCapital(capital.get(0));
+            }
+
             country.setFlag(countryData.getFlag());
             country.setContinent(countryData.getRegion());
+            country.setCoatOfArms(countryData.getCoatOfArms().getPng());
             country.setPopulation(countryData.getPopulation());
 
             gameData.add(country);

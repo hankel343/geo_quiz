@@ -22,21 +22,13 @@ public class ResultScreen extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_result_screen);
 
-        SharedPreferences sharedPreferences = getSharedPreferences("UserInfo", MODE_PRIVATE);
+//        SharedPreferences sharedPreferences = getSharedPreferences("UserInfo", MODE_PRIVATE);
 
         YourScore = (TextView) findViewById(R.id.YourScore);
         DurationText = (TextView) findViewById(R.id.DurationText);
         SeeScoreB = (Button) findViewById(R.id.SeeScoreB);
         PlayAgainBtn = (Button) findViewById(R.id.playagain_btn);
 
-        Intent intent = getIntent();
-        String getText = intent.getStringExtra("DurationText");
-        DurationText.setText(getText);
-        quizScore = Integer.parseInt(DurationText.getText().toString());
-        CapitalQuiz newCapitalQuiz = new CapitalQuiz();
-        newCapitalQuiz.setScore(quizScore);
-        GetCapitalQuizApi().PutCapitalQuizByPath(1, newCapitalQuiz).enqueue(new SlimCallback<CapitalQuiz>(CapitalQuiz->{
-        }));
         SeeScoreB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

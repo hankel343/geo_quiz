@@ -1,46 +1,53 @@
 package com.example.geoquizbackend.Professor;
 
+import com.example.geoquizbackend.Quiz.Quiz;
+import com.example.geoquizbackend.Student.Student;
 import jakarta.persistence.*;
 
+import java.util.Set;
 
 @Entity
 public class Professor {
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	long id;
-	
-	String name;
+
+	String firstName;
+	String lastName;
 	String email;
-	
-	int[] classcodes;
-	
-	//@OneToMany
-	//Class[] classes;
-	
+	String password;
+	@OneToMany(mappedBy = "professor")
+	Set<Student> students;
 	public Professor() {
+
 	}
-	
-	public String getName() {
-		return name;
+
+	public long getId() { return id; }
+
+	public String getFirstName() {
+		return firstName;
 	}
-	
-	public void setName(String name) {
-		this.name = name;
+
+	public void setFirstName(String name) {
+		this.firstName = name;
 	}
-	
+
+	public String getLastName() { return lastName; }
+
+	public void setLastName(String name) { this.lastName = name; }
+
+	public String getPassword() { return password; }
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
 	public String getEmail() {
 		return email;
 	}
-	
+
 	public void setEmail(String email) {
 		this.email = email;
-	}
-	
-	public int[] getClasscodes() {
-		return classcodes;
-	}
-	
-	public void setClasscodes(int[] classes) {
-		classcodes = classes;
 	}
 }
