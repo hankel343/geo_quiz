@@ -1,5 +1,7 @@
 package com.example.geoquizfrontend;
 
+import com.example.geoquizfrontend.services.ApiService;
+
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 public class ApiClientFactory {
@@ -18,8 +20,8 @@ public class ApiClientFactory {
     }
 
 
-    public static CapitalQuizApi GetCapitalQuizApi(){
-        return GetApiClientSeed().create(CapitalQuizApi.class);
+    public static ApiService GetGeoQuizApi(){
+        return GetApiClientSeed().create(ApiService.class);
     }
 
 

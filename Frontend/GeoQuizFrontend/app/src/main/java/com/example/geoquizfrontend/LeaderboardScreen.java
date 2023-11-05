@@ -1,6 +1,6 @@
 package com.example.geoquizfrontend;
 
-import static com.example.geoquizfrontend.ApiClientFactory.GetCapitalQuizApi;
+import static com.example.geoquizfrontend.ApiClientFactory.GetGeoQuizApi;
 
 import androidx.appcompat.app.AppCompatActivity;
 
