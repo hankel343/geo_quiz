@@ -1,4 +1,4 @@
-package com.example.geoquizbackend.Class;
+package com.example.geoquizbackend.GeoClass;
 
 import com.example.geoquizbackend.Professor.Professor;
 import com.example.geoquizbackend.Student.Student;
@@ -6,14 +6,15 @@ import jakarta.persistence.*;
 
 import java.util.Set;
 
-public class Class {
+@Entity
+public class GeoClass {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     long id;
     String name;
     @ManyToOne
-    @JoinColumn(name="professsor_id")
+    @JoinColumn(name="professor_id")
     Professor professor;
-    @OneToMany(mappedBy = "class")
+    @OneToMany(mappedBy = "geoClass")
     Set<Student> student;
 }

@@ -1,5 +1,6 @@
 package com.example.geoquizbackend.Student;
 
+import com.example.geoquizbackend.GeoClass.GeoClass;
 import com.example.geoquizbackend.Professor.Professor;
 import com.example.geoquizbackend.Quiz.Quiz;
 import jakarta.persistence.*;
@@ -22,6 +23,9 @@ public class Student {
     float grade;
     @OneToMany
     Set<Quiz> q;
+    @ManyToOne
+    @JoinColumn(name="class_id")
+    GeoClass geoClass;
     @ManyToOne
     @JoinColumn(name="professor_id")
     Professor professor;

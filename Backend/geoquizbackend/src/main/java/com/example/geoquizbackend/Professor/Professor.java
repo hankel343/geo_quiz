@@ -1,6 +1,6 @@
 package com.example.geoquizbackend.Professor;
 
-import com.example.geoquizbackend.Quiz.Quiz;
+import com.example.geoquizbackend.GeoClass.GeoClass;
 import com.example.geoquizbackend.Student.Student;
 import jakarta.persistence.*;
 
@@ -17,6 +17,8 @@ public class Professor {
 	String password;
 	@OneToMany(mappedBy = "professor")
 	Set<Student> students;
+	@OneToMany(mappedBy = "professor")
+	Set<GeoClass> geoClasses;
 	public Professor() {
 
 	}
