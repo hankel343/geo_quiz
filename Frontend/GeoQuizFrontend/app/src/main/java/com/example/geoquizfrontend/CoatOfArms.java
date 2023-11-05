@@ -1,6 +1,6 @@
 package com.example.geoquizfrontend;
 
-import static com.example.geoquizfrontend.ApiClientFactory.GetCapitalQuizApi;
+import static com.example.geoquizfrontend.ApiClientFactory.GetGeoQuizApi;
 import static com.example.geoquizfrontend.CountryNames.pngValues;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -33,7 +33,6 @@ public class CoatOfArms extends AppCompatActivity {
     private CountDownTimer countDownTimer;
     private long timeLeftInMilliseconds = 60000;
     private boolean timerRunning;
-
     private int rounds = 4;
     private int score = 0;
     private String[] countryNames = CountryNames.countries;
@@ -62,7 +61,7 @@ public class CoatOfArms extends AppCompatActivity {
         // set image view
         coatOfArmsPNG = findViewById(R.id.coatOfArms_id);
 
-        ApiService apiService = ApiClientFactory.GetCapitalQuizApi();
+        ApiService apiService = GetGeoQuizApi();
         Call<ArrayList<GameData>> call = apiService.GetGameData(4);
 
         call.enqueue(new Callback<ArrayList<GameData>>() {
@@ -191,11 +190,10 @@ public class CoatOfArms extends AppCompatActivity {
     private void checkGameOver() {
         rounds--;
         if (rounds <= 0) {
-            Quiz newQuiz = new Quiz();
-            newQuiz.setScore(score);
-            GetCapitalQuizApi().PostCapitalQuizByBody(newQuiz);
+//            Quiz newQuiz = new Quiz();
+//            newQuiz.setScore(score);
             Intent intent = new Intent(CoatOfArms.this, ResultScreen.class);
-            intent.putExtra("DurationText", Integer.toString(score));
+            intent.putExtra("score", score);
             startActivity(intent);
         }
     }

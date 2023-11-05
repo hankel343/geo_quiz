@@ -53,7 +53,7 @@ public class ProfessorAccountCreation extends AppCompatActivity {
                 professor.setEmail(email);
                 professor.setPassword(password);
 
-                ApiService apiService = ApiClientFactory.GetCapitalQuizApi();
+                ApiService apiService = ApiClientFactory.GetGeoQuizApi();
                 Call<Professor> call = apiService.postNewProfessor(professor);
 
                 call.enqueue(new Callback<Professor>() {

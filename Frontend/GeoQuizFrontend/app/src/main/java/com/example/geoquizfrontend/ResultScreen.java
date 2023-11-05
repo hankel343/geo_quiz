@@ -1,6 +1,6 @@
 package com.example.geoquizfrontend;
 
-import static com.example.geoquizfrontend.ApiClientFactory.GetCapitalQuizApi;
+import static com.example.geoquizfrontend.ApiClientFactory.GetGeoQuizApi;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -12,10 +12,16 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.geoquizfrontend.models.Quiz;
+import com.example.geoquizfrontend.services.ApiService;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class ResultScreen extends AppCompatActivity {
     private TextView YourScore, DurationText;
     int quizScore;
-    private Button SeeScoreB, PlayAgainBtn;
+    private Button PlayAgainBtn;
     String stringQuizScore;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,25 +31,28 @@ public class ResultScreen extends AppCompatActivity {
         SharedPreferences sharedPreferences = getSharedPreferences("UserInfo", MODE_PRIVATE);
 
         YourScore = (TextView) findViewById(R.id.YourScore);
-        DurationText = (TextView) findViewById(R.id.DurationText);
-        SeeScoreB = (Button) findViewById(R.id.SeeScoreB);
         PlayAgainBtn = (Button) findViewById(R.id.playagain_btn);
 
         Intent intent = getIntent();
-        String getText = intent.getStringExtra("DurationText");
-        DurationText.setText(getText);
-        quizScore = Integer.parseInt(DurationText.getText().toString());
+        quizScore = intent.getIntExtra("score", quizScore);
+        YourScore.setText("Score: " + Integer.toString(quizScore));
+
         Quiz newQuiz = new Quiz();
         newQuiz.setScore(quizScore);
-        GetCapitalQuizApi().PutCapitalQuizByPath(1, newQuiz).enqueue(new SlimCallback<Quiz>(CapitalQuiz->{
-        }));
-        SeeScoreB.setOnClickListener(new View.OnClickListener() {
+
+        ApiService apiService = GetGeoQuizApi();
+        Call<Quiz> call = apiService.PostCapitalQuizByBody(newQuiz);
+        call.enqueue(new Callback<Quiz>() {
             @Override
-            public void onClick(View view) {
-                GetCapitalQuizApi().GetCapitalQuizByPath("1").enqueue(new SlimCallback<Quiz>(CapitalQuiz -> {
-                    quizScore = CapitalQuiz.getScore();
-                    YourScore.setText("Score: " + Integer.toString(quizScore));
-                }));
+            public void onResponse(Call<Quiz> call, Response<Quiz> response) {
+                if (!response.isSuccessful()) {
+
+                }
+                Quiz quiz = response.body();
+            }
+
+            @Override
+            public void onFailure(Call<Quiz> call, Throwable t) {
 
             }
         });

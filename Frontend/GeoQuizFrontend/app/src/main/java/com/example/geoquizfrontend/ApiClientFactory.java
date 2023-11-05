@@ -20,7 +20,7 @@ public class ApiClientFactory {
     }
 
 
-    public static ApiService GetCapitalQuizApi(){
+    public static ApiService GetGeoQuizApi(){
         return GetApiClientSeed().create(ApiService.class);
     }
 

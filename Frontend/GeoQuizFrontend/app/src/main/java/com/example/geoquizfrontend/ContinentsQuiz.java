@@ -1,6 +1,6 @@
 package com.example.geoquizfrontend;
 
-import static com.example.geoquizfrontend.ApiClientFactory.GetCapitalQuizApi;
+import static com.example.geoquizfrontend.ApiClientFactory.GetGeoQuizApi;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -60,7 +60,7 @@ public class ContinentsQuiz extends AppCompatActivity {
         Opt3 = findViewById(R.id.opt3_btn);
 
 
-        ApiService apiService = ApiClientFactory.GetCapitalQuizApi();
+        ApiService apiService = GetGeoQuizApi();
         Call<ArrayList<GameData>> call = apiService.GetGameData(4);
 
         call.enqueue(new Callback<ArrayList<GameData>>() {
@@ -190,7 +190,7 @@ public class ContinentsQuiz extends AppCompatActivity {
         if (rounds <= 0) {
             Quiz newQuiz = new Quiz();
             newQuiz.setScore(score);
-            GetCapitalQuizApi().PostCapitalQuizByBody(newQuiz);
+            GetGeoQuizApi().PostCapitalQuizByBody(newQuiz);
             Intent intent = new Intent(ContinentsQuiz.this, ResultScreen.class);
             intent.putExtra("DurationText", Integer.toString(score));
             startActivity(intent);

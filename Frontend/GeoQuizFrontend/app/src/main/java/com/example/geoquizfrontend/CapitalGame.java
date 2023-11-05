@@ -1,6 +1,6 @@
 package com.example.geoquizfrontend;
 
-import static com.example.geoquizfrontend.ApiClientFactory.GetCapitalQuizApi;
+import static com.example.geoquizfrontend.ApiClientFactory.GetGeoQuizApi;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -92,7 +92,7 @@ public class CapitalGame extends AppCompatActivity {
                 if (question > 5) {
                     Quiz newQuiz = new Quiz();
                     newQuiz.setScore(Score);
-                    GetCapitalQuizApi().PostCapitalQuizByBody(newQuiz);
+                    GetGeoQuizApi().PostCapitalQuizByBody(newQuiz);
                     Intent intent = new Intent(CapitalGame.this, ResultScreen.class);
                     intent.putExtra("DurationText", scoreText);
                     startActivity(intent);
@@ -118,7 +118,7 @@ public class CapitalGame extends AppCompatActivity {
                 if (question > 5) {
                     Quiz newQuiz = new Quiz();
                     newQuiz.setScore(Score);
-                    GetCapitalQuizApi().PostCapitalQuizByBody(newQuiz);
+                    GetGeoQuizApi().PostCapitalQuizByBody(newQuiz);
                     Intent intent = new Intent(CapitalGame.this, ResultScreen.class);
                     intent.putExtra("DurationText", scoreText);
                     startActivity(intent);
@@ -143,7 +143,7 @@ public class CapitalGame extends AppCompatActivity {
                 if (question > 5) {
                    Quiz newQuiz = new Quiz();
                    newQuiz.setScore(Score);
-                   GetCapitalQuizApi().PostCapitalQuizByBody(newQuiz);
+                   GetGeoQuizApi().PostCapitalQuizByBody(newQuiz);
                    Intent intent = new Intent(CapitalGame.this, ResultScreen.class);
                    intent.putExtra("DurationText", scoreText);
                    startActivity(intent);
@@ -168,7 +168,7 @@ public class CapitalGame extends AppCompatActivity {
                 if (question > 5) {
                     Quiz newQuiz = new Quiz();
                     newQuiz.setScore(Score);
-                    GetCapitalQuizApi().PostCapitalQuizByBody(newQuiz);
+                    GetGeoQuizApi().PostCapitalQuizByBody(newQuiz);
                     Intent intent = new Intent(CapitalGame.this, ResultScreen.class);
                     intent.putExtra("DurationText", scoreText);
                     startActivity(intent);

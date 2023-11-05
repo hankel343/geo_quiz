@@ -40,7 +40,7 @@ public class StudentSignInActivity extends AppCompatActivity {
                 String email = emailInput.getText().toString().trim();
                 String password = passwordInput.getText().toString().trim();
 
-                ApiService api = ApiClientFactory.GetCapitalQuizApi();
+                ApiService api = ApiClientFactory.GetGeoQuizApi();
                 Call<Boolean> call = api.existsByEmail(email);
 
                 call.enqueue(new Callback<Boolean>() {

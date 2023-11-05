@@ -55,7 +55,7 @@ public class StudentAccountCreation extends AppCompatActivity {
                     student.setPassword(password);
                     student.setClassCode(classCode);
 
-                    ApiService apiService = ApiClientFactory.GetCapitalQuizApi();
+                    ApiService apiService = ApiClientFactory.GetGeoQuizApi();
                     Call<Student> call = apiService.postNewStudent(student);
 
                     call.enqueue(new Callback<Student>() {
