@@ -1,5 +1,7 @@
 package com.example.geoquizfrontend;
 
+import com.example.geoquizfrontend.services.ApiService;
+
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 public class ApiClientFactory {

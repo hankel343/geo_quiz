@@ -1,4 +1,4 @@
-package com.example.geoquizfrontend;
+package com.example.geoquizfrontend.services;
 
 import com.example.geoquizfrontend.models.Quiz;
 import com.example.geoquizfrontend.models.GameData;
