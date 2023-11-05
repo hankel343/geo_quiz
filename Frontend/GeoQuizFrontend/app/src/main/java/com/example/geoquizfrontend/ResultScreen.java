@@ -11,7 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.example.geoquizfrontend.models.CapitalQuiz;
+import com.example.geoquizfrontend.models.Quiz;
 public class ResultScreen extends AppCompatActivity {
     private TextView YourScore, DurationText;
     int quizScore;
@@ -33,14 +33,14 @@ public class ResultScreen extends AppCompatActivity {
         String getText = intent.getStringExtra("DurationText");
         DurationText.setText(getText);
         quizScore = Integer.parseInt(DurationText.getText().toString());
-        CapitalQuiz newCapitalQuiz = new CapitalQuiz();
-        newCapitalQuiz.setScore(quizScore);
-        GetCapitalQuizApi().PutCapitalQuizByPath(1, newCapitalQuiz).enqueue(new SlimCallback<CapitalQuiz>(CapitalQuiz->{
+        Quiz newQuiz = new Quiz();
+        newQuiz.setScore(quizScore);
+        GetCapitalQuizApi().PutCapitalQuizByPath(1, newQuiz).enqueue(new SlimCallback<Quiz>(CapitalQuiz->{
         }));
         SeeScoreB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                GetCapitalQuizApi().GetCapitalQuizByPath("1").enqueue(new SlimCallback<CapitalQuiz>(CapitalQuiz -> {
+                GetCapitalQuizApi().GetCapitalQuizByPath("1").enqueue(new SlimCallback<Quiz>(CapitalQuiz -> {
                     quizScore = CapitalQuiz.getScore();
                     YourScore.setText("Score: " + Integer.toString(quizScore));
                 }));

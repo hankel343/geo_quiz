@@ -6,23 +6,18 @@ import static com.example.geoquizfrontend.CountryNames.pngValues;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.os.Looper;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.geoquizfrontend.models.CapitalQuiz;
+import com.example.geoquizfrontend.models.Quiz;
 import com.example.geoquizfrontend.models.GameData;
-import com.example.geoquizfrontend.services.CountryService;
 import com.example.geoquizfrontend.services.RandomNumberGenerator;
 import com.squareup.picasso.Picasso;
 
-import java.io.InputStream;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -195,9 +190,9 @@ public class CoatOfArms extends AppCompatActivity {
     private void checkGameOver() {
         rounds--;
         if (rounds <= 0) {
-            CapitalQuiz newCapitalQuiz = new CapitalQuiz();
-            newCapitalQuiz.setScore(score);
-            GetCapitalQuizApi().PostCapitalQuizByBody(newCapitalQuiz);
+            Quiz newQuiz = new Quiz();
+            newQuiz.setScore(score);
+            GetCapitalQuizApi().PostCapitalQuizByBody(newQuiz);
             Intent intent = new Intent(CoatOfArms.this, ResultScreen.class);
             intent.putExtra("DurationText", Integer.toString(score));
             startActivity(intent);

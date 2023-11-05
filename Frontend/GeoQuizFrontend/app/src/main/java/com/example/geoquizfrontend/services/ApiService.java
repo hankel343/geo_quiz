@@ -1,7 +1,6 @@
 package com.example.geoquizfrontend.services;
 
-import com.example.geoquizfrontend.models.CapitalQuiz;
-import com.example.geoquizfrontend.models.GameData;
+import com.example.geoquizfrontend.models.Quiz;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -12,11 +11,11 @@ import retrofit2.http.Path;
 
 public interface ApiService {
     @PUT("quizzes/{id}")
-    Call<CapitalQuiz> PutCapitalQuizByPath(@Path("id") int id, @Body CapitalQuiz newCapitalQuiz);
+    Call<Quiz> PutCapitalQuizByPath(@Path("id") int id, @Body Quiz newQuiz);
 
     @POST("quizzes")
-    Call<CapitalQuiz> PostCapitalQuizByBody(@Body CapitalQuiz newCapitalQuiz);
+    Call<Quiz> PostCapitalQuizByBody(@Body Quiz newQuiz);
 
     @GET("quizzes/{id}")
-    Call<CapitalQuiz> GetCapitalQuizByPath(@Path("id") String id);
+    Call<Quiz> GetCapitalQuizByPath(@Path("id") String id);
 }

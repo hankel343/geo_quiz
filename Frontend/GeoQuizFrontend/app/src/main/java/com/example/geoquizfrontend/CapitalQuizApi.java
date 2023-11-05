@@ -1,6 +1,6 @@
 package com.example.geoquizfrontend;
 
-import com.example.geoquizfrontend.models.CapitalQuiz;
+import com.example.geoquizfrontend.models.Quiz;
 import com.example.geoquizfrontend.models.GameData;
 import com.example.geoquizfrontend.models.Professor;
 import com.example.geoquizfrontend.models.Student;
@@ -21,11 +21,11 @@ public interface CapitalQuizApi {
     Call<ArrayList<GameData>> GetGameData(@Query("count") int count);
     // quiz endpoints
     @PUT("quizzes/{id}")
-    Call<CapitalQuiz> PutCapitalQuizByPath(@Path("id") int id, @Body CapitalQuiz newCapitalQuiz);
+    Call<Quiz> PutCapitalQuizByPath(@Path("id") int id, @Body Quiz newQuiz);
     @POST("quizzes")
-    Call<CapitalQuiz> PostCapitalQuizByBody(@Body CapitalQuiz newCapitalQuiz);
+    Call<Quiz> PostCapitalQuizByBody(@Body Quiz newQuiz);
     @GET("quizzes/{id}")
-    Call<CapitalQuiz> GetCapitalQuizByPath(@Path("id") String id);
+    Call<Quiz> GetCapitalQuizByPath(@Path("id") String id);
     // student endpoints
     @GET("/students/exists")
     Call<Boolean> existsByEmail(@Query("email") String email);
