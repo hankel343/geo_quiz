@@ -1,5 +1,8 @@
 package com.example.geoquizbackend.Quiz;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -13,20 +16,38 @@ import java.util.stream.Collectors;
 public class QuizController {
     @Autowired
     QuizRepository quizRepository;
+    @Operation(summary = "Get all quizzes", description = "Returns a list of all quizzes")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Successfully retrieved")
+    })
     @GetMapping(path = "/quizzes")
     List<Quiz> getAllQuizzes() {
         return quizRepository.findAll();
     }
+    @Operation(summary = "Get a quiz by id", description = "Returns a quiz as per the id")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Successfully retrieved"),
+            @ApiResponse(responseCode = "404", description = "Not found - The quiz was not found")
+    })
     @GetMapping(path = "/quizzes/{id}")
     Quiz getQuizById(@PathVariable long id) {
         return quizRepository.findById(id);
     }
+    @Operation(summary = "Get top N quizzes", description = "Returns a list of the top N quizzes by score")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Successfully retrieved")
+    })
     @GetMapping(path = "/quizzes/top/{n}")
     List<Quiz> getTopNQuizzes(@PathVariable int n) {
         return quizRepository.findAllByOrderByScoreDesc().stream()
                 .limit(n)
                 .collect(Collectors.toList());
     }
+    @Operation(summary = "Create a quiz", description = "Creates a new quiz and returns the created quiz")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "Successfully created"),
+            @ApiResponse(responseCode = "400", description = "Bad request - The provided quiz data is invalid")
+    })
     @PostMapping(path = "/quizzes")
     @ResponseBody
     public Quiz createQuiz(@RequestBody Quiz quiz) {
@@ -36,6 +57,12 @@ public class QuizController {
 
         return quizRepository.save(quiz);
     }
+    @Operation(summary = "Update a quiz", description = "Updates an existing quiz and returns the updated quiz")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Successfully updated"),
+            @ApiResponse(responseCode = "400", description = "Bad request - The provided quiz data is invalid"),
+            @ApiResponse(responseCode = "404", description = "Not found - The quiz was not found")
+    })
     @PutMapping(path = "/quizzes/{id}")
     Quiz updateQuiz(@PathVariable long id, @RequestBody Quiz req) {
         Quiz q = quizRepository.findById(id);
@@ -49,6 +76,11 @@ public class QuizController {
 
         return quizRepository.findById(id);
     }
+    @Operation(summary = "Delete a quiz", description = "Deletes a quiz as per the id")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Successfully deleted"),
+            @ApiResponse(responseCode = "404", description = "Not found - The quiz was not found")
+    })
     @DeleteMapping(path = "/quizzes/{id}")
     String deleteQuiz(@PathVariable long id) {
         quizRepository.deleteById(id);
