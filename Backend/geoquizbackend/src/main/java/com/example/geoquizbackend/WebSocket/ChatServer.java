@@ -12,24 +12,27 @@ import javax.websocket.Session;
 import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 @ServerEndpoint("/chat/{username}")
 @Component
+@Schema(description = "Chat Server for handling chat messages")
 public class ChatServer {
 
-    // store all usernames associated with a given session
+    @Schema(description = "Store all usernames associated with a given session")
     private static Map<Session, String> sessionUsernameMap = new Hashtable<Session, String>();
 
-    // store all sessions a username is associated with
+    @Schema(description = "Store all sessions a username is associated with")
     private static Map<String, Session> usernameSessionMap = new Hashtable<String, Session>();
 
-    // server side logger
+    @Schema(hidden = true)
     private final Logger logger =LoggerFactory.getLogger(ChatServer.class);
 
     @OnOpen
+    @Schema(description = "Handle new connection to chat server")
     public void onOpen(Session session, @PathParam("username") String username) throws IOException {
 
         // server side log
@@ -55,6 +58,7 @@ public class ChatServer {
     }
 
     @OnMessage
+    @Schema(description = "Handle incoming messages")
     public void onMessage(Session session, String msg) throws IOException {
 
         // retrieve username by session
@@ -86,6 +90,7 @@ public class ChatServer {
 
 
     @OnClose
+    @Schema(description = "Handle closing of a connection")
     public void onClose(Session session) throws IOException {
         // get the username from session-username mapping
         String username = sessionUsernameMap.get(session);
@@ -102,13 +107,14 @@ public class ChatServer {
     }
 
     @OnError
+    @Schema(description = "Handle errors during communication")
     public void OnError(Session session, Throwable throwable) {
         // get the username from the session-username mapping
         String username = sessionUsernameMap.get(session);
 
         logger.info("[OnError]" + username + ": " + throwable.getMessage());
     }
-
+    @Schema(hidden = true)
     private void sendMessageToUser(String username, String message) {
         try {
             usernameSessionMap.get(username).getBasicRemote().sendText(message);
@@ -116,7 +122,7 @@ public class ChatServer {
             logger.info("[DM Exception] " + e.getMessage());
         }
     }
-
+    @Schema(hidden = true)
     private void sendBroadcast(String msg) {
         sessionUsernameMap.forEach((session, username) -> {
             try {

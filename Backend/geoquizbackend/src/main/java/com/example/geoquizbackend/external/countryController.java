@@ -43,8 +43,8 @@ class countryController {
     @GetMapping("/get")
     public CountryData getByName(@RequestParam String name) {
         Countries = countryService
-                    .getByName(name)
-                    .block();
+                .getByName(name)
+                .block();
 
         return Countries[0];
     }
