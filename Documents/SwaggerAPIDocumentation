@@ -1,2 +1,2 @@
-Not sure how to export the API documentation, but this is url I use to view the Swagger pages:
-http://localhost:8080/swagger-ui/index.html#/
+The Swagger pages can be accessed by going to the following url. DM me if the server is down and I can restart it.
+http://coms-309-012.class.las.iastate.edu:8080/swagger-ui/index.html
