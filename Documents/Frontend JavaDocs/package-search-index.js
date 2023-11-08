@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"com.example.geoquizfrontend"},{"l":"com.example.geoquizfrontend.models"},{"l":"com.example.geoquizfrontend.services"}];updateSearchResults();
