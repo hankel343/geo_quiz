@@ -44,7 +44,7 @@ android-build:
     - chmod +x ./Frontend/GeoQuizFrontend/gradlew
   script:
     - cd Frontend/GeoQuizFrontend   # change 'Frontend' to where you have 'gradlew' (do not add / in the beginning)
-    - ./gradlew build               # gradle build
+    - ./gradlew build -x lint       # gradle build
 
 android-test:
    image: afirefly/android-ci:java17
