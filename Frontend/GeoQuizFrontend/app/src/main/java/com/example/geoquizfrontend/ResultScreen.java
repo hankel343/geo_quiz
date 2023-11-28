@@ -20,7 +20,7 @@ import retrofit2.Response;
 
 public class ResultScreen extends AppCompatActivity {
     private TextView YourScore, DurationText;
-    int quizScore;
+    int quizScore, userID;
     private Button PlayAgainBtn;
     String stringQuizScore;
     @Override
@@ -28,7 +28,9 @@ public class ResultScreen extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_result_screen);
 
-//        SharedPreferences sharedPreferences = getSharedPreferences("UserInfo", MODE_PRIVATE);
+        SharedPreferences sharedPreferences = getSharedPreferences("UserInfo", MODE_PRIVATE);
+
+        String firstName = sharedPreferences.getString("firstName", "");
 
         YourScore = (TextView) findViewById(R.id.YourScore);
         PlayAgainBtn = (Button) findViewById(R.id.playagain_btn);
@@ -36,7 +38,6 @@ public class ResultScreen extends AppCompatActivity {
         Intent intent = getIntent();
         quizScore = intent.getIntExtra("score", quizScore);
         YourScore.setText("Score: " + Integer.toString(quizScore));
-
         Quiz newQuiz = new Quiz();
         newQuiz.setScore(quizScore);
 

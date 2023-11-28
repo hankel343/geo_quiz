@@ -18,7 +18,7 @@ android {
 
     buildTypes {
         release {
-            isMinifyEnabled = false
+            minifyEnabled false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
@@ -45,4 +45,5 @@ dependencies {
 
     // Picasso dependency
     implementation ("com.squareup.picasso:picasso:2.71828")
+
 }
