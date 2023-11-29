@@ -42,8 +42,6 @@ import retrofit2.Response;
 
 public class CapitalGame extends AppCompatActivity {
     private TextView CapitalText, ScoreText, TimerText;
-
-    static String whatQuestion, scoreText, whatAnswer;
     static int score, question, questions, answer;
     private Button Countrybtn1, Countrybtn2, Countrybtn3, Countrybtn4, QuitBtn;
     private String country1, country2, country3, country4, capitalQuestion;

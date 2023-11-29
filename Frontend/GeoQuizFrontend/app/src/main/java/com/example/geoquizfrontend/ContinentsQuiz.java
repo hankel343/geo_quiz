@@ -2,21 +2,39 @@ package com.example.geoquizfrontend;
 
 import static com.example.geoquizfrontend.ApiClientFactory.GetGeoQuizApi;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.CountDownTimer;
+import android.os.Looper;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import com.example.geoquizfrontend.models.Quiz;
 import com.example.geoquizfrontend.models.GameData;
+
 import com.example.geoquizfrontend.services.ApiService;
+import com.example.geoquizfrontend.services.CountryService;
 import com.example.geoquizfrontend.services.RandomNumberGenerator;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Random;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -24,50 +42,69 @@ import retrofit2.Response;
 
 public class ContinentsQuiz extends AppCompatActivity {
 
-    TextView GameText, ScoreText;
+    private TextView CapitalText, ScoreText, TimerText;
+    static int score, question, questions, answer;
+    private Button Continentbtn1, Continentbtn2, Continentbtn3, Continentbtn4, Continentbtn5, Continentbtn6, QuitBtn;
+    private String Continent1, Continent2, Continent3, Continent4, ContinentQuestion;
+    private CountDownTimer countDownTimer;
+    private long timeLeftInMilliseconds = 90000;
+    private boolean timerRunning;
 
-    Button Opt0, Opt1, Opt2, Opt3;
 
-    private int rounds = 4;
-
-    private int score = 0;
-
-    private String[] Continents = {
-            "North America",
-            "South America",
-            "Europe",
-            "Asia",
-            "Africa",
-            "Oceania",
-            "Antarctica"
-    };
-
-    RandomNumberGenerator ansIdx = new RandomNumberGenerator(4);
-    private List<GameData> countryDataList;
-
-    private GameData key = null;
-    private int correctAnsIdx = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_continents_quiz);
 
-        GameText = findViewById(R.id.gameText);
-        ScoreText = findViewById(R.id.ScoreText);
-        Opt0 = findViewById(R.id.opt0_btn);
-        Opt1 = findViewById(R.id.opt1_btn);
-        Opt2 = findViewById(R.id.opt2_btn);
-        Opt3 = findViewById(R.id.opt3_btn);
+        CapitalText = (TextView) findViewById(R.id.gameText);
+        ScoreText = (TextView) findViewById(R.id.ScoreText);
+        TimerText = (TextView) findViewById(R.id.timer);
+        Continentbtn1 = (Button) findViewById(R.id.opt0_btn);
+        Continentbtn2 = (Button) findViewById(R.id.opt1_btn);
+        Continentbtn3 = (Button) findViewById(R.id.opt2_btn);
+        Continentbtn4 = (Button) findViewById(R.id.opt3_btn);
+        Continentbtn5 = (Button) findViewById(R.id.opt4_btn);
+        Continentbtn6 = (Button) findViewById(R.id.opt5_btn);
+        QuitBtn = (Button) findViewById(R.id.quit_btn);
+
+        questions = 5;
+        question = 1;
 
 
-        ApiService apiService = GetGeoQuizApi();
-        Call<ArrayList<GameData>> call = apiService.GetGameData(4);
+        ApiService apiService = ApiClientFactory.GetGeoQuizApi();
+        Call<ArrayList<GameData>> call = apiService.GetGameData(1);
+
 
         call.enqueue(new Callback<ArrayList<GameData>>() {
             @Override
             public void onResponse(Call<ArrayList<GameData>> call, Response<ArrayList<GameData>> response) {
-                countryDataList = response.body();
-                gameTick();
+                if (response.isSuccessful()) {
+                    // assign game data objects here
+                    // e.g.
+                    ArrayList<GameData> ContinentGame = response.body();
+                    Continent1 = ContinentGame.get(0).getContinent();
+                    ContinentQuestion = ContinentGame.get(0).getName();
+                    CapitalText.setText("What Continent is " + ContinentQuestion + " on?");
+                    if(Continent1.equals("Americas")){
+                        answer = 0;
+                    }
+                    if(Continent1.equals("Asia")){
+                        answer = 1;
+                    }
+                    if(Continent1.equals("Europe")){
+                        answer = 2;
+                    }
+                    if(Continent1.equals("Africa")){
+                        answer = 3;
+                    }
+                    if(Continent1.equals("Oceania")){
+                        answer = 4;
+                    }
+                    if(Continent1.equals("Antarctica")){
+                        answer = 5;
+                    }
+                    startTimer();
+                }
             }
 
             @Override
@@ -75,124 +112,634 @@ public class ContinentsQuiz extends AppCompatActivity {
 
             }
         });
+        Continentbtn1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startStop();
+                if(answer == 0){
+                    updateScore();
+                    checkGameOver();
 
-//        countryDataList = new ArrayList<>();
-//        CountryService countryService = new CountryService(this);
-//        countryService.getData(response -> {
-//            countryDataList = countryService.parseGameDataResponse(response);
-//            System.out.println(countryDataList.size());
-//        }, error -> {});
+                    ApiService apiService = ApiClientFactory.GetGeoQuizApi();;
+                    Call<ArrayList<GameData>> call = apiService.GetGameData(1);
+                    call.enqueue(new Callback<ArrayList<GameData>>() {
+                        @Override
+                        public void onResponse(Call<ArrayList<GameData>> call, Response<ArrayList<GameData>> response) {
+                            if (response.isSuccessful()) {
+                                // assign game data objects here
+                                // e.g.
+                                ArrayList<GameData> ContinentGame = response.body();
+                                Continent1 = ContinentGame.get(0).getContinent();
+                                ContinentQuestion = ContinentGame.get(0).getName();
+                                CapitalText.setText("What Continent is " + ContinentQuestion + " on?");
+                                if(Continent1.equals("Americas")){
+                                    answer = 0;
+                                }
+                                if(Continent1.equals("Asia")){
+                                    answer = 1;
+                                }
+                                if(Continent1.equals("Europe")){
+                                    answer = 2;
+                                }
+                                if(Continent1.equals("Africa")){
+                                    answer = 3;
+                                }
+                                if(Continent1.equals("Oceania")){
+                                    answer = 4;
+                                }
+                                if(Continent1.equals("Antarctica")){
+                                    answer = 5;
+                                }
+                                timeLeftInMilliseconds = 90000;
+                                startStop();
+                            }
+                        }
 
-//        new android.os.Handler(Looper.getMainLooper()).postDelayed(
-//                new Runnable() {
-//                    @Override
-//                    public void run() {
-//
-//                        gameTick();
-//                    }
-//                },
-//        3000);
+                        @Override
+                        public void onFailure(Call<ArrayList<GameData>> call, Throwable t) {
+
+                        }
+                    });
+                }else{
+                    checkGameOver();
+
+                    ApiService apiService = ApiClientFactory.GetGeoQuizApi();
+                    Call<ArrayList<GameData>> call = apiService.GetGameData(1);
+                    call.enqueue(new Callback<ArrayList<GameData>>() {
+                        @Override
+                        public void onResponse(Call<ArrayList<GameData>> call, Response<ArrayList<GameData>> response) {
+                            if (response.isSuccessful()) {
+                                // assign game data objects here
+                                // e.g.
+                                ArrayList<GameData> ContinentGame = response.body();
+                                Continent1 = ContinentGame.get(0).getContinent();
+                                ContinentQuestion = ContinentGame.get(0).getName();
+                                CapitalText.setText("What Continent is " + ContinentQuestion + " on?");
+                                if(Continent1.equals("Americas")){
+                                    answer = 0;
+                                }
+                                if(Continent1.equals("Asia")){
+                                    answer = 1;
+                                }
+                                if(Continent1.equals("Europe")){
+                                    answer = 2;
+                                }
+                                if(Continent1.equals("Africa")){
+                                    answer = 3;
+                                }
+                                if(Continent1.equals("Oceania")){
+                                    answer = 4;
+                                }
+                                if(Continent1.equals("Antarctica")){
+                                    answer = 5;
+                                }
+                                timeLeftInMilliseconds = 90000;
+                                startStop();
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<ArrayList<GameData>> call, Throwable t) {
+
+                        }
+                    });
+                }
+            }
+        });
+        Continentbtn2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startStop();
+                if(answer == 1){
+                    updateScore();
+                    checkGameOver();
+
+                    ApiService apiService = ApiClientFactory.GetGeoQuizApi();
+                    Call<ArrayList<GameData>> call = apiService.GetGameData(1);
+                    call.enqueue(new Callback<ArrayList<GameData>>() {
+                        @Override
+                        public void onResponse(Call<ArrayList<GameData>> call, Response<ArrayList<GameData>> response) {
+                            if (response.isSuccessful()) {
+                                // assign game data objects here
+                                // e.g.
+                                ArrayList<GameData> ContinentGame = response.body();
+                                Continent1 = ContinentGame.get(0).getContinent();
+                                ContinentQuestion = ContinentGame.get(0).getName();
+                                CapitalText.setText("What Continent is " + ContinentQuestion + " on?");
+                                if(Continent1.equals("Americas")){
+                                    answer = 0;
+                                }
+                                if(Continent1.equals("Asia")){
+                                    answer = 1;
+                                }
+                                if(Continent1.equals("Europe")){
+                                    answer = 2;
+                                }
+                                if(Continent1.equals("Africa")){
+                                    answer = 3;
+                                }
+                                if(Continent1.equals("Oceania")){
+                                    answer = 4;
+                                }
+                                if(Continent1.equals("Antarctica")){
+                                    answer = 5;
+                                }
+                                timeLeftInMilliseconds = 90000;
+                                startStop();
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<ArrayList<GameData>> call, Throwable t) {
+
+                        }
+                    });
+                }else{
+                    checkGameOver();
+
+                    ApiService apiService = ApiClientFactory.GetGeoQuizApi();
+                    Call<ArrayList<GameData>> call = apiService.GetGameData(1);
+                    call.enqueue(new Callback<ArrayList<GameData>>() {
+                        @Override
+                        public void onResponse(Call<ArrayList<GameData>> call, Response<ArrayList<GameData>> response) {
+                            if (response.isSuccessful()) {
+                                // assign game data objects here
+                                // e.g.
+                                ArrayList<GameData> ContinentGame = response.body();
+                                Continent1 = ContinentGame.get(0).getContinent();
+                                ContinentQuestion = ContinentGame.get(0).getName();
+                                CapitalText.setText("What Continent is " + ContinentQuestion + " on?");
+                                if(Continent1.equals("Americas")){
+                                    answer = 0;
+                                }
+                                if(Continent1.equals("Asia")){
+                                    answer = 1;
+                                }
+                                if(Continent1.equals("Europe")){
+                                    answer = 2;
+                                }
+                                if(Continent1.equals("Africa")){
+                                    answer = 3;
+                                }
+                                if(Continent1.equals("Oceania")){
+                                    answer = 4;
+                                }
+                                if(Continent1.equals("Antarctica")){
+                                    answer = 5;
+                                }
+                                timeLeftInMilliseconds = 90000;
+                                startStop();
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<ArrayList<GameData>> call, Throwable t) {
+
+                        }
+                    });
+                }
+            }
+        });
+        Continentbtn3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startStop();
+                if(answer == 2){
+                    updateScore();
+                    checkGameOver();
+
+                    ApiService apiService = ApiClientFactory.GetGeoQuizApi();
+                    Call<ArrayList<GameData>> call = apiService.GetGameData(1);
+                    call.enqueue(new Callback<ArrayList<GameData>>() {
+                        @Override
+                        public void onResponse(Call<ArrayList<GameData>> call, Response<ArrayList<GameData>> response) {
+                            if (response.isSuccessful()) {
+                                // assign game data objects here
+                                // e.g.
+                                ArrayList<GameData> ContinentGame = response.body();
+                                Continent1 = ContinentGame.get(0).getContinent();
+                                ContinentQuestion = ContinentGame.get(0).getName();
+                                CapitalText.setText("What Continent is " + ContinentQuestion + " on?");
+                                if(Continent1.equals("Americas")){
+                                    answer = 0;
+                                }
+                                if(Continent1.equals("Asia")){
+                                    answer = 1;
+                                }
+                                if(Continent1.equals("Europe")){
+                                    answer = 2;
+                                }
+                                if(Continent1.equals("Africa")){
+                                    answer = 3;
+                                }
+                                if(Continent1.equals("Oceania")){
+                                    answer = 4;
+                                }
+                                if(Continent1.equals("Antarctica")){
+                                    answer = 5;
+                                }
+                                timeLeftInMilliseconds = 90000;
+                                startStop();
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<ArrayList<GameData>> call, Throwable t) {
+
+                        }
+                    });
+                }else{
+                    checkGameOver();
+
+                    ApiService apiService = ApiClientFactory.GetGeoQuizApi();
+                    Call<ArrayList<GameData>> call = apiService.GetGameData(1);
+                    call.enqueue(new Callback<ArrayList<GameData>>() {
+                        @Override
+                        public void onResponse(Call<ArrayList<GameData>> call, Response<ArrayList<GameData>> response) {
+                            if (response.isSuccessful()) {
+                                // assign game data objects here
+                                // e.g.
+                                ArrayList<GameData> ContinentGame = response.body();
+                                Continent1 = ContinentGame.get(0).getContinent();
+                                ContinentQuestion = ContinentGame.get(0).getName();
+                                CapitalText.setText("What Continent is " + ContinentQuestion + " on?");
+                                if(Continent1.equals("Americas")){
+                                    answer = 0;
+                                }
+                                if(Continent1.equals("Asia")){
+                                    answer = 1;
+                                }
+                                if(Continent1.equals("Europe")){
+                                    answer = 2;
+                                }
+                                if(Continent1.equals("Africa")){
+                                    answer = 3;
+                                }
+                                if(Continent1.equals("Oceania")){
+                                    answer = 4;
+                                }
+                                if(Continent1.equals("Antarctica")){
+                                    answer = 5;
+                                }
+                                timeLeftInMilliseconds = 90000;
+                                startStop();
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<ArrayList<GameData>> call, Throwable t) {
+
+                        }
+                    });
+                }
+            }
+        });
+        Continentbtn4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startStop();
+                if(answer == 3){
+                    updateScore();
+                    checkGameOver();
+
+                    ApiService apiService = ApiClientFactory.GetGeoQuizApi();
+                    Call<ArrayList<GameData>> call = apiService.GetGameData(1);
+                    call.enqueue(new Callback<ArrayList<GameData>>() {
+                        @Override
+                        public void onResponse(Call<ArrayList<GameData>> call, Response<ArrayList<GameData>> response) {
+                            if (response.isSuccessful()) {
+                                // assign game data objects here
+                                // e.g.
+                                ArrayList<GameData> ContinentGame = response.body();
+                                Continent1 = ContinentGame.get(0).getContinent();
+                                ContinentQuestion = ContinentGame.get(0).getName();
+                                CapitalText.setText("What Continent is " + ContinentQuestion + " on?");
+                                if(Continent1.equals("Americas")){
+                                    answer = 0;
+                                }
+                                if(Continent1.equals("Asia")){
+                                    answer = 1;
+                                }
+                                if(Continent1.equals("Europe")){
+                                    answer = 2;
+                                }
+                                if(Continent1.equals("Africa")){
+                                    answer = 3;
+                                }
+                                if(Continent1.equals("Oceania")){
+                                    answer = 4;
+                                }
+                                if(Continent1.equals("Antarctica")){
+                                    answer = 5;
+                                }
+                                timeLeftInMilliseconds = 90000;
+                                startStop();
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<ArrayList<GameData>> call, Throwable t) {
+
+                        }
+                    });
+                }else{
+                    checkGameOver();
+
+                    ApiService apiService = ApiClientFactory.GetGeoQuizApi();
+                    Call<ArrayList<GameData>> call = apiService.GetGameData(1);
+                    call.enqueue(new Callback<ArrayList<GameData>>() {
+                        @Override
+                        public void onResponse(Call<ArrayList<GameData>> call, Response<ArrayList<GameData>> response) {
+                            if (response.isSuccessful()) {
+                                // assign game data objects here
+                                // e.g.
+                                ArrayList<GameData> ContinentGame = response.body();
+                                Continent1 = ContinentGame.get(0).getContinent();
+                                ContinentQuestion = ContinentGame.get(0).getName();
+                                CapitalText.setText("What Continent is " + ContinentQuestion + " on?");
+                                if(Continent1.equals("Americas")){
+                                    answer = 0;
+                                }
+                                if(Continent1.equals("Asia")){
+                                    answer = 1;
+                                }
+                                if(Continent1.equals("Europe")){
+                                    answer = 2;
+                                }
+                                if(Continent1.equals("Africa")){
+                                    answer = 3;
+                                }
+                                if(Continent1.equals("Oceania")){
+                                    answer = 4;
+                                }
+                                if(Continent1.equals("Antarctica")){
+                                    answer = 5;
+                                }
+                                timeLeftInMilliseconds = 90000;
+                                startStop();
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<ArrayList<GameData>> call, Throwable t) {
+
+                        }
+                    });
+                }
+            }
+        });
+        Continentbtn5.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startStop();
+                if(answer == 4){
+                    updateScore();
+                    checkGameOver();
+
+                    ApiService apiService = ApiClientFactory.GetGeoQuizApi();
+                    Call<ArrayList<GameData>> call = apiService.GetGameData(1);
+                    call.enqueue(new Callback<ArrayList<GameData>>() {
+                        @Override
+                        public void onResponse(Call<ArrayList<GameData>> call, Response<ArrayList<GameData>> response) {
+                            if (response.isSuccessful()) {
+                                // assign game data objects here
+                                // e.g.
+                                ArrayList<GameData> ContinentGame = response.body();
+                                Continent1 = ContinentGame.get(0).getContinent();
+                                ContinentQuestion = ContinentGame.get(0).getName();
+                                CapitalText.setText("What Continent is " + ContinentQuestion + " on?");
+                                if(Continent1.equals("Americas")){
+                                    answer = 0;
+                                }
+                                if(Continent1.equals("Asia")){
+                                    answer = 1;
+                                }
+                                if(Continent1.equals("Europe")){
+                                    answer = 2;
+                                }
+                                if(Continent1.equals("Africa")){
+                                    answer = 3;
+                                }
+                                if(Continent1.equals("Oceania")){
+                                    answer = 4;
+                                }
+                                if(Continent1.equals("Antarctica")){
+                                    answer = 5;
+                                }
+                                timeLeftInMilliseconds = 90000;
+                                startStop();
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<ArrayList<GameData>> call, Throwable t) {
+
+                        }
+                    });
+                }else{
+                    checkGameOver();
+
+                    ApiService apiService = ApiClientFactory.GetGeoQuizApi();
+                    Call<ArrayList<GameData>> call = apiService.GetGameData(1);
+                    call.enqueue(new Callback<ArrayList<GameData>>() {
+                        @Override
+                        public void onResponse(Call<ArrayList<GameData>> call, Response<ArrayList<GameData>> response) {
+                            if (response.isSuccessful()) {
+                                // assign game data objects here
+                                // e.g.
+                                ArrayList<GameData> ContinentGame = response.body();
+                                Continent1 = ContinentGame.get(0).getContinent();
+                                ContinentQuestion = ContinentGame.get(0).getName();
+                                CapitalText.setText("What Continent is " + ContinentQuestion + " on?");
+                                if(Continent1.equals("Americas")){
+                                    answer = 0;
+                                }
+                                if(Continent1.equals("Asia")){
+                                    answer = 1;
+                                }
+                                if(Continent1.equals("Europe")){
+                                    answer = 2;
+                                }
+                                if(Continent1.equals("Africa")){
+                                    answer = 3;
+                                }
+                                if(Continent1.equals("Oceania")){
+                                    answer = 4;
+                                }
+                                if(Continent1.equals("Antarctica")){
+                                    answer = 5;
+                                }
+                                timeLeftInMilliseconds = 90000;
+                                startStop();
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<ArrayList<GameData>> call, Throwable t) {
+
+                        }
+                    });
+                }
+            }
+        });
+        Continentbtn6.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startStop();
+                if(answer == 5){
+                    updateScore();
+                    checkGameOver();
+
+                    ApiService apiService = ApiClientFactory.GetGeoQuizApi();
+                    Call<ArrayList<GameData>> call = apiService.GetGameData(1);
+                    call.enqueue(new Callback<ArrayList<GameData>>() {
+                        @Override
+                        public void onResponse(Call<ArrayList<GameData>> call, Response<ArrayList<GameData>> response) {
+                            if (response.isSuccessful()) {
+                                // assign game data objects here
+                                // e.g.
+                                ArrayList<GameData> ContinentGame = response.body();
+                                Continent1 = ContinentGame.get(0).getContinent();
+                                ContinentQuestion = ContinentGame.get(0).getName();
+                                CapitalText.setText("What Continent is " + ContinentQuestion + " on?");
+                                if(Continent1.equals("Americas")){
+                                    answer = 0;
+                                }
+                                if(Continent1.equals("Asia")){
+                                    answer = 1;
+                                }
+                                if(Continent1.equals("Europe")){
+                                    answer = 2;
+                                }
+                                if(Continent1.equals("Africa")){
+                                    answer = 3;
+                                }
+                                if(Continent1.equals("Oceania")){
+                                    answer = 4;
+                                }
+                                if(Continent1.equals("Antarctica")){
+                                    answer = 5;
+                                }
+                                timeLeftInMilliseconds = 90000;
+                                startStop();
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<ArrayList<GameData>> call, Throwable t) {
+
+                        }
+                    });
+                }else{
+                    checkGameOver();
+
+                    ApiService apiService = ApiClientFactory.GetGeoQuizApi();
+                    Call<ArrayList<GameData>> call = apiService.GetGameData(1);
+                    call.enqueue(new Callback<ArrayList<GameData>>() {
+                        @Override
+                        public void onResponse(Call<ArrayList<GameData>> call, Response<ArrayList<GameData>> response) {
+                            if (response.isSuccessful()) {
+                                // assign game data objects here
+                                // e.g.
+                                ArrayList<GameData> ContinentGame = response.body();
+                                Continent1 = ContinentGame.get(0).getContinent();
+                                ContinentQuestion = ContinentGame.get(0).getName();
+                                CapitalText.setText("What Continent is " + ContinentQuestion + " on?");
+                                if(Continent1.equals("Americas")){
+                                    answer = 0;
+                                }
+                                if(Continent1.equals("Asia")){
+                                    answer = 1;
+                                }
+                                if(Continent1.equals("Europe")){
+                                    answer = 2;
+                                }
+                                if(Continent1.equals("Africa")){
+                                    answer = 3;
+                                }
+                                if(Continent1.equals("Oceania")){
+                                    answer = 4;
+                                }
+                                if(Continent1.equals("Antarctica")){
+                                    answer = 5;
+                                }
+                                timeLeftInMilliseconds = 90000;
+                                startStop();
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<ArrayList<GameData>> call, Throwable t) {
+
+                        }
+                    });
+                }
+            }
+        });
+        QuitBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(ContinentsQuiz.this, MainActivity.class);
+                startActivity(intent);
+            }
+        });
+
+
     }
-
-    private void gameTick() {
-        RandomNumberGenerator optionIdx = new RandomNumberGenerator(7);
-
-        correctAnsIdx = ansIdx.generate();
-        key = countryDataList.get(correctAnsIdx);
-        GameText.setText("What continent is " + key.getName() + " on?");
-
-        switch(correctAnsIdx) {
-            case 0:
-                Opt0.setText(key.getContinent());
-
-                Opt1.setText(Continents[optionIdx.generate()]);
-                Opt2.setText(Continents[optionIdx.generate()]);
-                Opt3.setText(Continents[optionIdx.generate()]);
-                break;
-            case 1:
-                Opt1.setText(key.getContinent());
-
-                Opt0.setText(Continents[optionIdx.generate()]);
-                Opt2.setText(Continents[optionIdx.generate()]);
-                Opt3.setText(Continents[optionIdx.generate()]);
-                break;
-            case 2:
-                Opt2.setText(key.getContinent());
-
-                Opt0.setText(Continents[optionIdx.generate()]);
-                Opt1.setText(Continents[optionIdx.generate()]);
-                Opt3.setText(Continents[optionIdx.generate()]);
-                break;
-            case 3:
-                Opt3.setText(key.getContinent());
-
-                Opt0.setText(Continents[optionIdx.generate()]);
-                Opt1.setText(Continents[optionIdx.generate()]);
-                Opt2.setText(Continents[optionIdx.generate()]);
-                break;
+    public static int getRandomNumber(int min, int max) {
+        return (new Random()).nextInt((max - min) + 1) + min;
+    }
+    public void startStop(){
+        if(timerRunning){
+            stopTimer();
+        }else{
+            startTimer();
         }
-
-        Opt0.setOnClickListener(new View.OnClickListener(){
+    }
+    public void startTimer(){
+        countDownTimer = new CountDownTimer(timeLeftInMilliseconds, 1000) {
             @Override
-            public void onClick(View view) {
-                if (correctAnsIdx == 0) {
-                    updateScore();
-                }
-
-                checkGameOver();
-                gameTick();
+            public void onTick(long l) {
+                timeLeftInMilliseconds = l;
+                updateTimer();
             }
-        });
-        Opt1.setOnClickListener(new View.OnClickListener(){
+
             @Override
-            public void onClick(View view) {
-                if (correctAnsIdx == 1) {
-                    updateScore();
-                }
+            public void onFinish() {
 
-                checkGameOver();
-                gameTick();
             }
-        });
+        }.start();
 
-        Opt2.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view) {
-                if (correctAnsIdx == 2) {
-                    updateScore();
-                }
-
-                checkGameOver();
-                gameTick();
-            }
-        });
-
-        Opt3.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view) {
-                if (correctAnsIdx == 3) {
-                    updateScore();
-                }
-
-                checkGameOver();
-                gameTick();
-            }
-        });
+        timerRunning = true;
     }
 
+    public void stopTimer(){
+        countDownTimer.cancel();
+        timerRunning = false;
+    }
+
+    public void updateTimer(){
+        int minutes = (int) timeLeftInMilliseconds / 60000;
+        int seconds = (int) timeLeftInMilliseconds % 60000 / 1000;
+
+        String timeLeftText;
+
+        timeLeftText = "" + minutes;
+        timeLeftText += ":";
+        if(seconds < 10) timeLeftText += "0";
+        timeLeftText += seconds;
+
+        TimerText.setText(timeLeftText);
+    }
     private void updateScore() {
-        score += 1;
-        ScoreText.setText(Integer.toString(score));
+        score += 1 + (5*(Math.toIntExact(timeLeftInMilliseconds) / 1000));
+        ScoreText.setText("Score: " + Integer.toString(score));
     }
-
     private void checkGameOver() {
-        rounds--;
-        if (rounds <= 0) {
-            Quiz newQuiz = new Quiz();
-            newQuiz.setScore(score);
-            GetGeoQuizApi().PostCapitalQuizByBody(newQuiz);
+        question += 1;
+        if (question > questions) {
             Intent intent = new Intent(ContinentsQuiz.this, ResultScreen.class);
-            intent.putExtra("DurationText", Integer.toString(score));
+            intent.putExtra("score", score);
             startActivity(intent);
         }
     }
