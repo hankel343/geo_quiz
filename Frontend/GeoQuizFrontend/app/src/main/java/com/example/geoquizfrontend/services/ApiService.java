@@ -10,6 +10,7 @@ import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.Field;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
@@ -24,7 +25,7 @@ public interface ApiService {
     @PUT("quizzes/{id}")
     Call<Quiz> PutCapitalQuizByPath(@Path("id") int id, @Body Quiz newQuiz);
     @POST("quizzes")
-    Call<Quiz> PostCapitalQuizByBody(@Body Quiz newQuiz);
+    Call<Quiz> PostCapitalQuizByBody(@Body Quiz newQuiz, @Query("userId") long userId);
     @GET("/quizzes/top/{n}")
     Call<List<Quiz>> GetLeaderboardScores(@Path("n") int n);
     @GET("quizzes/{id}")

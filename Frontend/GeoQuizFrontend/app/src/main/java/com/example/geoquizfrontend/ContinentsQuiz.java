@@ -188,9 +188,6 @@ public class ContinentsQuiz extends AppCompatActivity {
     private void checkGameOver() {
         rounds--;
         if (rounds <= 0) {
-            Quiz newQuiz = new Quiz();
-            newQuiz.setScore(score);
-            GetGeoQuizApi().PostCapitalQuizByBody(newQuiz);
             Intent intent = new Intent(ContinentsQuiz.this, ResultScreen.class);
             intent.putExtra("DurationText", Integer.toString(score));
             startActivity(intent);

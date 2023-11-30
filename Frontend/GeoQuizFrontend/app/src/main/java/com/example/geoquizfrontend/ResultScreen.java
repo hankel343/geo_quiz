@@ -28,7 +28,11 @@ public class ResultScreen extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_result_screen);
 
-//        SharedPreferences sharedPreferences = getSharedPreferences("UserInfo", MODE_PRIVATE);
+        SharedPreferences sharedPreferences = getSharedPreferences("UserInfo", MODE_PRIVATE);
+        long userId = sharedPreferences.getLong("id", 0);
+        String firstName = sharedPreferences.getString("firstName", "");
+        System.out.println(firstName);
+        System.out.println(userId);
 
         YourScore = (TextView) findViewById(R.id.YourScore);
         PlayAgainBtn = (Button) findViewById(R.id.playagain_btn);
@@ -41,7 +45,7 @@ public class ResultScreen extends AppCompatActivity {
         newQuiz.setScore(quizScore);
 
         ApiService apiService = GetGeoQuizApi();
-        Call<Quiz> call = apiService.PostCapitalQuizByBody(newQuiz);
+        Call<Quiz> call = apiService.PostCapitalQuizByBody(newQuiz, userId);
         call.enqueue(new Callback<Quiz>() {
             @Override
             public void onResponse(Call<Quiz> call, Response<Quiz> response) {

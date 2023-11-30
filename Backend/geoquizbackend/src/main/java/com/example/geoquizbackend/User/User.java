@@ -15,8 +15,10 @@ public abstract class User {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Schema(description = "Unique identifier for the user", example = "1")
     long id;
+    @Enumerated(EnumType.STRING)
+    @Schema(description = "Type of the user", example = "STUDENT")
     public UserType userType;
-    @OneToMany
+    @OneToMany(mappedBy = "user")
     @Schema(description = "Set of quizzes taken by the user")
     Set<Quiz> quizzes;
 

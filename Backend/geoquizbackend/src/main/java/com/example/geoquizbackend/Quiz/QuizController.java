@@ -1,5 +1,6 @@
 package com.example.geoquizbackend.Quiz;
 
+import com.example.geoquizbackend.Enums.UserType;
 import com.example.geoquizbackend.Student.Student;
 import com.example.geoquizbackend.Student.StudentRepository;
 import com.example.geoquizbackend.User.User;
@@ -22,6 +23,8 @@ public class QuizController {
     QuizRepository quizRepository;
     @Autowired
     UserRepository userRepository;
+    @Autowired
+    StudentRepository studentRepository;
     @Operation(summary = "Get all quizzes", description = "Returns a list of all quizzes")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Successfully retrieved")
@@ -56,7 +59,7 @@ public class QuizController {
     })
     @PostMapping(path = "/quizzes")
     @ResponseBody
-    public Quiz createQuiz(@RequestBody Quiz quiz, @RequestParam long userId) {
+    public Quiz createQuiz(@RequestBody Quiz quiz, @RequestParam("userId") long userId) {
         if (quiz == null) {
             throw new IllegalArgumentException("Provided quiz is null.");
         }
@@ -67,6 +70,7 @@ public class QuizController {
         }
 
         quiz.setUser(user);
+        user.getQuizzes().add(quiz);
         return quizRepository.save(quiz);
     }
     @Operation(summary = "Update a quiz", description = "Updates an existing quiz and returns the updated quiz")

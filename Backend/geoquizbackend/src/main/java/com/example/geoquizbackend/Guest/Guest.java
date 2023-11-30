@@ -5,6 +5,8 @@ import com.example.geoquizbackend.User.User;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 
+import java.util.List;
+
 @Entity
 @Schema(description = "Guest entity")
 public class Guest extends User {

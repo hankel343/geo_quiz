@@ -1,5 +1,8 @@
 package com.example.geoquizbackend.Student;
 
+import com.example.geoquizbackend.Quiz.Quiz;
+import com.example.geoquizbackend.User.User;
+import com.example.geoquizbackend.User.UserRepository;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -14,6 +17,9 @@ import java.util.List;
 public class StudentController {
     @Autowired
     StudentRepository studentRepository;
+    @Autowired
+    UserRepository userRepository;
+
     @Operation(summary = "Get all students", description = "Returns a list of all students")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Successfully retrieved")
@@ -27,6 +33,7 @@ public class StudentController {
     })
     @GetMapping(path = "/students/{id}")
     Student getStudentById(@PathVariable long id) { return studentRepository.findById(id); }
+
     @Operation(summary = "Check if a student exists by email", description = "Returns a boolean indicating whether a student with the provided email exists")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Successfully retrieved")
