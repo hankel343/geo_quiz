@@ -45,7 +45,7 @@ public class ContinentsQuiz extends AppCompatActivity {
     private TextView CapitalText, ScoreText, TimerText;
     static int score, question, questions, answer;
     private Button Continentbtn1, Continentbtn2, Continentbtn3, Continentbtn4, Continentbtn5, Continentbtn6, QuitBtn;
-    private String Continent1, Continent2, Continent3, Continent4, ContinentQuestion;
+    private String Continent1, ContinentQuestion;
     private CountDownTimer countDownTimer;
     private long timeLeftInMilliseconds = 90000;
     private boolean timerRunning;
