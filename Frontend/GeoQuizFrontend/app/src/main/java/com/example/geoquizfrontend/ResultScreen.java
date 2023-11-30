@@ -30,9 +30,6 @@ public class ResultScreen extends AppCompatActivity {
 
         SharedPreferences sharedPreferences = getSharedPreferences("UserInfo", MODE_PRIVATE);
         long userId = sharedPreferences.getLong("id", 0);
-        String firstName = sharedPreferences.getString("firstName", "");
-        System.out.println(firstName);
-        System.out.println(userId);
 
         YourScore = (TextView) findViewById(R.id.YourScore);
         PlayAgainBtn = (Button) findViewById(R.id.playagain_btn);
