@@ -1,7 +1,6 @@
 package com.example.geoquizbackend.Quiz;
 
-import com.example.geoquizbackend.Guest.Guest;
-import com.example.geoquizbackend.Student.Student;
+import com.example.geoquizbackend.User.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
@@ -9,6 +8,7 @@ import jakarta.persistence.*;
 @Entity
 @Schema(description = "Quiz entity")
 public class Quiz {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Schema(description = "Unique identifier for the quiz", example = "1")
@@ -19,19 +19,38 @@ public class Quiz {
     private double duration;
     @ManyToOne
     @JsonIgnore
-    @Schema(description = "Student associated with the quiz")
-    private Student student;
-    public Quiz() {
-    }
-    // =============================== Getters and Setters for each field ================================== //
-    public long getId(){
+    @Schema(description = "User associated with the quiz")
+    private User user;
+
+    public long getId() {
         return id;
     }
-    public void setId(long id){
+
+    public void setId(long id) {
         this.id = id;
     }
-    public int getScore() { return score; }
-    public void setScore(int score) { this.score = score; }
-    public double getDuration() { return duration; }
-    public void setDuration(double duration) { this.duration = duration; }
+
+    public int getScore() {
+        return score;
+    }
+
+    public void setScore(int score) {
+        this.score = score;
+    }
+
+    public double getDuration() {
+        return duration;
+    }
+
+    public void setDuration(double duration) {
+        this.duration = duration;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
 }
