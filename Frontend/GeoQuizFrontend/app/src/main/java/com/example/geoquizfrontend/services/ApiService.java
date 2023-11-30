@@ -7,6 +7,7 @@ import com.example.geoquizfrontend.models.Student;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -21,6 +22,8 @@ public interface ApiService {
     // country data endpoints
     @GET("countries/gameData")
     Call<ArrayList<GameData>> GetGameData(@Query("count") int count);
+    @GET("users/{id}/quizzes")
+    Call<Set<Quiz>> getQuizzesByUserId(@Path("id") long id);
     // quiz endpoints
     @PUT("quizzes/{id}")
     Call<Quiz> PutCapitalQuizByPath(@Path("id") int id, @Body Quiz newQuiz);

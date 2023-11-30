@@ -16,7 +16,7 @@ public class UserController {
     @Autowired
     UserRepository userRepository;
 
-    @GetMapping("/{id}/quizzes")
+    @GetMapping("users/{id}/quizzes")
     public Set<Quiz> getQuizzesByUserId(@PathVariable Long id) {
         Optional<User> user = userRepository.findById(id);
         return user != null ? user.get().getQuizzes() : null;

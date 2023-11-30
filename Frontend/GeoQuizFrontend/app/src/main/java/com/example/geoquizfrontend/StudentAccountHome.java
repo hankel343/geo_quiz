@@ -55,5 +55,14 @@ public class StudentAccountHome extends AppCompatActivity {
                 );
             }
         });
+
+        PastScoresBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(
+                            new Intent(StudentAccountHome.this, StudentPastScores.class)
+                        );
+            }
+        });
     }
 }
