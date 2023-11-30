@@ -3,20 +3,16 @@ package com.example.geoquizbackend.Student;
 import com.example.geoquizbackend.GeoClass.GeoClass;
 import com.example.geoquizbackend.Professor.Professor;
 import com.example.geoquizbackend.Quiz.Quiz;
+import com.example.geoquizbackend.User.User;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
-//import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+import java.util.List;
 import java.util.Set;
 
 @Entity
 @Schema(description = "Student entity")
-public class Student {
-
-    @Id
-    @Schema(description = "Unique identifier for the student", example = "1")
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    long id;
+public class Student extends User {
 
     @Schema(description = "First name of the student", example = "John")
     String firstName;
@@ -30,9 +26,6 @@ public class Student {
     private String classCode;
     @Schema(description = "Grade of the student", example = "90.5")
     float grade;
-    @OneToMany
-    @Schema(description = "Set of quizzes taken by the student")
-    Set<Quiz> q;
     @ManyToOne
     @JoinColumn(name="class_id")
     @Schema(description = "GeoClass associated with the student")
@@ -41,37 +34,45 @@ public class Student {
     @JoinColumn(name="professor_id")
     @Schema(description = "Professor associated with the student")
     Professor professor;
-    public Student() {
 
-    }
-    public long getId() { return id; }
     public String getFirstName() {
         return firstName;
     }
 
-    public void setFirstName(String name) {
-        this.firstName = name;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
-    public String getLastName() { return lastName; }
-    public void setLastName(String name) { this.lastName = name; }
-
-    public void getPassword() { this.password = password; }
-    public void setPassword(String password) {
-        this.password = password;
-//        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-//        this.password = encoder.encode(password);
+    public String getLastName() {
+        return lastName;
     }
-    //    public boolean checkPassword(String password) {
-//        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-//        return encoder.matches(password, this.password);
-//    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
     public String getEmail() {
         return email;
     }
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getClassCode() {
+        return classCode;
+    }
+
+    public void setClassCode(String classCode) {
+        this.classCode = classCode;
     }
 
     public float getGrade() {
@@ -81,6 +82,20 @@ public class Student {
     public void setGrade(float grade) {
         this.grade = grade;
     }
-    public void setClassCode(String classCode) { this.classCode = classCode; }
-    public String getClassCode() { return this.classCode; }
+
+    public GeoClass getGeoClass() {
+        return geoClass;
+    }
+
+    public void setGeoClass(GeoClass geoClass) {
+        this.geoClass = geoClass;
+    }
+
+    public Professor getProfessor() {
+        return professor;
+    }
+
+    public void setProfessor(Professor professor) {
+        this.professor = professor;
+    }
 }

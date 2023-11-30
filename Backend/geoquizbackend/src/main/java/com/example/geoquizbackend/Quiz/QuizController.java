@@ -1,5 +1,10 @@
 package com.example.geoquizbackend.Quiz;
 
+import com.example.geoquizbackend.Enums.UserType;
+import com.example.geoquizbackend.Student.Student;
+import com.example.geoquizbackend.Student.StudentRepository;
+import com.example.geoquizbackend.User.User;
+import com.example.geoquizbackend.User.UserRepository;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -16,6 +21,10 @@ import java.util.stream.Collectors;
 public class QuizController {
     @Autowired
     QuizRepository quizRepository;
+    @Autowired
+    UserRepository userRepository;
+    @Autowired
+    StudentRepository studentRepository;
     @Operation(summary = "Get all quizzes", description = "Returns a list of all quizzes")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Successfully retrieved")
@@ -50,11 +59,18 @@ public class QuizController {
     })
     @PostMapping(path = "/quizzes")
     @ResponseBody
-    public Quiz createQuiz(@RequestBody Quiz quiz) {
+    public Quiz createQuiz(@RequestBody Quiz quiz, @RequestParam("userId") long userId) {
         if (quiz == null) {
             throw new IllegalArgumentException("Provided quiz is null.");
         }
 
+        User user = userRepository.findById(userId);
+        if (user == null) {
+            throw new IllegalArgumentException("Student not found");
+        }
+
+        quiz.setUser(user);
+        user.getQuizzes().add(quiz);
         return quizRepository.save(quiz);
     }
     @Operation(summary = "Update a quiz", description = "Updates an existing quiz and returns the updated quiz")
