@@ -4,6 +4,7 @@ public class Quiz {
     private int id;
     private int score;
     private double duration;
+    private QuizType type;
     public int getId() {
         return id;
     }
@@ -22,4 +23,6 @@ public class Quiz {
     public void setDuration(double duration) {
         this.duration = duration;
     }
+    public QuizType getType() { return type; }
+    public void setType(QuizType type) { this.type = type; }
 }

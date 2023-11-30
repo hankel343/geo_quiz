@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.geoquizfrontend.models.Quiz;
+import com.example.geoquizfrontend.models.QuizType;
 import com.example.geoquizfrontend.services.ApiService;
 
 import retrofit2.Call;
@@ -36,10 +37,12 @@ public class ResultScreen extends AppCompatActivity {
 
         Intent intent = getIntent();
         quizScore = intent.getIntExtra("score", quizScore);
+        QuizType quizType = (QuizType) intent.getSerializableExtra("quizType");
         YourScore.setText("Score: " + Integer.toString(quizScore));
 
         Quiz newQuiz = new Quiz();
         newQuiz.setScore(quizScore);
+        newQuiz.setType(quizType);
 
         ApiService apiService = GetGeoQuizApi();
         Call<Quiz> call = apiService.PostCapitalQuizByBody(newQuiz, userId);

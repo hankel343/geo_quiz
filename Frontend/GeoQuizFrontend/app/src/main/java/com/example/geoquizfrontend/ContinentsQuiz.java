@@ -5,6 +5,7 @@ import static com.example.geoquizfrontend.ApiClientFactory.GetGeoQuizApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -12,6 +13,7 @@ import android.widget.TextView;
 
 import com.example.geoquizfrontend.models.Quiz;
 import com.example.geoquizfrontend.models.GameData;
+import com.example.geoquizfrontend.models.QuizType;
 import com.example.geoquizfrontend.services.ApiService;
 import com.example.geoquizfrontend.services.RandomNumberGenerator;
 
@@ -190,6 +192,7 @@ public class ContinentsQuiz extends AppCompatActivity {
         if (rounds <= 0) {
             Intent intent = new Intent(ContinentsQuiz.this, ResultScreen.class);
             intent.putExtra("DurationText", Integer.toString(score));
+            intent.putExtra("quizType", QuizType.CONTINENT);
             startActivity(intent);
         }
     }
