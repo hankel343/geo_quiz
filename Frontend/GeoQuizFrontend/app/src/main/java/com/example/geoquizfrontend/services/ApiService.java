@@ -3,6 +3,7 @@ package com.example.geoquizfrontend.services;
 import com.example.geoquizfrontend.models.Quiz;
 import com.example.geoquizfrontend.models.GameData;
 import com.example.geoquizfrontend.models.Professor;
+import com.example.geoquizfrontend.models.QuizType;
 import com.example.geoquizfrontend.models.Student;
 
 import java.util.ArrayList;
@@ -22,8 +23,9 @@ public interface ApiService {
     @GET("countries/gameData")
     Call<ArrayList<GameData>> GetGameData(@Query("count") int count);
     // quiz endpoints
-    @PUT("quizzes/{id}")
-    Call<Quiz> PutCapitalQuizByPath(@Path("id") int id, @Body Quiz newQuiz);
+    @POST("quizzes")
+    Call<Quiz> createQuiz(@Body Quiz newQuiz, @Query("userId") long userId);
+
     @POST("quizzes")
     Call<Quiz> PostCapitalQuizByBody(@Body Quiz newQuiz, @Query("userId") long userId);
     @GET("/quizzes/top/{n}")

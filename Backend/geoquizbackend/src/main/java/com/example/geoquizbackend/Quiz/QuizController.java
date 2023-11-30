@@ -64,7 +64,7 @@ public class QuizController {
             throw new IllegalArgumentException("Provided quiz is null.");
         }
 
-        User user = userRepository.findById(userId);
+        User user = userRepository.findById(userId) ;
         if (user == null) {
             throw new IllegalArgumentException("Student not found");
         }
@@ -73,6 +73,8 @@ public class QuizController {
         user.getQuizzes().add(quiz);
         return quizRepository.save(quiz);
     }
+
+
     @Operation(summary = "Update a quiz", description = "Updates an existing quiz and returns the updated quiz")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Successfully updated"),

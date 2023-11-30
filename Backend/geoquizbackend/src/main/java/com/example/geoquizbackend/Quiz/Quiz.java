@@ -1,5 +1,6 @@
 package com.example.geoquizbackend.Quiz;
 
+import com.example.geoquizbackend.Enums.QuizType;
 import com.example.geoquizbackend.User.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -17,6 +18,9 @@ public class Quiz {
     private int score;
     @Schema(description = "Duration of the quiz in hours", example = "1.5")
     private double duration;
+
+    @Schema(description = "Type of the quiz", example = "FLAG")
+    QuizType type;
     @ManyToOne
     @JsonIgnore
     @Schema(description = "User associated with the quiz")
@@ -52,5 +56,13 @@ public class Quiz {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public QuizType getType() {
+        return type;
+    }
+
+    public void setType(QuizType type) {
+        this.type = type;
     }
 }

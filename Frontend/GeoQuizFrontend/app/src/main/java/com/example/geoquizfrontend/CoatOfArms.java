@@ -6,6 +6,7 @@ import static com.example.geoquizfrontend.CountryNames.pngValues;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
@@ -15,6 +16,7 @@ import android.widget.TextView;
 
 import com.example.geoquizfrontend.models.Quiz;
 import com.example.geoquizfrontend.models.GameData;
+import com.example.geoquizfrontend.models.QuizType;
 import com.example.geoquizfrontend.services.ApiService;
 import com.example.geoquizfrontend.services.RandomNumberGenerator;
 import com.squareup.picasso.Picasso;
@@ -194,6 +196,7 @@ public class CoatOfArms extends AppCompatActivity {
 //            newQuiz.setScore(score);
             Intent intent = new Intent(CoatOfArms.this, ResultScreen.class);
             intent.putExtra("score", score);
+            intent.putExtra("quizType", QuizType.COAT_OF_ARMS);
             startActivity(intent);
         }
     }
