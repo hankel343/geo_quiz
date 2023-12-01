@@ -4,6 +4,7 @@ import static com.example.geoquizfrontend.ApiClientFactory.GetGeoQuizApi;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -12,6 +13,8 @@ import android.widget.TextView;
 import com.example.geoquizfrontend.models.GameData;
 import com.example.geoquizfrontend.models.Quiz;
 import com.example.geoquizfrontend.models.QuizType;
+import com.example.geoquizfrontend.models.Student;
+import com.example.geoquizfrontend.models.User;
 import com.example.geoquizfrontend.services.ApiService;
 
 import java.util.ArrayList;
@@ -22,7 +25,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class LeaderboardScreen extends AppCompatActivity {
-    private TextView score1, score2, score3, score4, score5, score6, score7, score8, score9, score10, CurrentLeaderboard;
+    private TextView score1, score2, score3, score4, score5, score6, score7, score8, score9, score10, Textuser1, Textuser2, Textuser3, Textuser4, Textuser5, Textuser6, Textuser7, Textuser8, Textuser9, Textuser10, CurrentLeaderboard;
     private Button UpdateLeaderboardbtn, FlagLeaderboard, CapitalLeaderboard, ContinentsLeaderboard, COALeaderboard, HigherLowerLeaderboard;
     private QuizType whichGame = QuizType.FLAG;
     @Override
@@ -80,7 +83,6 @@ public class LeaderboardScreen extends AppCompatActivity {
 
                     }
                 });
-
 
             }
         });
