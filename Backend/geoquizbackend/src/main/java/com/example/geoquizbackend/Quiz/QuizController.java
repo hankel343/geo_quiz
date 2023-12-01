@@ -66,7 +66,7 @@ public class QuizController {
 
         User user = userRepository.findById(userId) ;
         if (user == null) {
-            throw new IllegalArgumentException("Student not found");
+            throw new IllegalArgumentException("User not found");
         }
 
         quiz.setUser(user);
