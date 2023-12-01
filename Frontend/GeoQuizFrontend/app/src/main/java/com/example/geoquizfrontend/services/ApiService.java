@@ -28,11 +28,12 @@ public interface ApiService {
     // quiz endpoints
     @POST("quizzes")
     Call<Quiz> createQuiz(@Body Quiz newQuiz, @Query("userId") long userId);
-
     @POST("quizzes")
     Call<Quiz> PostCapitalQuizByBody(@Body Quiz newQuiz, @Query("userId") long userId);
     @GET("/quizzes/top/{n}")
     Call<List<Quiz>> GetLeaderboardScores(@Path("n") int n);
+    @GET("/quizzes/top/{type}/{n}")
+    Call<List<Quiz>> getTopNQuizzesByType(@Path("type") QuizType type, @Path("n") int n);
     @GET("quizzes/{id}")
     Call<Quiz> GetCapitalQuizByPath(@Path("id") String id);
     // student endpoints

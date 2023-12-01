@@ -1,5 +1,6 @@
 package com.example.geoquizbackend.Quiz;
 
+import com.example.geoquizbackend.Enums.QuizType;
 import com.example.geoquizbackend.Enums.UserType;
 import com.example.geoquizbackend.Student.Student;
 import com.example.geoquizbackend.Student.StudentRepository;
@@ -9,6 +10,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -33,6 +35,18 @@ public class QuizController {
     List<Quiz> getAllQuizzes() {
         return quizRepository.findAll();
     }
+
+    @Operation(summary = "Get top N quizzes of a specific type", description = "Returns a list of the top N quizzes of a specific type by score")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Successfully retrieved")
+    })
+    @GetMapping(path = "/quizzes/top/{type}/{n}")
+    List<Quiz> getTopNQuizzesByType(@PathVariable QuizType type, @PathVariable int n) {
+        Pageable pageable = PageRequest.of(0, n);
+        Page<Quiz> topScores = quizRepository.findAllByTypeOrderByScoreDesc(type, pageable);
+        return topScores.getContent();
+    }
+
     @Operation(summary = "Get a quiz by id", description = "Returns a quiz as per the id")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Successfully retrieved"),
@@ -42,6 +56,7 @@ public class QuizController {
     Quiz getQuizById(@PathVariable long id) {
         return quizRepository.findById(id);
     }
+
     @Operation(summary = "Get top N quizzes", description = "Returns a list of the top N quizzes by score")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Successfully retrieved")
@@ -52,6 +67,7 @@ public class QuizController {
                 .limit(n)
                 .collect(Collectors.toList());
     }
+
     @Operation(summary = "Create a quiz", description = "Creates a new quiz and returns the created quiz")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Successfully created"),
@@ -74,7 +90,6 @@ public class QuizController {
         return quizRepository.save(quiz);
     }
 
-
     @Operation(summary = "Update a quiz", description = "Updates an existing quiz and returns the updated quiz")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Successfully updated"),
@@ -94,6 +109,7 @@ public class QuizController {
 
         return quizRepository.findById(id);
     }
+
     @Operation(summary = "Delete a quiz", description = "Deletes a quiz as per the id")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Successfully deleted"),
