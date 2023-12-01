@@ -42,6 +42,10 @@ public class QuizController {
     })
     @GetMapping(path = "/quizzes/top/{type}/{n}")
     List<Quiz> getTopNQuizzesByType(@PathVariable QuizType type, @PathVariable int n) {
+        if (n <= 0) {
+            throw new InvalidQuizCountException("Number of quizzes must be greater than zero.");
+        }
+
         Pageable pageable = PageRequest.of(0, n);
         Page<Quiz> topScores = quizRepository.findAllByTypeOrderByScoreDesc(type, pageable);
         return topScores.getContent();
