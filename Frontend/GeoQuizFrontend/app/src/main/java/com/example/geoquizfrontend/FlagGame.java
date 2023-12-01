@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.geoquizfrontend.models.GameData;
+import com.example.geoquizfrontend.models.QuizType;
 import com.example.geoquizfrontend.services.ApiService;
 import com.squareup.picasso.Picasso;
 
@@ -429,6 +430,7 @@ public class FlagGame extends AppCompatActivity {
         if (question > questions) {
             Intent intent = new Intent(FlagGame.this, ResultScreen.class);
             intent.putExtra("score", score);
+            intent.putExtra("quizType", QuizType.FLAG);
             startActivity(intent);
         }
     }
