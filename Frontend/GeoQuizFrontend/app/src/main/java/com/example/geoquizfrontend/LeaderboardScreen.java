@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.example.geoquizfrontend.models.GameData;
 import com.example.geoquizfrontend.models.Quiz;
+import com.example.geoquizfrontend.models.QuizType;
 import com.example.geoquizfrontend.services.ApiService;
 
 import java.util.ArrayList;
@@ -21,8 +22,9 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class LeaderboardScreen extends AppCompatActivity {
-    private TextView score1, score2, score3, score4, score5, score6, score7, score8, score9, score10;
-    private Button UpdateLeaderboardbtn;
+    private TextView score1, score2, score3, score4, score5, score6, score7, score8, score9, score10, CurrentLeaderboard;
+    private Button UpdateLeaderboardbtn, FlagLeaderboard, CapitalLeaderboard, ContinentsLeaderboard, COALeaderboard, HigherLowerLeaderboard;
+    private QuizType whichGame = QuizType.FLAG;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,13 +40,21 @@ public class LeaderboardScreen extends AppCompatActivity {
         score8 = (TextView) findViewById(R.id.score8);
         score9 = (TextView) findViewById(R.id.score9);
         score10 = (TextView) findViewById(R.id.score10);
+        CurrentLeaderboard = (TextView) findViewById(R.id.CurrentLeaderboard);
         UpdateLeaderboardbtn = (Button) findViewById(R.id.Updatebtn);
+        FlagLeaderboard = (Button) findViewById(R.id.FlagLeaderboard);
+        CapitalLeaderboard = (Button) findViewById(R.id.CapitalLeaderboard);
+        ContinentsLeaderboard = (Button) findViewById(R.id.ContinentsLeaderboard);
+        COALeaderboard = (Button) findViewById(R.id.COALeaderboard);
+        HigherLowerLeaderboard = (Button) findViewById(R.id.HigherLowerLeaderboard);
+
+
 
         UpdateLeaderboardbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 ApiService apiService = ApiClientFactory.GetGeoQuizApi();
-                Call<List<Quiz>> call = apiService.GetLeaderboardScores(10);
+                Call<List<Quiz>> call = apiService.getTopNQuizzesByType(whichGame,10);
                 call.enqueue(new Callback<List<Quiz>>() {
                     @Override
                     public void onResponse(Call<List<Quiz>> call, Response<List<Quiz>> response) {
@@ -75,7 +85,34 @@ public class LeaderboardScreen extends AppCompatActivity {
             }
         });
 
-
+        FlagLeaderboard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                whichGame = QuizType.FLAG;
+                CurrentLeaderboard.setText("Flag Game Leaderboard");
+            }
+        });
+        CapitalLeaderboard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                whichGame = QuizType.CAPITAL;
+                CurrentLeaderboard.setText("Capital Game Leaderboard");
+            }
+        });
+        ContinentsLeaderboard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                whichGame = QuizType.CONTINENT;
+                CurrentLeaderboard.setText("Continent Game Leaderboard");
+            }
+        });
+        COALeaderboard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                whichGame = QuizType.COAT_OF_ARMS;
+                CurrentLeaderboard.setText("Coat of Arms Game Leaderboard");
+            }
+        });
 
     }
 }
