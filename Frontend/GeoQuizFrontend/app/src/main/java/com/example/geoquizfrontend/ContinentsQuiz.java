@@ -739,6 +739,7 @@ public class ContinentsQuiz extends AppCompatActivity {
         question += 1;
         if (question > questions) {
             Intent intent = new Intent(ContinentsQuiz.this, ResultScreen.class);
+            intent.putExtra("quizType", QuizType.CONTINENT);
             intent.putExtra("score", score);
             startActivity(intent);
         }
