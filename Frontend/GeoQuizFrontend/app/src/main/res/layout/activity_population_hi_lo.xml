@@ -121,11 +121,22 @@
         app:layout_constraintHorizontal_bias="0.875"
         app:layout_constraintStart_toStartOf="parent" />
 
+    <Button
+        android:id="@+id/quit_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="25dp"
+        android:text="Quit"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="0.9"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
     <TextView
         android:id="@+id/PopScore"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="100dp"
+        android:layout_marginBottom="175dp"
         android:gravity="center"
         android:text="Score: NA"
         android:textSize="24dp"
@@ -139,7 +150,7 @@
         android:id="@+id/HighPopScore"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="50dp"
+        android:layout_marginBottom="125dp"
         android:gravity="center"
         android:text="High Score: NA"
         android:textSize="24dp"
