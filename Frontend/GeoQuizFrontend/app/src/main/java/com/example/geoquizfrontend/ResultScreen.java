@@ -21,7 +21,7 @@ import retrofit2.Response;
 
 public class ResultScreen extends AppCompatActivity {
     private TextView YourScore, DurationText;
-    int quizScore;
+    int quizScore, userID;
     private Button PlayAgainBtn;
     String stringQuizScore;
     @Override
@@ -39,7 +39,6 @@ public class ResultScreen extends AppCompatActivity {
         quizScore = intent.getIntExtra("score", quizScore);
         QuizType quizType = (QuizType) intent.getSerializableExtra("quizType");
         YourScore.setText("Score: " + Integer.toString(quizScore));
-
         Quiz newQuiz = new Quiz();
         newQuiz.setScore(quizScore);
         newQuiz.setType(quizType);

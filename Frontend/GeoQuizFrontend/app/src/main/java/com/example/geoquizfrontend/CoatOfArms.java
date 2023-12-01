@@ -37,6 +37,7 @@ public class CoatOfArms extends AppCompatActivity {
     private boolean timerRunning;
     private int rounds = 4;
     private int score = 0;
+    private String COApng;
     private String[] countryNames = CountryNames.countries;
     private String[] coatOfArms = pngValues;
     private List<GameData> countryDataList;
@@ -64,14 +65,16 @@ public class CoatOfArms extends AppCompatActivity {
         coatOfArmsPNG = findViewById(R.id.coatOfArms_id);
 
         ApiService apiService = GetGeoQuizApi();
-        Call<ArrayList<GameData>> call = apiService.GetGameData(4);
+        Call<ArrayList<GameData>> call = apiService.GetGameData(1);
 
         call.enqueue(new Callback<ArrayList<GameData>>() {
             @Override
             public void onResponse(Call<ArrayList<GameData>> call, Response<ArrayList<GameData>> response) {
                 if (response.isSuccessful()) {
-                    countryDataList = response.body();
-                    gameTick();
+                    ArrayList<GameData> COAgame = response.body();
+                    COApng = COAgame.get(0).getCoatOfArms();
+                    Picasso.get().load(COApng).into(coatOfArmsPNG);
+//                    gameTick();
                     startTimer();
                     updateTimer();
                 }
@@ -91,7 +94,7 @@ public class CoatOfArms extends AppCompatActivity {
         key = countryDataList.get(correctAnsIdx);
         GameText.setText("What country has the following coat of arms?");
 
-        Picasso.get().load(pngValues[pngIdx.generate()]).into(coatOfArmsPNG);
+//        Picasso.get().load(pngValues[pngIdx.generate()]).into(coatOfArmsPNG);
 
         switch(correctAnsIdx) {
             case 0:
