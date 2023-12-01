@@ -397,7 +397,7 @@ public class CapitalGame extends AppCompatActivity {
         QuitBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(CapitalGame.this, MainActivity.class);
+                Intent intent = new Intent(CapitalGame.this, GamescreenActivity.class);
                 startActivity(intent);
             }
         });

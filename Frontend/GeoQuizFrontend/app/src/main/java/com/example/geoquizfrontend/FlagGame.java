@@ -374,6 +374,13 @@ public class FlagGame extends AppCompatActivity {
                 }
             }
         });
+        QuitBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(FlagGame.this, GamescreenActivity.class);
+                startActivity(intent);
+            }
+        });
     }
     public static int getRandomNumber(int min, int max) {
         return (new Random()).nextInt((max - min) + 1) + min;

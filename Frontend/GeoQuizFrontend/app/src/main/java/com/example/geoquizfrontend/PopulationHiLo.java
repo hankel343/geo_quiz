@@ -2,6 +2,7 @@ package com.example.geoquizfrontend;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -21,7 +22,7 @@ import retrofit2.Response;
 
 public class PopulationHiLo extends AppCompatActivity {
     private TextView PopulationRules1, PopulationRules2, Countryone, PopulationOne, Countrytwo, PopulationTwo, PopScore, HighPopScore;
-    private Button HigherBtn, LowerBtn;
+    private Button HigherBtn, LowerBtn, QuitBtn;
     private int score = 0;
     private int highScore = 0;
     private int populationOne = 0;
@@ -44,6 +45,7 @@ public class PopulationHiLo extends AppCompatActivity {
         HighPopScore = (TextView) findViewById(R.id.HighPopScore);
         HigherBtn = (Button) findViewById(R.id.HigherBtn);
         LowerBtn = (Button) findViewById(R.id.LowerBtn);
+        QuitBtn = (Button) findViewById(R.id.quit_btn);
 
         ApiService apiService = ApiClientFactory.GetGeoQuizApi();
         Call<ArrayList<GameData>> call = apiService.GetGameData(2);
@@ -151,6 +153,13 @@ public class PopulationHiLo extends AppCompatActivity {
 
                     }
                 });
+            }
+        });
+        QuitBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(PopulationHiLo.this, GamescreenActivity.class);
+                startActivity(intent);
             }
         });
     }
