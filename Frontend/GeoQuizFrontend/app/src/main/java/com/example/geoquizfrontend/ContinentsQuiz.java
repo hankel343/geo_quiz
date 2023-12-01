@@ -25,7 +25,7 @@ import org.json.JSONObject;
 
 import com.example.geoquizfrontend.models.Quiz;
 import com.example.geoquizfrontend.models.GameData;
-
+import com.example.geoquizfrontend.models.QuizType;
 import com.example.geoquizfrontend.services.ApiService;
 import com.example.geoquizfrontend.services.CountryService;
 import com.example.geoquizfrontend.services.RandomNumberGenerator;

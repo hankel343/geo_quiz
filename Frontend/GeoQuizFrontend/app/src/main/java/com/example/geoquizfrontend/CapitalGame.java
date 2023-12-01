@@ -26,6 +26,7 @@ import org.json.JSONObject;
 import com.example.geoquizfrontend.models.Quiz;
 import com.example.geoquizfrontend.models.GameData;
 
+import com.example.geoquizfrontend.models.QuizType;
 import com.example.geoquizfrontend.services.ApiService;
 import com.example.geoquizfrontend.services.CountryService;
 
@@ -457,6 +458,7 @@ public class CapitalGame extends AppCompatActivity {
         if (question > questions) {
             Intent intent = new Intent(CapitalGame.this, ResultScreen.class);
             intent.putExtra("score", score);
+            intent.putExtra("quizType", QuizType.CAPITAL);
             startActivity(intent);
         }
     }

@@ -8,6 +8,7 @@ public class Student {
     private String password;
     private String classCode;
     private float grade;
+    private UserType userType;
 
     public Student() {
 
@@ -20,6 +21,8 @@ public class Student {
     public void setId(long id) {
         this.id = id;
     }
+    public UserType getUserType() { return userType; }
+    public void setUserType(UserType userType) { this.userType = userType; }
 
     public String getFirstName() {
         return firstName;
