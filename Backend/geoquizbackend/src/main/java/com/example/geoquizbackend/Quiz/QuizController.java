@@ -51,6 +51,22 @@ public class QuizController {
         return topScores.getContent();
     }
 
+    @Operation(summary = "Get user from quiz id", description = "Returns the user associated with the specified quiz id")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Successfully retrieved user"),
+            @ApiResponse(responseCode = "404", description = "Quiz not found")
+    })
+    @GetMapping(path = "/quizzes/{id}/user")
+    public User getUserNameFromQuizId(@PathVariable long id) {
+        Quiz quiz = quizRepository.findById(id);
+
+        if (quiz != null) {
+            return quiz.getUser();
+        } else {
+            return null;
+        }
+    }
+
     @Operation(summary = "Get a quiz by id", description = "Returns a quiz as per the id")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Successfully retrieved"),
