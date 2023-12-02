@@ -6,9 +6,9 @@ import java.util.Set;
 
 public class UniqueRandomNumberGenerator {
 
-    int minVal = 0;
-    int maxVal = 0;
-    Set<Integer> generatedNumbers = new HashSet<>();
+    public int minVal = 0;
+    public int maxVal = 0;
+    public Set<Integer> generatedNumbers = new HashSet<>();
     Random rand = new Random();
 
     public UniqueRandomNumberGenerator(int maxValue) {
