@@ -51,6 +51,9 @@ public class StudentController {
     @GetMapping("/students/authenticate")
     public ResponseEntity<Student> authenticate(@RequestParam String email, @RequestParam String password) {
         Student student = studentRepository.findByEmailAndPassword(email, password);
+        if (student == null) {
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        }
         return ResponseEntity.ok(student);
     }
     @Operation(summary = "Create a student", description = "Creates a new student and returns the created student")

@@ -40,6 +40,96 @@ public class StudentControllerTest {
     }
 
     @Test
+    public void testGetStudentByIdInvalid() {
+        Response response = RestAssured.given()
+                .when()
+                .get("/students/9999")
+                .then()
+                .extract().response();
+
+        int statusCode = response.getStatusCode();
+        assertEquals(404, statusCode);
+    }
+
+    @Test
+    public void testExistsByEmailInvalid() {
+        Response response = RestAssured.given()
+                .queryParam("email", "nonexistent@example.com")
+                .when()
+                .get("/students/exists")
+                .then()
+                .extract().response();
+
+        int statusCode = response.getStatusCode();
+        assertEquals(200, statusCode);
+        assertEquals("false", response.getBody().asString());
+    }
+
+
+    @Test
+    public void testAuthenticateInvalidPassword() {
+        Response response = RestAssured.given()
+                .queryParam("email", "test@example.com")
+                .queryParam("password", "wrongpassword")
+                .when()
+                .get("/students/authenticate")
+                .then()
+                .extract().response();
+
+        int statusCode = response.getStatusCode();
+        assertEquals(404, statusCode);
+    }
+
+    @Test
+    public void testCreateStudentInvalidData() {
+        Student student = new Student();
+        student.setEmail("invalid");
+        student.setPassword("password");
+
+        Response response = RestAssured.given()
+                .contentType(ContentType.JSON)
+                .body(student)
+                .when()
+                .post("/students")
+                .then()
+                .extract().response();
+
+        int statusCode = response.getStatusCode();
+        assertEquals(400, statusCode);
+    }
+
+    @Test
+    public void testUpdateStudentInvalidId() {
+        Student student = new Student();
+        student.setId(9999L);
+        student.setEmail("test@example.com");
+        student.setPassword("password");
+
+        Response response = RestAssured.given()
+                .contentType(ContentType.JSON)
+                .body(student)
+                .when()
+                .put("/students/9999")
+                .then()
+                .extract().response();
+
+        int statusCode = response.getStatusCode();
+        assertEquals(404, statusCode);
+    }
+
+    @Test
+    public void testDeleteStudentInvalidId() {
+        Response response = RestAssured.given()
+                .when()
+                .delete("/students/9999")
+                .then()
+                .extract().response();
+
+        int statusCode = response.getStatusCode();
+        assertEquals(404, statusCode);
+    }
+
+    @Test
     public void testGetStudentById() {
         Response response = RestAssured.given()
                 .when()
