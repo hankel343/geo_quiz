@@ -71,7 +71,7 @@ public class StudentController {
             Student savedStudent = studentRepository.save(student);
             return new ResponseEntity<>(savedStudent, HttpStatus.CREATED);
         } catch (Exception e) {
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         }
     }
     @Operation(summary = "Update a student", description = "Updates an existing student and returns the updated student")
@@ -81,15 +81,20 @@ public class StudentController {
             @ApiResponse(responseCode = "404", description = "Not found - The student was not found")
     })
     @PutMapping(path = "/students/{id}")
-    Student updateStudent(@PathVariable long id, @RequestBody Student req) {
+    ResponseEntity<Student> updateStudent(@PathVariable long id, @RequestBody Student req) {
         Student student = studentRepository.findById(id);
         if (req == null) {
-            return null;
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        }
+
+        if (req == null) {
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         }
 
         studentRepository.save(req);
-        return studentRepository.findById(id);
+        return new ResponseEntity<>(studentRepository.findById(id), HttpStatus.OK);
     }
+
     @Operation(summary = "Delete a student", description = "Deletes a student as per the id")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Successfully deleted"),

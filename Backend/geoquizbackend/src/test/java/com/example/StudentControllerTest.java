@@ -81,21 +81,18 @@ public class StudentControllerTest {
     }
 
     @Test
-    public void testCreateStudentInvalidData() {
-        Student student = new Student();
-        student.setEmail("invalid");
-        student.setPassword("password");
-
+    public void testAuthenticateInvalidCredentials() {
+        // Assuming there is no student with email "nonexistent@example.com" and password "wrongpassword"
         Response response = RestAssured.given()
-                .contentType(ContentType.JSON)
-                .body(student)
+                .queryParam("email", "nonexistent@example.com")
+                .queryParam("password", "wrongpassword")
                 .when()
-                .post("/students")
+                .get("/students/authenticate")
                 .then()
                 .extract().response();
 
         int statusCode = response.getStatusCode();
-        assertEquals(400, statusCode);
+        assertEquals(401, statusCode);
     }
 
     @Test
@@ -130,6 +127,102 @@ public class StudentControllerTest {
     }
 
     @Test
+    public void testGetStudentByIdNonExistent() {
+        // Assuming there is no student with ID 100
+        Response response = RestAssured.given()
+                .when()
+                .get("/students/100")
+                .then()
+                .extract().response();
+
+        int statusCode = response.getStatusCode();
+        assertEquals(404, statusCode);
+    }
+
+    @Test
+    public void testExistsByEmailNonExistent() {
+        // Assuming there is no student with email "nonexistent@example.com"
+        Response response = RestAssured.given()
+                .queryParam("email", "nonexistent@example.com")
+                .when()
+                .get("/students/exists")
+                .then()
+                .extract().response();
+
+        int statusCode = response.getStatusCode();
+        assertEquals(200, statusCode);
+        assertEquals("false", response.getBody().asString());
+    }
+
+
+    @Test
+    public void testAuthenticateNonExistent() {
+        // Assuming there is no student with email "nonexistent@example.com" and password "wrongpassword"
+        Response response = RestAssured.given()
+                .queryParam("email", "nonexistent@example.com")
+                .queryParam("password", "wrongpassword")
+                .when()
+                .get("/students/authenticate")
+                .then()
+                .extract().response();
+
+        int statusCode = response.getStatusCode();
+        assertEquals(401, statusCode);
+    }
+
+    @Test
+    public void testCreateStudentExisting() {
+        // Assuming there is already a student with email "test@example.com"
+        Student student = new Student();
+        student.setEmail("test@example.com");
+        student.setPassword("password");
+
+        Response response = RestAssured.given()
+                .contentType(ContentType.JSON)
+                .body(student)
+                .when()
+                .post("/students")
+                .then()
+                .extract().response();
+
+        int statusCode = response.getStatusCode();
+        assertEquals(400, statusCode);
+    }
+
+    @Test
+    public void testUpdateStudentNonExistent() {
+        // Assuming there is no student with ID 100
+        Student student = new Student();
+        student.setId(100L);
+        student.setEmail("test@example.com");
+        student.setPassword("password");
+
+        Response response = RestAssured.given()
+                .contentType(ContentType.JSON)
+                .body(student)
+                .when()
+                .put("/students/100")
+                .then()
+                .extract().response();
+
+        int statusCode = response.getStatusCode();
+        assertEquals(404, statusCode);
+    }
+
+    @Test
+    public void testDeleteStudentNonExistent() {
+        // Assuming there is no student with ID 100
+        Response response = RestAssured.given()
+                .when()
+                .delete("/students/100")
+                .then()
+                .extract().response();
+
+        int statusCode = response.getStatusCode();
+        assertEquals(404, statusCode);
+    }
+
+    @Test
     public void testGetStudentById() {
         Response response = RestAssured.given()
                 .when()
@@ -152,6 +245,136 @@ public class StudentControllerTest {
 
         int statusCode = response.getStatusCode();
         assertEquals(200, statusCode);
+    }
+
+    @Test
+    public void testGetStudentByIdValid() {
+        // Assuming there is a student with ID 1
+        Response response = RestAssured.given()
+                .when()
+                .get("/students/1")
+                .then()
+                .extract().response();
+
+        int statusCode = response.getStatusCode();
+        assertEquals(200, statusCode);
+    }
+
+    @Test
+    public void testExistsByEmailValid() {
+        // Assuming there is a student with email "test@example.com"
+        Response response = RestAssured.given()
+                .queryParam("email", "test@example.com")
+                .when()
+                .get("/students/exists")
+                .then()
+                .extract().response();
+
+        int statusCode = response.getStatusCode();
+        assertEquals(200, statusCode);
+        assertEquals("true", response.getBody().asString());
+    }
+
+    @Test
+    public void testAuthenticateValidCredentials() {
+        // Assuming there is a student with email "test@example.com" and password "password"
+        Response response = RestAssured.given()
+                .queryParam("email", "test@example.com")
+                .queryParam("password", "password")
+                .when()
+                .get("/students/authenticate")
+                .then()
+                .extract().response();
+
+        int statusCode = response.getStatusCode();
+        assertEquals(200, statusCode);
+    }
+
+    @Test
+    public void testCreateStudentValidData() {
+        Student student = new Student();
+        student.setEmail("test2@example.com");
+        student.setPassword("password");
+
+        Response response = RestAssured.given()
+                .contentType(ContentType.JSON)
+                .body(student)
+                .when()
+                .post("/students")
+                .then()
+                .extract().response();
+
+        int statusCode = response.getStatusCode();
+        assertEquals(201, statusCode);
+    }
+
+    @Test
+    public void testUpdateStudentValidData() {
+        Student student = new Student();
+        student.setId(1L);
+        student.setEmail("test2@example.com");
+        student.setPassword("password");
+
+        Response response = RestAssured.given()
+                .contentType(ContentType.JSON)
+                .body(student)
+                .when()
+                .put("/students/1")
+                .then()
+                .extract().response();
+
+        int statusCode = response.getStatusCode();
+        assertEquals(200, statusCode);
+    }
+
+    @Test
+    public void testDeleteStudentValidId() {
+        // Assuming there is a student with ID 1
+        Response response = RestAssured.given()
+                .when()
+                .delete("/students/1")
+                .then()
+                .extract().response();
+
+        int statusCode = response.getStatusCode();
+        assertEquals(200, statusCode);
+    }
+
+    @Test
+    public void testCreateStudentInvalidData() {
+        Student student = new Student();
+        student.setEmail("");
+        student.setPassword("");
+
+        Response response = RestAssured.given()
+                .contentType(ContentType.JSON)
+                .body(student)
+                .when()
+                .post("/students")
+                .then()
+                .extract().response();
+
+        int statusCode = response.getStatusCode();
+        assertEquals(400, statusCode);
+    }
+
+    @Test
+    public void testUpdateStudentInvalidData() {
+        Student student = new Student();
+        student.setId(100L);
+        student.setEmail("");
+        student.setPassword("");
+
+        Response response = RestAssured.given()
+                .contentType(ContentType.JSON)
+                .body(student)
+                .when()
+                .put("/students/100")
+                .then()
+                .extract().response();
+
+        int statusCode = response.getStatusCode();
+        assertEquals(400, statusCode);
     }
 
     @Test
