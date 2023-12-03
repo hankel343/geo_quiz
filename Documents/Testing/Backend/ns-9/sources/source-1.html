@@ -1,0 +1,240 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > ChatServer</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.example.geoquizbackend.WebSocket</a>
+</div>
+
+<h1>Coverage Summary for Class: ChatServer (com.example.geoquizbackend.WebSocket)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ChatServer</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    22.2%
+  </span>
+  <span class="absValue">
+    (2/9)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    11.9%
+  </span>
+  <span class="absValue">
+    (5/42)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package com.example.geoquizbackend.WebSocket;
+&nbsp;
+&nbsp;import java.io.IOException;
+&nbsp;import java.util.Hashtable;
+&nbsp;import java.util.Map;
+&nbsp;
+&nbsp;import javax.websocket.OnClose;
+&nbsp;import javax.websocket.OnError;
+&nbsp;import javax.websocket.OnMessage;
+&nbsp;import javax.websocket.OnOpen;
+&nbsp;import javax.websocket.Session;
+&nbsp;import javax.websocket.server.PathParam;
+&nbsp;import javax.websocket.server.ServerEndpoint;
+&nbsp;
+&nbsp;import io.swagger.v3.oas.annotations.media.Schema;
+&nbsp;import org.slf4j.Logger;
+&nbsp;import org.slf4j.LoggerFactory;
+&nbsp;import org.springframework.stereotype.Component;
+&nbsp;
+&nbsp;@ServerEndpoint(&quot;/chat/{username}&quot;)
+&nbsp;@Component
+&nbsp;@Schema(description = &quot;Chat Server for handling chat messages&quot;)
+<b class="fc">&nbsp;public class ChatServer {</b>
+&nbsp;
+&nbsp;    @Schema(description = &quot;Store all usernames associated with a given session&quot;)
+<b class="fc">&nbsp;    private static Map&lt;Session, String&gt; sessionUsernameMap = new Hashtable&lt;Session, String&gt;();</b>
+&nbsp;
+&nbsp;    @Schema(description = &quot;Store all sessions a username is associated with&quot;)
+<b class="fc">&nbsp;    private static Map&lt;String, Session&gt; usernameSessionMap = new Hashtable&lt;String, Session&gt;();</b>
+&nbsp;
+<b class="fc">&nbsp;    @Schema(hidden = true)</b>
+<b class="fc">&nbsp;    private final Logger logger =LoggerFactory.getLogger(ChatServer.class);</b>
+&nbsp;
+&nbsp;    @OnOpen
+&nbsp;    @Schema(description = &quot;Handle new connection to chat server&quot;)
+&nbsp;    public void onOpen(Session session, @PathParam(&quot;username&quot;) String username) throws IOException {
+&nbsp;
+&nbsp;        // server side log
+<b class="nc">&nbsp;        logger.info(&quot;[onOpen] &quot; + username);</b>
+&nbsp;
+&nbsp;        // Handle duplicate usernames
+<b class="nc">&nbsp;        if (usernameSessionMap.containsKey(username)) {</b>
+<b class="nc">&nbsp;            session.getBasicRemote().sendText(&quot;Username already exists&quot;);</b>
+<b class="nc">&nbsp;            session.close();</b>
+&nbsp;        } else {
+&nbsp;            // map current session with username
+<b class="nc">&nbsp;            sessionUsernameMap.put(session, username);</b>
+&nbsp;
+&nbsp;            // map current username with session
+<b class="nc">&nbsp;            usernameSessionMap.put(username, session);</b>
+&nbsp;
+&nbsp;            // send a welcome message to the joining username
+<b class="nc">&nbsp;            sendMessageToUser(username, &quot;Welcome to the chat, &quot; + username);</b>
+&nbsp;
+&nbsp;            // send to everyone in the chat
+<b class="nc">&nbsp;            sendBroadcast(&quot;User &quot; + username + &quot; has joined the chat.&quot;);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    @OnMessage
+&nbsp;    @Schema(description = &quot;Handle incoming messages&quot;)
+&nbsp;    public void onMessage(Session session, String msg) throws IOException {
+&nbsp;
+&nbsp;        // retrieve username by session
+<b class="nc">&nbsp;        String username = sessionUsernameMap.get(session);</b>
+&nbsp;
+&nbsp;        // server side log
+<b class="nc">&nbsp;        logger.info(&quot;[onMessage] &quot; + username + &quot;: &quot; + msg);</b>
+&nbsp;
+&nbsp;        // send messages to user using format &quot;@username &lt;msg&gt;&quot;
+<b class="nc">&nbsp;        if (msg.startsWith(&quot;@&quot;)) {</b>
+&nbsp;
+&nbsp;            // split by space
+<b class="nc">&nbsp;            String[] split_msg = msg.split(&quot;\\s+&quot;);</b>
+&nbsp;
+&nbsp;            // combine the rest of the msg
+<b class="nc">&nbsp;            StringBuilder actualMessageBuilder = new StringBuilder();</b>
+<b class="nc">&nbsp;            for (int i = 1; i &lt; split_msg.length; i++) {</b>
+<b class="nc">&nbsp;                actualMessageBuilder.append(split_msg[i]).append(&quot; &quot;);</b>
+&nbsp;            }
+&nbsp;
+<b class="nc">&nbsp;            String destUserName = split_msg[0].substring(1);</b>
+<b class="nc">&nbsp;            String actualMessage = actualMessageBuilder.toString();</b>
+<b class="nc">&nbsp;            sendMessageToUser(destUserName, &quot;[DM from &quot; + username + &quot;]: &quot; + actualMessage);</b>
+<b class="nc">&nbsp;            sendMessageToUser(username, &quot;[DM from &quot; + username + &quot;]: &quot; + actualMessage);</b>
+<b class="nc">&nbsp;        } else {    // broadcast message</b>
+<b class="nc">&nbsp;            sendBroadcast(username + &quot;: &quot; + msg);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    @OnClose
+&nbsp;    @Schema(description = &quot;Handle closing of a connection&quot;)
+&nbsp;    public void onClose(Session session) throws IOException {
+&nbsp;        // get the username from session-username mapping
+<b class="nc">&nbsp;        String username = sessionUsernameMap.get(session);</b>
+&nbsp;
+&nbsp;        // server side log
+<b class="nc">&nbsp;        logger.info(&quot;[OnClose] &quot; + username);</b>
+&nbsp;
+&nbsp;        // remove user from maps
+<b class="nc">&nbsp;        sessionUsernameMap.remove(session);</b>
+<b class="nc">&nbsp;        usernameSessionMap.remove(username);</b>
+&nbsp;
+&nbsp;        // send a message to the chat
+<b class="nc">&nbsp;        sendBroadcast(username + &quot; disconnected&quot;);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @OnError
+&nbsp;    @Schema(description = &quot;Handle errors during communication&quot;)
+&nbsp;    public void OnError(Session session, Throwable throwable) {
+&nbsp;        // get the username from the session-username mapping
+<b class="nc">&nbsp;        String username = sessionUsernameMap.get(session);</b>
+&nbsp;
+<b class="nc">&nbsp;        logger.info(&quot;[OnError]&quot; + username + &quot;: &quot; + throwable.getMessage());</b>
+&nbsp;    }
+&nbsp;    @Schema(hidden = true)
+&nbsp;    private void sendMessageToUser(String username, String message) {
+&nbsp;        try {
+<b class="nc">&nbsp;            usernameSessionMap.get(username).getBasicRemote().sendText(message);</b>
+<b class="nc">&nbsp;        } catch (IOException e) {</b>
+<b class="nc">&nbsp;            logger.info(&quot;[DM Exception] &quot; + e.getMessage());</b>
+<b class="nc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;    @Schema(hidden = true)
+&nbsp;    private void sendBroadcast(String msg) {
+<b class="nc">&nbsp;        sessionUsernameMap.forEach((session, username) -&gt; {</b>
+&nbsp;            try {
+<b class="nc">&nbsp;                session.getBasicRemote().sendText(msg);</b>
+<b class="nc">&nbsp;            } catch(IOException e) {</b>
+<b class="nc">&nbsp;                logger.info(&quot;[Broadcast exception] &quot; + e.getMessage());</b>
+<b class="nc">&nbsp;            }</b>
+&nbsp;        });
+&nbsp;    }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-12-02 18:17</div>
+</div>
+</body>
+</html>

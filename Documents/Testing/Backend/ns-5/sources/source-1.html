@@ -1,0 +1,263 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > Professor</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.example.geoquizbackend.Professor</a>
+</div>
+
+<h1>Coverage Summary for Class: Professor (com.example.geoquizbackend.Professor)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Professor</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (13/13)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (13/13)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">Professor$HibernateAccessOptimizer$9xsSnDFJ</td>
+  </tr>
+  <tr>
+    <td class="name">Professor$HibernateAccessOptimizer$bZPWDn4F</td>
+  </tr>
+  <tr>
+    <td class="name">Professor$HibernateAccessOptimizer$EvU1fSUS</td>
+  </tr>
+  <tr>
+    <td class="name">Professor$HibernateAccessOptimizer$I4EhYPYN</td>
+  </tr>
+  <tr>
+    <td class="name">Professor$HibernateAccessOptimizer$jjk3BvAy</td>
+  </tr>
+  <tr>
+    <td class="name">Professor$HibernateAccessOptimizer$NlKKdu3S</td>
+  </tr>
+  <tr>
+    <td class="name">Professor$HibernateAccessOptimizer$OWCVQX4j</td>
+  </tr>
+  <tr>
+    <td class="name">Professor$HibernateAccessOptimizer$yO03yCfh</td>
+  </tr>
+  <tr>
+    <td class="name">Professor$HibernateInstantiator$55A1Upl2</td>
+  </tr>
+  <tr>
+    <td class="name">Professor$HibernateInstantiator$AVG3E9rH</td>
+  </tr>
+  <tr>
+    <td class="name">Professor$HibernateInstantiator$Dc7Dc6Xj</td>
+  </tr>
+  <tr>
+    <td class="name">Professor$HibernateInstantiator$DIHJfVgv</td>
+  </tr>
+  <tr>
+    <td class="name">Professor$HibernateInstantiator$dOwwvC9X</td>
+  </tr>
+  <tr>
+    <td class="name">Professor$HibernateInstantiator$eHiriHfT</td>
+  </tr>
+  <tr>
+    <td class="name">Professor$HibernateInstantiator$NBQIk9nx</td>
+  </tr>
+  <tr>
+    <td class="name">Professor$HibernateInstantiator$tryCTvHn</td>
+  </tr>
+  <tr>
+    <td class="name">Professor$HibernateProxy$0KtcbsZJ</td>
+  </tr>
+  <tr>
+    <td class="name">Professor$HibernateProxy$6MpSja9T</td>
+  </tr>
+  <tr>
+    <td class="name">Professor$HibernateProxy$CVRGGdAT</td>
+  </tr>
+  <tr>
+    <td class="name">Professor$HibernateProxy$ELLehZtX</td>
+  </tr>
+  <tr>
+    <td class="name">Professor$HibernateProxy$N98weHL0</td>
+  </tr>
+  <tr>
+    <td class="name">Professor$HibernateProxy$PVOe4kQm</td>
+  </tr>
+  <tr>
+    <td class="name">Professor$HibernateProxy$qmW6HfuM</td>
+  </tr>
+  <tr>
+    <td class="name">Professor$HibernateProxy$v2JTU0Np</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (13/13)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (13/13)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package com.example.geoquizbackend.Professor;
+&nbsp;
+&nbsp;import com.example.geoquizbackend.GeoClass.GeoClass;
+&nbsp;import com.example.geoquizbackend.Student.Student;
+&nbsp;import com.example.geoquizbackend.User.User;
+&nbsp;import io.swagger.v3.oas.annotations.media.Schema;
+&nbsp;import jakarta.persistence.*;
+&nbsp;
+&nbsp;import java.util.Set;
+&nbsp;
+&nbsp;@Entity
+&nbsp;@Schema(description = &quot;Professor entity&quot;)
+&nbsp;public class Professor extends User {
+&nbsp;	@Schema(description = &quot;First name of the professor&quot;, example = &quot;John&quot;)
+&nbsp;	String firstName;
+&nbsp;	@Schema(description = &quot;Last name of the professor&quot;, example = &quot;Doe&quot;)
+&nbsp;	String lastName;
+&nbsp;	@Schema(description = &quot;Email of the professor&quot;, example = &quot;john.doe@example.com&quot;)
+&nbsp;	String email;
+&nbsp;	@Schema(description = &quot;Password of the professor&quot;, example = &quot;password123&quot;)
+&nbsp;	String password;
+&nbsp;	@OneToMany(mappedBy = &quot;professor&quot;)
+&nbsp;	@Schema(description = &quot;Set of students associated with the professor&quot;)
+&nbsp;	Set&lt;Student&gt; students;
+&nbsp;	@OneToMany(mappedBy = &quot;professor&quot;)
+&nbsp;	@Schema(description = &quot;Set of GeoClasses associated with the professor&quot;)
+&nbsp;	Set&lt;GeoClass&gt; geoClasses;
+&nbsp;
+<b class="fc">&nbsp;	public Professor() {</b>
+&nbsp;
+&nbsp;	}
+&nbsp;
+&nbsp;	public String getFirstName() {
+<b class="fc">&nbsp;		return firstName;</b>
+&nbsp;	}
+&nbsp;
+&nbsp;	public void setFirstName(String name) {
+<b class="fc">&nbsp;		this.firstName = name;</b>
+&nbsp;	}
+&nbsp;
+&nbsp;	public String getLastName() {
+<b class="fc">&nbsp;		return lastName;</b>
+&nbsp;	}
+&nbsp;
+&nbsp;	public void setLastName(String name) {
+<b class="fc">&nbsp;		this.lastName = name;</b>
+&nbsp;	}
+&nbsp;
+&nbsp;	public String getPassword() {
+<b class="fc">&nbsp;		return password;</b>
+&nbsp;	}
+&nbsp;
+&nbsp;	public void setPassword(String password) {
+<b class="fc">&nbsp;		this.password = password;</b>
+&nbsp;	}
+&nbsp;
+&nbsp;	public String getEmail() {
+<b class="fc">&nbsp;		return email;</b>
+&nbsp;	}
+&nbsp;
+&nbsp;	public void setEmail(String email) {
+<b class="fc">&nbsp;		this.email = email;</b>
+&nbsp;	}
+&nbsp;
+&nbsp;	public Set&lt;Student&gt; getStudents() {
+<b class="fc">&nbsp;		return students;</b>
+&nbsp;	}
+&nbsp;
+&nbsp;	public void setStudents(Set&lt;Student&gt; students) {
+<b class="fc">&nbsp;		this.students = students;</b>
+&nbsp;	}
+&nbsp;
+&nbsp;	public Set&lt;GeoClass&gt; getGeoClasses() {
+<b class="fc">&nbsp;		return geoClasses;</b>
+&nbsp;	}
+&nbsp;
+&nbsp;	public void setGeoClasses(Set&lt;GeoClass&gt; geoClasses) {
+<b class="fc">&nbsp;		this.geoClasses = geoClasses;</b>
+&nbsp;	}
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-12-02 18:17</div>
+</div>
+</body>
+</html>

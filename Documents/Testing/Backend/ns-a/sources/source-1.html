@@ -1,0 +1,338 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > countryController</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.example.geoquizbackend.external</a>
+</div>
+
+<h1>Coverage Summary for Class: countryController (com.example.geoquizbackend.external)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">countryController</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    91.7%
+  </span>
+  <span class="absValue">
+    (11/12)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    97.7%
+  </span>
+  <span class="absValue">
+    (84/86)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package com.example.geoquizbackend.external;
+&nbsp;import com.example.geoquizbackend.models.CountryData;
+&nbsp;import com.example.geoquizbackend.models.GameData;
+&nbsp;import com.example.geoquizbackend.services.UniqueRandomNumberGenerator;
+&nbsp;import com.example.geoquizbackend.services.countryService;
+&nbsp;import io.swagger.v3.oas.annotations.Operation;
+&nbsp;import io.swagger.v3.oas.annotations.responses.ApiResponse;
+&nbsp;import io.swagger.v3.oas.annotations.responses.ApiResponses;
+&nbsp;import org.springframework.web.bind.annotation.*;
+&nbsp;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.List;
+&nbsp;@RestController
+&nbsp;@RequestMapping(&quot;/countries&quot;)
+&nbsp;class countryController {
+&nbsp;    /* Used for queries */
+&nbsp;    List&lt;String&gt; countryCommonNamesAll;
+&nbsp;    List&lt;String&gt; countryCommonNamesAsia;
+&nbsp;    List&lt;String&gt; countryCommonNamesAmericas;
+&nbsp;    List&lt;String&gt; countryCommonNamesAfrica;
+&nbsp;    List&lt;String&gt; countryCommonNamesOceania;
+&nbsp;    List&lt;String&gt; countryCommonNamesEurope;
+&nbsp;    List&lt;String&gt; countryCommonNamesAntarctic;
+&nbsp;    /* Stores country objects returned by API */
+&nbsp;    CountryData[] Countries;
+&nbsp;    /* HTTP service for external API */
+&nbsp;    private countryService countryService;
+<b class="fc">&nbsp;    public countryController(countryService countryService) {</b>
+<b class="fc">&nbsp;        this.countryService = countryService;</b>
+<b class="fc">&nbsp;        this.countryCommonNamesAll = countryService.getAllCommonNames().block();</b>
+<b class="fc">&nbsp;        this.countryCommonNamesAsia = countryService.getAllCommonNamesAsia().block();</b>
+<b class="fc">&nbsp;        this.countryCommonNamesAmericas = countryService.getAllCommonNamesAmericas().block();</b>
+<b class="fc">&nbsp;        this.countryCommonNamesAfrica = countryService.getAllCommonNamesAfrica().block();</b>
+<b class="fc">&nbsp;        this.countryCommonNamesOceania = countryService.getAllCommonNamesOceania().block();</b>
+<b class="fc">&nbsp;        this.countryCommonNamesEurope = countryService.getAllCommonNamesEurope().block();</b>
+<b class="fc">&nbsp;        this.countryCommonNamesAntarctic = countryService.getAllCommonNamesAntarctic().block();</b>
+&nbsp;    }
+&nbsp;    @Operation(summary = &quot;Get a country by name&quot;, description = &quot;Returns a country as per the provided name&quot;)
+&nbsp;    @ApiResponses(value = {
+&nbsp;            @ApiResponse(responseCode = &quot;200&quot;, description = &quot;Successfully retrieved&quot;),
+&nbsp;            @ApiResponse(responseCode = &quot;404&quot;, description = &quot;Not found - The country was not found&quot;)
+&nbsp;    })
+&nbsp;    @GetMapping(&quot;/get&quot;)
+&nbsp;    public CountryData getByName(@RequestParam String name) {
+<b class="fc">&nbsp;        Countries = countryService</b>
+<b class="fc">&nbsp;                .getByName(name)</b>
+<b class="fc">&nbsp;                .block();</b>
+&nbsp;
+<b class="fc">&nbsp;        return Countries[0];</b>
+&nbsp;    }
+&nbsp;    @Operation(summary = &quot;Test method&quot;, description = &quot;Test method for debugging&quot;)
+&nbsp;    @ApiResponses(value = {
+&nbsp;            @ApiResponse(responseCode = &quot;200&quot;, description = &quot;Successfully executed&quot;)
+&nbsp;    })
+&nbsp;    @GetMapping(&quot;/testGetByName&quot;)
+&nbsp;    public String test() {
+<b class="nc">&nbsp;        return Countries[0].toString();</b>
+&nbsp;    }
+&nbsp;    @Operation(summary = &quot;Get all common country names&quot;, description = &quot;Returns an array of all common country names&quot;)
+&nbsp;    @ApiResponses(value = {
+&nbsp;            @ApiResponse(responseCode = &quot;200&quot;, description = &quot;Successfully retrieved common country names&quot;)
+&nbsp;    })
+&nbsp;    @GetMapping(&quot;/testCommon&quot;)
+&nbsp;    public String[] commonNames() {
+<b class="fc">&nbsp;        String[] names = new String[countryCommonNamesAll.size()];</b>
+<b class="fc">&nbsp;        for (int i = 0; i &lt; countryCommonNamesAll.size(); i++) {</b>
+<b class="fc">&nbsp;            names[i] = countryCommonNamesAll.get(i);</b>
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        return names;</b>
+&nbsp;    }
+&nbsp;    @Operation(summary = &quot;Get all common country names&quot;, description = &quot;Returns an array of all common country names&quot;)
+&nbsp;    @ApiResponses(value = {
+&nbsp;            @ApiResponse(responseCode = &quot;200&quot;, description = &quot;Successfully retrieved common country names&quot;)
+&nbsp;    })
+&nbsp;    @GetMapping(&quot;/gameData&quot;)
+&nbsp;    public ArrayList&lt;GameData&gt; getGameDataAll(@RequestParam(value = &quot;count&quot;, defaultValue = &quot;1&quot;) int count) {
+<b class="fc">&nbsp;        ArrayList&lt;GameData&gt; gameData = new ArrayList&lt;&gt;(count);</b>
+<b class="fc">&nbsp;        UniqueRandomNumberGenerator gen = new UniqueRandomNumberGenerator(countryCommonNamesAll.size());</b>
+&nbsp;
+&nbsp;        GameData country;
+<b class="fc">&nbsp;        CountryData countryData = null;</b>
+<b class="fc">&nbsp;        for (int i = 0; i &lt; count; i++) {</b>
+<b class="fc">&nbsp;            country = new GameData();</b>
+<b class="fc">&nbsp;            countryData = getByName(countryCommonNamesAll.get(gen.generate()));</b>
+<b class="fc">&nbsp;            country.setName(countryData.getName().getCommon());</b>
+&nbsp;
+<b class="fc">&nbsp;            List&lt;String&gt; capital = countryData.getCapital();</b>
+<b class="fc">&nbsp;            if (capital != null &amp;&amp; !capital.isEmpty()) {</b>
+<b class="fc">&nbsp;                country.setCapital(capital.get(0));</b>
+&nbsp;            }
+&nbsp;
+<b class="fc">&nbsp;            country.setFlag(countryData.getFlag());</b>
+<b class="fc">&nbsp;            country.setContinent(countryData.getRegion());</b>
+<b class="fc">&nbsp;            country.setCoatOfArms(countryData.getCoatOfArms().getPng());</b>
+<b class="fc">&nbsp;            country.setPopulation(countryData.getPopulation());</b>
+&nbsp;
+<b class="fc">&nbsp;            gameData.add(country);</b>
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        return gameData;</b>
+&nbsp;    }
+&nbsp;    @Operation(summary = &quot;Get game data for Asia&quot;, description = &quot;Returns game data for a specified number of countries in Asia&quot;)
+&nbsp;    @ApiResponses(value = {
+&nbsp;            @ApiResponse(responseCode = &quot;200&quot;, description = &quot;Successfully retrieved game data for Asia&quot;)
+&nbsp;    })
+&nbsp;    @GetMapping(&quot;/gameDataAsia&quot;)
+&nbsp;    public ArrayList&lt;CountryData&gt; getGameDataAsia() {
+&nbsp;
+<b class="fc">&nbsp;        ArrayList&lt;CountryData&gt; GameData = new ArrayList&lt;&gt;(4);</b>
+<b class="fc">&nbsp;        UniqueRandomNumberGenerator gen = new UniqueRandomNumberGenerator(countryCommonNamesAsia.size());</b>
+<b class="fc">&nbsp;        for (int i = 0; i &lt; 4; i++) {</b>
+<b class="fc">&nbsp;            GameData.add(</b>
+<b class="fc">&nbsp;                    getByName(countryCommonNamesAsia.get(gen.generate()))</b>
+&nbsp;            );
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        return GameData;</b>
+&nbsp;    }
+&nbsp;    @Operation(summary = &quot;Get game data for Americas&quot;, description = &quot;Returns game data for a specified number of countries in Americas&quot;)
+&nbsp;    @ApiResponses(value = {
+&nbsp;            @ApiResponse(responseCode = &quot;200&quot;, description = &quot;Successfully retrieved game data for Americas&quot;)
+&nbsp;    })
+&nbsp;    @GetMapping(&quot;/gameDataAmericas&quot;)
+&nbsp;    public ArrayList&lt;CountryData&gt; getGameDataAmericas() {
+&nbsp;
+<b class="fc">&nbsp;        ArrayList&lt;CountryData&gt; GameData = new ArrayList&lt;&gt;(4);</b>
+<b class="fc">&nbsp;        UniqueRandomNumberGenerator gen = new UniqueRandomNumberGenerator(countryCommonNamesAmericas.size());</b>
+<b class="fc">&nbsp;        for (int i = 0; i &lt; 4; i++) {</b>
+<b class="fc">&nbsp;            GameData.add(</b>
+<b class="fc">&nbsp;                    getByName(countryCommonNamesAmericas.get(gen.generate()))</b>
+&nbsp;            );
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        return GameData;</b>
+&nbsp;    }
+&nbsp;    @Operation(summary = &quot;Get game data for Africa&quot;, description = &quot;Returns game data for a specified number of countries in Africa&quot;)
+&nbsp;    @ApiResponses(value = {
+&nbsp;            @ApiResponse(responseCode = &quot;200&quot;, description = &quot;Successfully retrieved game data for Africa&quot;)
+&nbsp;    })
+&nbsp;    @GetMapping(&quot;/gameDataAfrica&quot;)
+&nbsp;    public ArrayList&lt;CountryData&gt; getGameDataAfrica() {
+&nbsp;
+<b class="fc">&nbsp;        ArrayList&lt;CountryData&gt; GameData = new ArrayList&lt;&gt;(4);</b>
+<b class="fc">&nbsp;        UniqueRandomNumberGenerator gen = new UniqueRandomNumberGenerator(countryCommonNamesAfrica.size());</b>
+<b class="fc">&nbsp;        for (int i = 0; i &lt; 4; i++) {</b>
+<b class="fc">&nbsp;            GameData.add(</b>
+<b class="fc">&nbsp;                    getByName(countryCommonNamesAfrica.get(gen.generate()))</b>
+&nbsp;            );
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        return GameData;</b>
+&nbsp;    }
+&nbsp;    @Operation(summary = &quot;Get game data for Oceania&quot;, description = &quot;Returns game data for a specified number of countries in Oceania&quot;)
+&nbsp;    @ApiResponses(value = {
+&nbsp;            @ApiResponse(responseCode = &quot;200&quot;, description = &quot;Successfully retrieved game data for Oceania&quot;)
+&nbsp;    })
+&nbsp;    @GetMapping(&quot;/gameDataOceania&quot;)
+&nbsp;    public ArrayList&lt;CountryData&gt; getGameDataOceania() {
+&nbsp;
+<b class="fc">&nbsp;        ArrayList&lt;CountryData&gt; GameData = new ArrayList&lt;&gt;(4);</b>
+<b class="fc">&nbsp;        UniqueRandomNumberGenerator gen = new UniqueRandomNumberGenerator(countryCommonNamesOceania.size());</b>
+<b class="fc">&nbsp;        for (int i = 0; i &lt; 4; i++) {</b>
+<b class="fc">&nbsp;            GameData.add(</b>
+<b class="fc">&nbsp;                    getByName(countryCommonNamesOceania.get(gen.generate()))</b>
+&nbsp;            );
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        return GameData;</b>
+&nbsp;    }
+&nbsp;    @Operation(summary = &quot;Get game data for Europe&quot;, description = &quot;Returns game data for a specified number of countries in Europe&quot;)
+&nbsp;    @ApiResponses(value = {
+&nbsp;            @ApiResponse(responseCode = &quot;200&quot;, description = &quot;Successfully retrieved game data for Europe&quot;)
+&nbsp;    })
+&nbsp;    @GetMapping(&quot;/gameDataEurope&quot;)
+&nbsp;    public ArrayList&lt;CountryData&gt; getGameDataEurope() {
+&nbsp;
+<b class="fc">&nbsp;        ArrayList&lt;CountryData&gt; GameData = new ArrayList&lt;&gt;(4);</b>
+<b class="fc">&nbsp;        UniqueRandomNumberGenerator gen = new UniqueRandomNumberGenerator(countryCommonNamesEurope.size());</b>
+<b class="fc">&nbsp;        for (int i = 0; i &lt; 4; i++) {</b>
+<b class="fc">&nbsp;            GameData.add(</b>
+<b class="fc">&nbsp;                    getByName(countryCommonNamesEurope.get(gen.generate()))</b>
+&nbsp;            );
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        return GameData;</b>
+&nbsp;    }
+&nbsp;    @Operation(summary = &quot;Get game data for Antarctic&quot;, description = &quot;Returns game data for a specified number of countries in Antarctic&quot;)
+&nbsp;    @ApiResponses(value = {
+&nbsp;            @ApiResponse(responseCode = &quot;200&quot;, description = &quot;Successfully retrieved game data for Antarctic&quot;)
+&nbsp;    })
+&nbsp;    @GetMapping(&quot;/gameDataAntarctic&quot;)
+&nbsp;    public ArrayList&lt;CountryData&gt; getGameDataAntarctic() {
+&nbsp;
+<b class="fc">&nbsp;        ArrayList&lt;CountryData&gt; GameData = new ArrayList&lt;&gt;(4);</b>
+<b class="fc">&nbsp;        UniqueRandomNumberGenerator gen = new UniqueRandomNumberGenerator(countryCommonNamesAntarctic.size());</b>
+<b class="fc">&nbsp;        for (int i = 0; i &lt; 4; i++) {</b>
+<b class="fc">&nbsp;            GameData.add(</b>
+<b class="fc">&nbsp;                    getByName(countryCommonNamesAntarctic.get(gen.generate()))</b>
+&nbsp;            );
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        return GameData;</b>
+&nbsp;    }
+&nbsp;    @Operation(summary = &quot;Get game data with coat of arms&quot;, description = &quot;Returns game data for a specified number of countries that have a coat of arms&quot;)
+&nbsp;    @ApiResponses(value = {
+&nbsp;            @ApiResponse(responseCode = &quot;200&quot;, description = &quot;Successfully retrieved game data with coat of arms&quot;)
+&nbsp;    })
+&nbsp;    @GetMapping(&quot;/gameDataCoatOfArms&quot;)
+&nbsp;    public ArrayList&lt;GameData&gt; getGameDataCoatOfArms() {
+<b class="fc">&nbsp;        ArrayList&lt;GameData&gt; gameData = new ArrayList&lt;&gt;(4);</b>
+<b class="fc">&nbsp;        UniqueRandomNumberGenerator gen = new UniqueRandomNumberGenerator(countryCommonNamesAll.size());</b>
+&nbsp;
+<b class="fc">&nbsp;        CountryData countryData = null;</b>
+&nbsp;        GameData country;
+<b class="fc">&nbsp;        for (int i = 0; i &lt; 4; i++) {</b>
+<b class="fc">&nbsp;            country = new GameData();</b>
+<b class="fc">&nbsp;            countryData = getByName(countryCommonNamesAll.get(gen.generate()));</b>
+<b class="fc">&nbsp;            while (countryData.getCoatOfArms() == null) {</b>
+<b class="nc">&nbsp;                countryData = getByName(countryCommonNamesAll.get(gen.generate()));</b>
+&nbsp;            }
+<b class="fc">&nbsp;            country.setName(countryData.getName().getCommon());</b>
+<b class="fc">&nbsp;            country.setCapital(countryData.getCapital().get(0));</b>
+<b class="fc">&nbsp;            country.setFlag(countryData.getFlag());</b>
+<b class="fc">&nbsp;            country.setContinent(countryData.getRegion());</b>
+<b class="fc">&nbsp;            country.setPopulation(countryData.getPopulation());</b>
+<b class="fc">&nbsp;            country.setCoatOfArms(countryData.getCoatOfArms().getPng());</b>
+&nbsp;
+<b class="fc">&nbsp;            gameData.add(country);</b>
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        return gameData;</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-12-02 18:17</div>
+</div>
+</body>
+</html>

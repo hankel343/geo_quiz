@@ -1,0 +1,223 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > countryService</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.example.geoquizbackend.services</a>
+</div>
+
+<h1>Coverage Summary for Class: countryService (com.example.geoquizbackend.services)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">countryService</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    90%
+  </span>
+  <span class="absValue">
+    (9/10)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    91.9%
+  </span>
+  <span class="absValue">
+    (68/74)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package com.example.geoquizbackend.services;
+&nbsp;
+&nbsp;import com.example.geoquizbackend.models.CountryData;
+&nbsp;import org.springframework.http.HttpHeaders;
+&nbsp;import org.springframework.http.MediaType;
+&nbsp;import org.springframework.stereotype.Service;
+&nbsp;import org.springframework.web.reactive.function.client.WebClient;
+&nbsp;import reactor.core.publisher.Mono;
+&nbsp;
+&nbsp;import java.util.List;
+&nbsp;
+&nbsp;@Service
+&nbsp;public class countryService {
+&nbsp;    private final WebClient client;
+<b class="fc">&nbsp;    public countryService() {</b>
+<b class="fc">&nbsp;        client = WebClient.builder()</b>
+<b class="fc">&nbsp;                .baseUrl(&quot;https://restcountries.com/v3.1&quot;)</b>
+<b class="fc">&nbsp;                .defaultCookie(&quot;cookieKey&quot;, &quot;cookieValue&quot;)</b>
+<b class="fc">&nbsp;                .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)</b>
+<b class="fc">&nbsp;                .build();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public Mono&lt;CountryData[]&gt; getByName(String name) {
+<b class="fc">&nbsp;        return  client</b>
+<b class="fc">&nbsp;                .get()</b>
+<b class="fc">&nbsp;                .uri(&quot;/name/{name}&quot;, name)</b>
+<b class="fc">&nbsp;                .accept(MediaType.APPLICATION_JSON)</b>
+<b class="fc">&nbsp;                .retrieve()</b>
+<b class="fc">&nbsp;                .bodyToMono(CountryData[].class);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public Mono&lt;CountryData[]&gt; getOne(String name) {
+<b class="nc">&nbsp;        return client</b>
+<b class="nc">&nbsp;                .get()</b>
+<b class="nc">&nbsp;                .uri(&quot;/name/{name}&quot;, name)</b>
+<b class="nc">&nbsp;                .accept(MediaType.APPLICATION_JSON)</b>
+<b class="nc">&nbsp;                .retrieve()</b>
+<b class="nc">&nbsp;                .bodyToMono(CountryData[].class);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /* Used for API queries */
+&nbsp;    public Mono&lt;List&lt;String&gt;&gt; getAllCommonNames() {
+<b class="fc">&nbsp;        return client</b>
+<b class="fc">&nbsp;                .get()</b>
+<b class="fc">&nbsp;                .uri(&quot;/all&quot;)</b>
+<b class="fc">&nbsp;                .accept(MediaType.APPLICATION_JSON)</b>
+<b class="fc">&nbsp;                .retrieve()</b>
+<b class="fc">&nbsp;                .bodyToFlux(CountryData.class)</b>
+<b class="fc">&nbsp;                .map(countryData -&gt; countryData.getName().getCommon())</b>
+<b class="fc">&nbsp;                .collectList();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /* Filtered by region */
+&nbsp;    public Mono&lt;List&lt;String&gt;&gt; getAllCommonNamesAsia() {
+<b class="fc">&nbsp;        return client</b>
+<b class="fc">&nbsp;                .get()</b>
+<b class="fc">&nbsp;                .uri(&quot;/region/Asia&quot;)</b>
+<b class="fc">&nbsp;                .accept(MediaType.APPLICATION_JSON)</b>
+<b class="fc">&nbsp;                .retrieve()</b>
+<b class="fc">&nbsp;                .bodyToFlux(CountryData.class)</b>
+<b class="fc">&nbsp;                .map(countryData -&gt; countryData.getName().getCommon())</b>
+<b class="fc">&nbsp;                .collectList();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public Mono&lt;List&lt;String&gt;&gt; getAllCommonNamesAmericas() {
+<b class="fc">&nbsp;        return client</b>
+<b class="fc">&nbsp;                .get()</b>
+<b class="fc">&nbsp;                .uri(&quot;/region/Americas&quot;)</b>
+<b class="fc">&nbsp;                .accept(MediaType.APPLICATION_JSON)</b>
+<b class="fc">&nbsp;                .retrieve()</b>
+<b class="fc">&nbsp;                .bodyToFlux(CountryData.class)</b>
+<b class="fc">&nbsp;                .map(countryData -&gt; countryData.getName().getCommon())</b>
+<b class="fc">&nbsp;                .collectList();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public Mono&lt;List&lt;String&gt;&gt; getAllCommonNamesAfrica() {
+<b class="fc">&nbsp;        return client</b>
+<b class="fc">&nbsp;                .get()</b>
+<b class="fc">&nbsp;                .uri(&quot;/region/Africa&quot;)</b>
+<b class="fc">&nbsp;                .accept(MediaType.APPLICATION_JSON)</b>
+<b class="fc">&nbsp;                .retrieve()</b>
+<b class="fc">&nbsp;                .bodyToFlux(CountryData.class)</b>
+<b class="fc">&nbsp;                .map(countryData -&gt; countryData.getName().getCommon())</b>
+<b class="fc">&nbsp;                .collectList();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public Mono&lt;List&lt;String&gt;&gt; getAllCommonNamesOceania() {
+<b class="fc">&nbsp;        return client</b>
+<b class="fc">&nbsp;                .get()</b>
+<b class="fc">&nbsp;                .uri(&quot;/region/Oceania&quot;)</b>
+<b class="fc">&nbsp;                .accept(MediaType.APPLICATION_JSON)</b>
+<b class="fc">&nbsp;                .retrieve()</b>
+<b class="fc">&nbsp;                .bodyToFlux(CountryData.class)</b>
+<b class="fc">&nbsp;                .map(countryData -&gt; countryData.getName().getCommon())</b>
+<b class="fc">&nbsp;                .collectList();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public Mono&lt;List&lt;String&gt;&gt; getAllCommonNamesEurope() {
+<b class="fc">&nbsp;        return client</b>
+<b class="fc">&nbsp;                .get()</b>
+<b class="fc">&nbsp;                .uri(&quot;/region/Europe&quot;)</b>
+<b class="fc">&nbsp;                .accept(MediaType.APPLICATION_JSON)</b>
+<b class="fc">&nbsp;                .retrieve()</b>
+<b class="fc">&nbsp;                .bodyToFlux(CountryData.class)</b>
+<b class="fc">&nbsp;                .map(countryData -&gt; countryData.getName().getCommon())</b>
+<b class="fc">&nbsp;                .collectList();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public Mono&lt;List&lt;String&gt;&gt; getAllCommonNamesAntarctic() {
+<b class="fc">&nbsp;        return client</b>
+<b class="fc">&nbsp;                .get()</b>
+<b class="fc">&nbsp;                .uri(&quot;/region/Antarctic&quot;)</b>
+<b class="fc">&nbsp;                .accept(MediaType.APPLICATION_JSON)</b>
+<b class="fc">&nbsp;                .retrieve()</b>
+<b class="fc">&nbsp;                .bodyToFlux(CountryData.class)</b>
+<b class="fc">&nbsp;                .map(countryData -&gt; countryData.getName().getCommon())</b>
+<b class="fc">&nbsp;                .collectList();</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-12-02 18:17</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,203 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > GeoClass</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.example.geoquizbackend.GeoClass</a>
+</div>
+
+<h1>Coverage Summary for Class: GeoClass (com.example.geoquizbackend.GeoClass)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">GeoClass</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">GeoClass$HibernateAccessOptimizer$Bnb4RJCH</td>
+  </tr>
+  <tr>
+    <td class="name">GeoClass$HibernateAccessOptimizer$eTgB5hPX</td>
+  </tr>
+  <tr>
+    <td class="name">GeoClass$HibernateAccessOptimizer$fb44qxz1</td>
+  </tr>
+  <tr>
+    <td class="name">GeoClass$HibernateAccessOptimizer$hiJxbKvo</td>
+  </tr>
+  <tr>
+    <td class="name">GeoClass$HibernateAccessOptimizer$kge5Iehg</td>
+  </tr>
+  <tr>
+    <td class="name">GeoClass$HibernateAccessOptimizer$ki3fHxZA</td>
+  </tr>
+  <tr>
+    <td class="name">GeoClass$HibernateAccessOptimizer$SFIha0jQ</td>
+  </tr>
+  <tr>
+    <td class="name">GeoClass$HibernateAccessOptimizer$Y76f9aCc</td>
+  </tr>
+  <tr>
+    <td class="name">GeoClass$HibernateInstantiator$9Bp6Ffwm</td>
+  </tr>
+  <tr>
+    <td class="name">GeoClass$HibernateInstantiator$afUzZUqc</td>
+  </tr>
+  <tr>
+    <td class="name">GeoClass$HibernateInstantiator$heXpv0qb</td>
+  </tr>
+  <tr>
+    <td class="name">GeoClass$HibernateInstantiator$m4Qo6wgE</td>
+  </tr>
+  <tr>
+    <td class="name">GeoClass$HibernateInstantiator$O1AhI2Pc</td>
+  </tr>
+  <tr>
+    <td class="name">GeoClass$HibernateInstantiator$TwAEGD71</td>
+  </tr>
+  <tr>
+    <td class="name">GeoClass$HibernateInstantiator$vKhSYesC</td>
+  </tr>
+  <tr>
+    <td class="name">GeoClass$HibernateInstantiator$Y4Xb6Rrx</td>
+  </tr>
+  <tr>
+    <td class="name">GeoClass$HibernateProxy$a6AuIa9b</td>
+  </tr>
+  <tr>
+    <td class="name">GeoClass$HibernateProxy$cnUw8wZP</td>
+  </tr>
+  <tr>
+    <td class="name">GeoClass$HibernateProxy$hSNg3aN3</td>
+  </tr>
+  <tr>
+    <td class="name">GeoClass$HibernateProxy$KhuxYTvP</td>
+  </tr>
+  <tr>
+    <td class="name">GeoClass$HibernateProxy$PoUr4LpG</td>
+  </tr>
+  <tr>
+    <td class="name">GeoClass$HibernateProxy$qqrTJGAz</td>
+  </tr>
+  <tr>
+    <td class="name">GeoClass$HibernateProxy$RB4umVS3</td>
+  </tr>
+  <tr>
+    <td class="name">GeoClass$HibernateProxy$XKny9LoK</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package com.example.geoquizbackend.GeoClass;
+&nbsp;
+&nbsp;import com.example.geoquizbackend.Professor.Professor;
+&nbsp;import com.example.geoquizbackend.Student.Student;
+&nbsp;import jakarta.persistence.*;
+&nbsp;
+&nbsp;import java.util.Set;
+&nbsp;
+&nbsp;@Entity
+<b class="fc">&nbsp;public class GeoClass {</b>
+&nbsp;    @Id
+&nbsp;    @GeneratedValue(strategy = GenerationType.AUTO)
+&nbsp;    long id;
+&nbsp;    String name;
+&nbsp;    @ManyToOne
+&nbsp;    @JoinColumn(name=&quot;professor_id&quot;)
+&nbsp;    Professor professor;
+&nbsp;    @OneToMany(mappedBy = &quot;geoClass&quot;)
+&nbsp;    Set&lt;Student&gt; student;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-12-02 18:17</div>
+</div>
+</body>
+</html>
