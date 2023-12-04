@@ -35,12 +35,12 @@ public class ProfessorAccountHome extends AppCompatActivity {
         ViewClassesBtn = (Button) findViewById(R.id.viewClasses_btn);
         SignOutBtn = (Button) findViewById(R.id.signOut_btn);
 
-        CreateClassBtn.setOnClickListener(new View.OnClickListener() {
+        ViewClassesBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                startActivity(
-//                        new Intent(ProfessorAccountHome.this, CreateClassActivity.class)
-//                );
+                startActivity(
+                        new Intent(ProfessorAccountHome.this, ProfessorClassView.class)
+                );
             }
         });
 
