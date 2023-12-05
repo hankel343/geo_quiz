@@ -47,7 +47,7 @@ public class FlagGame extends AppCompatActivity {
         Countrybtn3 = (Button) findViewById(R.id.opt2_btn);
         Countrybtn4 = (Button) findViewById(R.id.opt3_btn);
         QuitBtn = (Button) findViewById(R.id.quit_btn);
-
+        score = 0;
         questions = 5;
         question = 1;
 

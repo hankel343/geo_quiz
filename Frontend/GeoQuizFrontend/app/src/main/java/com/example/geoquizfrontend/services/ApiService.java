@@ -5,6 +5,7 @@ import com.example.geoquizfrontend.models.GameData;
 import com.example.geoquizfrontend.models.Professor;
 import com.example.geoquizfrontend.models.QuizType;
 import com.example.geoquizfrontend.models.Student;
+import com.example.geoquizfrontend.models.User;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,11 +29,14 @@ public interface ApiService {
     // quiz endpoints
     @POST("quizzes")
     Call<Quiz> createQuiz(@Body Quiz newQuiz, @Query("userId") long userId);
-
     @POST("quizzes")
     Call<Quiz> PostCapitalQuizByBody(@Body Quiz newQuiz, @Query("userId") long userId);
     @GET("/quizzes/top/{n}")
     Call<List<Quiz>> GetLeaderboardScores(@Path("n") int n);
+    @GET("/quizzes/top/{type}/{n}")
+    Call<List<Quiz>> getTopNQuizzesByType(@Path("type") QuizType type, @Path("n") int n);
+    @GET("quizzes/{id}/user")
+    Call<User> getUserFromQuizId(@Path("id") long id);
     @GET("quizzes/{id}")
     Call<Quiz> GetCapitalQuizByPath(@Path("id") String id);
     // student endpoints
