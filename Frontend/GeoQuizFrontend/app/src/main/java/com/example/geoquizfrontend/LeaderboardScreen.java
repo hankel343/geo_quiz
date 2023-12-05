@@ -115,6 +115,12 @@ public class LeaderboardScreen extends AppCompatActivity {
                 CurrentLeaderboard.setText("Coat of Arms Game Leaderboard");
             }
         });
-
+        HigherLowerLeaderboard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                whichGame = QuizType.POPULATION;
+                CurrentLeaderboard.setText("Higher or Lower Game Leaderboard");
+            }
+        });
     }
 }
