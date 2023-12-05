@@ -1,5 +1,7 @@
 package com.example.geoquizfrontend;
 
+import static com.example.geoquizfrontend.ApiClientFactory.GetGeoQuizApi;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -11,6 +13,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.geoquizfrontend.models.GameData;
+import com.example.geoquizfrontend.models.Quiz;
 import com.example.geoquizfrontend.models.QuizType;
 import com.example.geoquizfrontend.services.ApiService;
 
@@ -158,6 +161,32 @@ public class PopulationHiLo extends AppCompatActivity {
         QuitBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                SharedPreferences sharedPreferences = getSharedPreferences("UserInfo", MODE_PRIVATE);
+                long userId = sharedPreferences.getLong("id", 1);
+
+                Quiz newQuiz = new Quiz();
+                newQuiz.setScore(highScore);
+                newQuiz.setType(QuizType.POPULATION);
+
+                ApiService apiService = GetGeoQuizApi();
+                Call<Quiz> call = apiService.PostCapitalQuizByBody(newQuiz, userId);
+                call.enqueue(new Callback<Quiz>() {
+                    @Override
+                    public void onResponse(Call<Quiz> call, Response<Quiz> response) {
+                        if (!response.isSuccessful()) {
+
+                        }
+                        Quiz quiz = response.body();
+                    }
+
+                    @Override
+                    public void onFailure(Call<Quiz> call, Throwable t) {
+
+                    }
+                });
+
+
                 Intent intent = new Intent(PopulationHiLo.this, GamescreenActivity.class);
                 startActivity(intent);
             }

@@ -32,7 +32,7 @@ public class QuizController {
             @ApiResponse(responseCode = "200", description = "Successfully retrieved")
     })
     @GetMapping(path = "/quizzes")
-    List<Quiz> getAllQuizzes() {
+    public List<Quiz> getAllQuizzes() {
         return quizRepository.findAll();
     }
 
@@ -41,9 +41,9 @@ public class QuizController {
             @ApiResponse(responseCode = "200", description = "Successfully retrieved")
     })
     @GetMapping(path = "/quizzes/top/{type}/{n}")
-    List<Quiz> getTopNQuizzesByType(@PathVariable QuizType type, @PathVariable int n) {
+    public List<Quiz> getTopNQuizzesByType(@PathVariable QuizType type, @PathVariable int n) {
         if (n <= 0) {
-            throw new InvalidQuizCountException("Number of quizzes must be greater than zero.");
+            throw new InvalidQuizCountException("Number of quizzes must be grea ter than zero.");
         }
 
         Pageable pageable = PageRequest.of(0, n);
