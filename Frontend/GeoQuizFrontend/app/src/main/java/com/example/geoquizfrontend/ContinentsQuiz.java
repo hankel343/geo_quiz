@@ -66,7 +66,7 @@ public class ContinentsQuiz extends AppCompatActivity {
         Continentbtn5 = (Button) findViewById(R.id.opt4_btn);
         Continentbtn6 = (Button) findViewById(R.id.opt5_btn);
         QuitBtn = (Button) findViewById(R.id.quit_btn);
-
+        score = 0;
         questions = 5;
         question = 1;
 
