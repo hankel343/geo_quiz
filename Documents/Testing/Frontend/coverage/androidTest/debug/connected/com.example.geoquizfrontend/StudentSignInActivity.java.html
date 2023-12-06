@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>StudentSignInActivity.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=0;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">debug</a> &gt; <a href="index.source.html" class="el_package">com.example.geoquizfrontend</a> &gt; <span class="el_source">StudentSignInActivity.java</span></div><h1>StudentSignInActivity.java</h1><pre class="source lang-java linenums">package com.example.geoquizfrontend;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Toast;
+
+import com.example.geoquizfrontend.models.Student;
+import com.example.geoquizfrontend.services.ApiService;
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.textfield.TextInputEditText;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+<span class="nc" id="L20">public class StudentSignInActivity extends AppCompatActivity {</span>
+    private MaterialButton signInBtn;
+    private MaterialButton newUserBtn;
+    private TextInputEditText emailInput;
+    private TextInputEditText passwordInput;
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+<span class="nc" id="L27">        super.onCreate(savedInstanceState);</span>
+<span class="nc" id="L28">        setContentView(R.layout.activity_student_sign_in);</span>
+
+<span class="nc" id="L30">        signInBtn = findViewById(R.id.sign_in_btn);</span>
+<span class="nc" id="L31">        newUserBtn = findViewById(R.id.new_user_btn);</span>
+<span class="nc" id="L32">        emailInput = findViewById(R.id.email_input);</span>
+<span class="nc" id="L33">        passwordInput = findViewById(R.id.password_input);</span>
+
+<span class="nc" id="L35">        signInBtn.setOnClickListener(new View.OnClickListener() {</span>
+            @Override
+            public void onClick(View v) {
+<span class="nc" id="L38">                String email = emailInput.getText().toString().trim();</span>
+<span class="nc" id="L39">                String password = passwordInput.getText().toString().trim();</span>
+
+<span class="nc" id="L41">                ApiService api = ApiClientFactory.GetGeoQuizApi();</span>
+<span class="nc" id="L42">                Call&lt;Boolean&gt; call = api.studentExistsByEmail(email);</span>
+
+<span class="nc" id="L44">                call.enqueue(new Callback&lt;Boolean&gt;() {</span>
+                    @Override
+                    public void onResponse(Call&lt;Boolean&gt; call, Response&lt;Boolean&gt; response) {
+<span class="nc bnc" id="L47" title="All 2 branches missed.">                        if (response.isSuccessful()) {</span>
+<span class="nc" id="L48">                            boolean exists = response.body();</span>
+<span class="nc bnc" id="L49" title="All 2 branches missed.">                            if (exists) {</span>
+<span class="nc" id="L50">                                Call&lt;Student&gt; authenticateCall = api.authenticate(email, password);</span>
+<span class="nc" id="L51">                                authenticateCall.enqueue(new Callback&lt;Student&gt;() {</span>
+                                    @Override
+                                    public void onResponse(Call&lt;Student&gt; call, Response&lt;Student&gt; response) {
+<span class="nc bnc" id="L54" title="All 2 branches missed.">                                        if (response.isSuccessful()) {</span>
+                                            // The student's information is retrieved
+<span class="nc" id="L56">                                            Student student = response.body();</span>
+
+<span class="nc" id="L58">                                            SharedPreferences sharedPreferences = getSharedPreferences(&quot;UserInfo&quot;, MODE_PRIVATE);</span>
+<span class="nc" id="L59">                                            SharedPreferences.Editor editor = sharedPreferences.edit();</span>
+<span class="nc" id="L60">                                            editor.putLong(&quot;id&quot;, student.getId());</span>
+<span class="nc" id="L61">                                            editor.putString(&quot;firstName&quot;, student.getFirstName());</span>
+<span class="nc" id="L62">                                            editor.putString(&quot;lastName&quot;, student.getLastName());</span>
+<span class="nc" id="L63">                                            editor.putString(&quot;email&quot;, student.getEmail());</span>
+<span class="nc" id="L64">                                            editor.putString(&quot;classCode&quot;, student.getClassCode());</span>
+<span class="nc" id="L65">                                            editor.putFloat(&quot;grade&quot;, student.getGrade());</span>
+<span class="nc" id="L66">                                            editor.apply();</span>
+
+<span class="nc" id="L68">                                            Toast.makeText(StudentSignInActivity.this, &quot;Welcome, &quot; + sharedPreferences.getString(&quot;firstName&quot;, &quot;&quot;), Toast.LENGTH_SHORT).show();</span>
+<span class="nc" id="L69">                                            startActivity(</span>
+                                                    new Intent(StudentSignInActivity.this, StudentAccountHome.class)
+                                            );
+<span class="nc" id="L72">                                        } else {</span>
+                                            // The student is not authenticated
+<span class="nc" id="L74">                                            Toast.makeText(StudentSignInActivity.this, &quot;Incorrect password&quot;, Toast.LENGTH_SHORT).show();</span>
+                                        }
+<span class="nc" id="L76">                                    }</span>
+
+                                    @Override
+                                    public void onFailure(Call&lt;Student&gt; call, Throwable t) {
+                                        // Handle the error
+<span class="nc" id="L81">                                    }</span>
+                                });
+<span class="nc" id="L83">                            } else {</span>
+<span class="nc" id="L84">                                Toast.makeText(StudentSignInActivity.this, &quot;No account associated with email: &quot; + email, Toast.LENGTH_SHORT).show();</span>
+                            }
+                        }
+<span class="nc" id="L87">                    }</span>
+
+                    @Override
+                    public void onFailure(Call&lt;Boolean&gt; call, Throwable t) {
+                        // Handle the error
+<span class="nc" id="L92">                    }</span>
+                });
+<span class="nc" id="L94">            }</span>
+        });
+<span class="nc" id="L96">        newUserBtn.setOnClickListener(new View.OnClickListener() {</span>
+            @Override
+            public void onClick(View v) {
+<span class="nc" id="L99">                startActivity(</span>
+                        new Intent(StudentSignInActivity.this, StudentAccountCreation.class)
+                );
+<span class="nc" id="L102">            }</span>
+        });
+<span class="nc" id="L104">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span>Generated by the Android Gradle plugin 8.1.1</div></body></html>

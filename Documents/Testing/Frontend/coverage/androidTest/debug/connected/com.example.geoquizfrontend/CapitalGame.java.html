@@ -1,0 +1,464 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CapitalGame.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=0;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">debug</a> &gt; <a href="index.source.html" class="el_package">com.example.geoquizfrontend</a> &gt; <span class="el_source">CapitalGame.java</span></div><h1>CapitalGame.java</h1><pre class="source lang-java linenums">package com.example.geoquizfrontend;
+
+import static com.example.geoquizfrontend.ApiClientFactory.GetGeoQuizApi;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.os.CountDownTimer;
+import android.os.Looper;
+import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
+
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import com.example.geoquizfrontend.models.Quiz;
+import com.example.geoquizfrontend.models.GameData;
+
+import com.example.geoquizfrontend.services.ApiService;
+import com.example.geoquizfrontend.services.CountryService;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Random;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+
+<span class="nc" id="L42">public class CapitalGame extends AppCompatActivity {</span>
+    private TextView CapitalText, ScoreText, TimerText;
+
+    static String whatQuestion, scoreText, whatAnswer;
+    static int score, question, questions, answer;
+    private Button Countrybtn1, Countrybtn2, Countrybtn3, Countrybtn4, QuitBtn;
+    private String country1, country2, country3, country4, capitalQuestion;
+    private CountDownTimer countDownTimer;
+<span class="nc" id="L50">    private long timeLeftInMilliseconds = 90000;</span>
+    private boolean timerRunning;
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+<span class="nc" id="L54">        super.onCreate(savedInstanceState);</span>
+<span class="nc" id="L55">        setContentView(R.layout.activity_capital_game);</span>
+
+<span class="nc" id="L57">        CapitalText = (TextView) findViewById(R.id.gameText);</span>
+<span class="nc" id="L58">        ScoreText = (TextView) findViewById(R.id.ScoreText);</span>
+<span class="nc" id="L59">        TimerText = (TextView) findViewById(R.id.timer);</span>
+<span class="nc" id="L60">        Countrybtn1 = (Button) findViewById(R.id.opt0_btn);</span>
+<span class="nc" id="L61">        Countrybtn2 = (Button) findViewById(R.id.opt1_btn);</span>
+<span class="nc" id="L62">        Countrybtn3 = (Button) findViewById(R.id.opt2_btn);</span>
+<span class="nc" id="L63">        Countrybtn4 = (Button) findViewById(R.id.opt3_btn);</span>
+<span class="nc" id="L64">        QuitBtn = (Button) findViewById(R.id.quit_btn);</span>
+
+<span class="nc" id="L66">        questions = 5;</span>
+<span class="nc" id="L67">        question = 1;</span>
+
+<span class="nc" id="L69">        ApiService apiService = ApiClientFactory.GetGeoQuizApi();</span>
+<span class="nc" id="L70">        Call&lt;ArrayList&lt;GameData&gt;&gt; call = apiService.GetGameData(4);</span>
+
+
+<span class="nc" id="L73">        call.enqueue(new Callback&lt;ArrayList&lt;GameData&gt;&gt;() {</span>
+            @Override
+            public void onResponse(Call&lt;ArrayList&lt;GameData&gt;&gt; call, Response&lt;ArrayList&lt;GameData&gt;&gt; response) {
+<span class="nc bnc" id="L76" title="All 2 branches missed.">                if (response.isSuccessful()) {</span>
+                    // assign game data objects here
+                    // e.g.
+<span class="nc" id="L79">                    answer = getRandomNumber(0, 3);</span>
+<span class="nc" id="L80">                    ArrayList&lt;GameData&gt; CapitalGame = response.body();</span>
+<span class="nc" id="L81">                    country1 = CapitalGame.get(0).getName();</span>
+<span class="nc" id="L82">                    country2 = CapitalGame.get(1).getName();</span>
+<span class="nc" id="L83">                    country3 = CapitalGame.get(2).getName();</span>
+<span class="nc" id="L84">                    country4 = CapitalGame.get(3).getName();</span>
+<span class="nc" id="L85">                    capitalQuestion = CapitalGame.get(answer).getCapital();</span>
+<span class="nc" id="L86">                    Countrybtn1.setText(country1);</span>
+<span class="nc" id="L87">                    Countrybtn2.setText(country2);</span>
+<span class="nc" id="L88">                    Countrybtn3.setText(country3);</span>
+<span class="nc" id="L89">                    Countrybtn4.setText(country4);</span>
+<span class="nc" id="L90">                    CapitalText.setText(&quot;What country has &quot; + capitalQuestion + &quot; as their capital?&quot;);</span>
+<span class="nc" id="L91">                    startTimer();</span>
+                }
+<span class="nc" id="L93">            }</span>
+
+            @Override
+            public void onFailure(Call&lt;ArrayList&lt;GameData&gt;&gt; call, Throwable t) {
+
+<span class="nc" id="L98">            }</span>
+        });
+<span class="nc" id="L100">        Countrybtn1.setOnClickListener(new View.OnClickListener() {</span>
+            @Override
+            public void onClick(View view) {
+<span class="nc" id="L103">                startStop();</span>
+<span class="nc bnc" id="L104" title="All 2 branches missed.">                if(answer == 0){</span>
+<span class="nc" id="L105">                    updateScore();</span>
+<span class="nc" id="L106">                    checkGameOver();</span>
+
+<span class="nc" id="L108">                    ApiService apiService = ApiClientFactory.GetGeoQuizApi();;</span>
+<span class="nc" id="L109">                    Call&lt;ArrayList&lt;GameData&gt;&gt; call = apiService.GetGameData(4);</span>
+<span class="nc" id="L110">                    call.enqueue(new Callback&lt;ArrayList&lt;GameData&gt;&gt;() {</span>
+                        @Override
+                        public void onResponse(Call&lt;ArrayList&lt;GameData&gt;&gt; call, Response&lt;ArrayList&lt;GameData&gt;&gt; response) {
+<span class="nc bnc" id="L113" title="All 2 branches missed.">                            if (response.isSuccessful()) {</span>
+                                // assign game data objects here
+                                // e.g.
+<span class="nc" id="L116">                                answer = getRandomNumber(0, 3);</span>
+<span class="nc" id="L117">                                ArrayList&lt;GameData&gt; CapitalGame = response.body();</span>
+<span class="nc" id="L118">                                country1 = CapitalGame.get(0).getName();</span>
+<span class="nc" id="L119">                                country2 = CapitalGame.get(1).getName();</span>
+<span class="nc" id="L120">                                country3 = CapitalGame.get(2).getName();</span>
+<span class="nc" id="L121">                                country4 = CapitalGame.get(3).getName();</span>
+<span class="nc" id="L122">                                capitalQuestion = CapitalGame.get(answer).getCapital();</span>
+<span class="nc" id="L123">                                Countrybtn1.setText(country1);</span>
+<span class="nc" id="L124">                                Countrybtn2.setText(country2);</span>
+<span class="nc" id="L125">                                Countrybtn3.setText(country3);</span>
+<span class="nc" id="L126">                                Countrybtn4.setText(country4);</span>
+<span class="nc" id="L127">                                CapitalText.setText(&quot;What country has &quot; + capitalQuestion + &quot; as their capital?&quot;);</span>
+<span class="nc" id="L128">                                timeLeftInMilliseconds = 90000;</span>
+<span class="nc" id="L129">                                startStop();</span>
+                            }
+<span class="nc" id="L131">                        }</span>
+
+                        @Override
+                        public void onFailure(Call&lt;ArrayList&lt;GameData&gt;&gt; call, Throwable t) {
+
+<span class="nc" id="L136">                        }</span>
+                    });
+<span class="nc" id="L138">                }else{</span>
+<span class="nc" id="L139">                    checkGameOver();</span>
+
+<span class="nc" id="L141">                    ApiService apiService = ApiClientFactory.GetGeoQuizApi();</span>
+<span class="nc" id="L142">                    Call&lt;ArrayList&lt;GameData&gt;&gt; call = apiService.GetGameData(4);</span>
+<span class="nc" id="L143">                    call.enqueue(new Callback&lt;ArrayList&lt;GameData&gt;&gt;() {</span>
+                        @Override
+                        public void onResponse(Call&lt;ArrayList&lt;GameData&gt;&gt; call, Response&lt;ArrayList&lt;GameData&gt;&gt; response) {
+<span class="nc bnc" id="L146" title="All 2 branches missed.">                            if (response.isSuccessful()) {</span>
+                                // assign game data objects here
+                                // e.g.
+<span class="nc" id="L149">                                answer = getRandomNumber(0, 3);</span>
+<span class="nc" id="L150">                                ArrayList&lt;GameData&gt; CapitalGame = response.body();</span>
+<span class="nc" id="L151">                                country1 = CapitalGame.get(0).getName();</span>
+<span class="nc" id="L152">                                country2 = CapitalGame.get(1).getName();</span>
+<span class="nc" id="L153">                                country3 = CapitalGame.get(2).getName();</span>
+<span class="nc" id="L154">                                country4 = CapitalGame.get(3).getName();</span>
+<span class="nc" id="L155">                                capitalQuestion = CapitalGame.get(answer).getCapital();</span>
+<span class="nc" id="L156">                                Countrybtn1.setText(country1);</span>
+<span class="nc" id="L157">                                Countrybtn2.setText(country2);</span>
+<span class="nc" id="L158">                                Countrybtn3.setText(country3);</span>
+<span class="nc" id="L159">                                Countrybtn4.setText(country4);</span>
+<span class="nc" id="L160">                                CapitalText.setText(&quot;What country has &quot; + capitalQuestion + &quot; as their capital?&quot;);</span>
+<span class="nc" id="L161">                                timeLeftInMilliseconds = 90000;</span>
+<span class="nc" id="L162">                                startStop();</span>
+                            }
+<span class="nc" id="L164">                        }</span>
+
+                        @Override
+                        public void onFailure(Call&lt;ArrayList&lt;GameData&gt;&gt; call, Throwable t) {
+
+<span class="nc" id="L169">                        }</span>
+                    });
+                }
+<span class="nc" id="L172">            }</span>
+        });
+<span class="nc" id="L174">        Countrybtn2.setOnClickListener(new View.OnClickListener() {</span>
+            @Override
+            public void onClick(View view) {
+<span class="nc" id="L177">                startStop();</span>
+<span class="nc bnc" id="L178" title="All 2 branches missed.">                if(answer == 1){</span>
+<span class="nc" id="L179">                    updateScore();</span>
+<span class="nc" id="L180">                    checkGameOver();</span>
+
+<span class="nc" id="L182">                    ApiService apiService = ApiClientFactory.GetGeoQuizApi();</span>
+<span class="nc" id="L183">                    Call&lt;ArrayList&lt;GameData&gt;&gt; call = apiService.GetGameData(4);</span>
+<span class="nc" id="L184">                    call.enqueue(new Callback&lt;ArrayList&lt;GameData&gt;&gt;() {</span>
+                        @Override
+                        public void onResponse(Call&lt;ArrayList&lt;GameData&gt;&gt; call, Response&lt;ArrayList&lt;GameData&gt;&gt; response) {
+<span class="nc bnc" id="L187" title="All 2 branches missed.">                            if (response.isSuccessful()) {</span>
+                                // assign game data objects here
+                                // e.g.
+<span class="nc" id="L190">                                answer = getRandomNumber(0, 3);</span>
+<span class="nc" id="L191">                                ArrayList&lt;GameData&gt; CapitalGame = response.body();</span>
+<span class="nc" id="L192">                                country1 = CapitalGame.get(0).getName();</span>
+<span class="nc" id="L193">                                country2 = CapitalGame.get(1).getName();</span>
+<span class="nc" id="L194">                                country3 = CapitalGame.get(2).getName();</span>
+<span class="nc" id="L195">                                country4 = CapitalGame.get(3).getName();</span>
+<span class="nc" id="L196">                                capitalQuestion = CapitalGame.get(answer).getCapital();</span>
+<span class="nc" id="L197">                                Countrybtn1.setText(country1);</span>
+<span class="nc" id="L198">                                Countrybtn2.setText(country2);</span>
+<span class="nc" id="L199">                                Countrybtn3.setText(country3);</span>
+<span class="nc" id="L200">                                Countrybtn4.setText(country4);</span>
+<span class="nc" id="L201">                                CapitalText.setText(&quot;What country has &quot; + capitalQuestion + &quot; as their capital?&quot;);</span>
+<span class="nc" id="L202">                                timeLeftInMilliseconds = 90000;</span>
+<span class="nc" id="L203">                                startStop();</span>
+                            }
+<span class="nc" id="L205">                        }</span>
+
+                        @Override
+                        public void onFailure(Call&lt;ArrayList&lt;GameData&gt;&gt; call, Throwable t) {
+
+<span class="nc" id="L210">                        }</span>
+                    });
+<span class="nc" id="L212">                }else{</span>
+<span class="nc" id="L213">                    checkGameOver();</span>
+
+<span class="nc" id="L215">                    ApiService apiService = ApiClientFactory.GetGeoQuizApi();</span>
+<span class="nc" id="L216">                    Call&lt;ArrayList&lt;GameData&gt;&gt; call = apiService.GetGameData(4);</span>
+<span class="nc" id="L217">                    call.enqueue(new Callback&lt;ArrayList&lt;GameData&gt;&gt;() {</span>
+                        @Override
+                        public void onResponse(Call&lt;ArrayList&lt;GameData&gt;&gt; call, Response&lt;ArrayList&lt;GameData&gt;&gt; response) {
+<span class="nc bnc" id="L220" title="All 2 branches missed.">                            if (response.isSuccessful()) {</span>
+                                // assign game data objects here
+                                // e.g.
+<span class="nc" id="L223">                                answer = getRandomNumber(0, 3);</span>
+<span class="nc" id="L224">                                ArrayList&lt;GameData&gt; CapitalGame = response.body();</span>
+<span class="nc" id="L225">                                country1 = CapitalGame.get(0).getName();</span>
+<span class="nc" id="L226">                                country2 = CapitalGame.get(1).getName();</span>
+<span class="nc" id="L227">                                country3 = CapitalGame.get(2).getName();</span>
+<span class="nc" id="L228">                                country4 = CapitalGame.get(3).getName();</span>
+<span class="nc" id="L229">                                capitalQuestion = CapitalGame.get(answer).getCapital();</span>
+<span class="nc" id="L230">                                Countrybtn1.setText(country1);</span>
+<span class="nc" id="L231">                                Countrybtn2.setText(country2);</span>
+<span class="nc" id="L232">                                Countrybtn3.setText(country3);</span>
+<span class="nc" id="L233">                                Countrybtn4.setText(country4);</span>
+<span class="nc" id="L234">                                CapitalText.setText(&quot;What country has &quot; + capitalQuestion + &quot; as their capital?&quot;);</span>
+<span class="nc" id="L235">                                timeLeftInMilliseconds = 90000;</span>
+<span class="nc" id="L236">                                startStop();</span>
+                            }
+<span class="nc" id="L238">                        }</span>
+
+                        @Override
+                        public void onFailure(Call&lt;ArrayList&lt;GameData&gt;&gt; call, Throwable t) {
+
+<span class="nc" id="L243">                        }</span>
+                    });
+                }
+<span class="nc" id="L246">            }</span>
+        });
+<span class="nc" id="L248">        Countrybtn3.setOnClickListener(new View.OnClickListener() {</span>
+            @Override
+            public void onClick(View view) {
+<span class="nc" id="L251">                startStop();</span>
+<span class="nc bnc" id="L252" title="All 2 branches missed.">                if(answer == 2){</span>
+<span class="nc" id="L253">                    updateScore();</span>
+<span class="nc" id="L254">                    checkGameOver();</span>
+
+<span class="nc" id="L256">                    ApiService apiService = ApiClientFactory.GetGeoQuizApi();</span>
+<span class="nc" id="L257">                    Call&lt;ArrayList&lt;GameData&gt;&gt; call = apiService.GetGameData(4);</span>
+<span class="nc" id="L258">                    call.enqueue(new Callback&lt;ArrayList&lt;GameData&gt;&gt;() {</span>
+                        @Override
+                        public void onResponse(Call&lt;ArrayList&lt;GameData&gt;&gt; call, Response&lt;ArrayList&lt;GameData&gt;&gt; response) {
+<span class="nc bnc" id="L261" title="All 2 branches missed.">                            if (response.isSuccessful()) {</span>
+                                // assign game data objects here
+                                // e.g.
+<span class="nc" id="L264">                                answer = getRandomNumber(0, 3);</span>
+<span class="nc" id="L265">                                ArrayList&lt;GameData&gt; CapitalGame = response.body();</span>
+<span class="nc" id="L266">                                country1 = CapitalGame.get(0).getName();</span>
+<span class="nc" id="L267">                                country2 = CapitalGame.get(1).getName();</span>
+<span class="nc" id="L268">                                country3 = CapitalGame.get(2).getName();</span>
+<span class="nc" id="L269">                                country4 = CapitalGame.get(3).getName();</span>
+<span class="nc" id="L270">                                capitalQuestion = CapitalGame.get(answer).getCapital();</span>
+<span class="nc" id="L271">                                Countrybtn1.setText(country1);</span>
+<span class="nc" id="L272">                                Countrybtn2.setText(country2);</span>
+<span class="nc" id="L273">                                Countrybtn3.setText(country3);</span>
+<span class="nc" id="L274">                                Countrybtn4.setText(country4);</span>
+<span class="nc" id="L275">                                CapitalText.setText(&quot;What country has &quot; + capitalQuestion + &quot; as their capital?&quot;);</span>
+<span class="nc" id="L276">                                timeLeftInMilliseconds = 90000;</span>
+<span class="nc" id="L277">                                startStop();</span>
+                            }
+<span class="nc" id="L279">                        }</span>
+
+                        @Override
+                        public void onFailure(Call&lt;ArrayList&lt;GameData&gt;&gt; call, Throwable t) {
+
+<span class="nc" id="L284">                        }</span>
+                    });
+<span class="nc" id="L286">                }else{</span>
+<span class="nc" id="L287">                    checkGameOver();</span>
+
+<span class="nc" id="L289">                    ApiService apiService = ApiClientFactory.GetGeoQuizApi();</span>
+<span class="nc" id="L290">                    Call&lt;ArrayList&lt;GameData&gt;&gt; call = apiService.GetGameData(4);</span>
+<span class="nc" id="L291">                    call.enqueue(new Callback&lt;ArrayList&lt;GameData&gt;&gt;() {</span>
+                        @Override
+                        public void onResponse(Call&lt;ArrayList&lt;GameData&gt;&gt; call, Response&lt;ArrayList&lt;GameData&gt;&gt; response) {
+<span class="nc bnc" id="L294" title="All 2 branches missed.">                            if (response.isSuccessful()) {</span>
+                                // assign game data objects here
+                                // e.g.
+<span class="nc" id="L297">                                answer = getRandomNumber(0, 3);</span>
+<span class="nc" id="L298">                                ArrayList&lt;GameData&gt; CapitalGame = response.body();</span>
+<span class="nc" id="L299">                                country1 = CapitalGame.get(0).getName();</span>
+<span class="nc" id="L300">                                country2 = CapitalGame.get(1).getName();</span>
+<span class="nc" id="L301">                                country3 = CapitalGame.get(2).getName();</span>
+<span class="nc" id="L302">                                country4 = CapitalGame.get(3).getName();</span>
+<span class="nc" id="L303">                                capitalQuestion = CapitalGame.get(answer).getCapital();</span>
+<span class="nc" id="L304">                                Countrybtn1.setText(country1);</span>
+<span class="nc" id="L305">                                Countrybtn2.setText(country2);</span>
+<span class="nc" id="L306">                                Countrybtn3.setText(country3);</span>
+<span class="nc" id="L307">                                Countrybtn4.setText(country4);</span>
+<span class="nc" id="L308">                                CapitalText.setText(&quot;What country has &quot; + capitalQuestion + &quot; as their capital?&quot;);</span>
+<span class="nc" id="L309">                                timeLeftInMilliseconds = 90000;</span>
+<span class="nc" id="L310">                                startStop();</span>
+                            }
+<span class="nc" id="L312">                        }</span>
+
+                        @Override
+                        public void onFailure(Call&lt;ArrayList&lt;GameData&gt;&gt; call, Throwable t) {
+
+<span class="nc" id="L317">                        }</span>
+                    });
+                }
+<span class="nc" id="L320">            }</span>
+        });
+<span class="nc" id="L322">        Countrybtn4.setOnClickListener(new View.OnClickListener() {</span>
+            @Override
+            public void onClick(View view) {
+<span class="nc" id="L325">                startStop();</span>
+<span class="nc bnc" id="L326" title="All 2 branches missed.">                if(answer == 3){</span>
+<span class="nc" id="L327">                    updateScore();</span>
+<span class="nc" id="L328">                    checkGameOver();</span>
+
+<span class="nc" id="L330">                    ApiService apiService = ApiClientFactory.GetGeoQuizApi();</span>
+<span class="nc" id="L331">                    Call&lt;ArrayList&lt;GameData&gt;&gt; call = apiService.GetGameData(4);</span>
+<span class="nc" id="L332">                    call.enqueue(new Callback&lt;ArrayList&lt;GameData&gt;&gt;() {</span>
+                        @Override
+                        public void onResponse(Call&lt;ArrayList&lt;GameData&gt;&gt; call, Response&lt;ArrayList&lt;GameData&gt;&gt; response) {
+<span class="nc bnc" id="L335" title="All 2 branches missed.">                            if (response.isSuccessful()) {</span>
+                                // assign game data objects here
+                                // e.g.
+<span class="nc" id="L338">                                answer = getRandomNumber(0, 3);</span>
+<span class="nc" id="L339">                                ArrayList&lt;GameData&gt; CapitalGame = response.body();</span>
+<span class="nc" id="L340">                                country1 = CapitalGame.get(0).getName();</span>
+<span class="nc" id="L341">                                country2 = CapitalGame.get(1).getName();</span>
+<span class="nc" id="L342">                                country3 = CapitalGame.get(2).getName();</span>
+<span class="nc" id="L343">                                country4 = CapitalGame.get(3).getName();</span>
+<span class="nc" id="L344">                                capitalQuestion = CapitalGame.get(answer).getCapital();</span>
+<span class="nc" id="L345">                                Countrybtn1.setText(country1);</span>
+<span class="nc" id="L346">                                Countrybtn2.setText(country2);</span>
+<span class="nc" id="L347">                                Countrybtn3.setText(country3);</span>
+<span class="nc" id="L348">                                Countrybtn4.setText(country4);</span>
+<span class="nc" id="L349">                                CapitalText.setText(&quot;What country has &quot; + capitalQuestion + &quot; as their capital?&quot;);</span>
+<span class="nc" id="L350">                                timeLeftInMilliseconds = 90000;</span>
+<span class="nc" id="L351">                                startStop();</span>
+                            }
+<span class="nc" id="L353">                        }</span>
+
+                        @Override
+                        public void onFailure(Call&lt;ArrayList&lt;GameData&gt;&gt; call, Throwable t) {
+
+<span class="nc" id="L358">                        }</span>
+                    });
+<span class="nc" id="L360">                }else{</span>
+<span class="nc" id="L361">                    checkGameOver();</span>
+
+<span class="nc" id="L363">                    ApiService apiService = ApiClientFactory.GetGeoQuizApi();</span>
+<span class="nc" id="L364">                    Call&lt;ArrayList&lt;GameData&gt;&gt; call = apiService.GetGameData(4);</span>
+<span class="nc" id="L365">                    call.enqueue(new Callback&lt;ArrayList&lt;GameData&gt;&gt;() {</span>
+                        @Override
+                        public void onResponse(Call&lt;ArrayList&lt;GameData&gt;&gt; call, Response&lt;ArrayList&lt;GameData&gt;&gt; response) {
+<span class="nc bnc" id="L368" title="All 2 branches missed.">                            if (response.isSuccessful()) {</span>
+                                // assign game data objects here
+                                // e.g.
+<span class="nc" id="L371">                                answer = getRandomNumber(0, 3);</span>
+<span class="nc" id="L372">                                ArrayList&lt;GameData&gt; CapitalGame = response.body();</span>
+<span class="nc" id="L373">                                country1 = CapitalGame.get(0).getName();</span>
+<span class="nc" id="L374">                                country2 = CapitalGame.get(1).getName();</span>
+<span class="nc" id="L375">                                country3 = CapitalGame.get(2).getName();</span>
+<span class="nc" id="L376">                                country4 = CapitalGame.get(3).getName();</span>
+<span class="nc" id="L377">                                capitalQuestion = CapitalGame.get(answer).getCapital();</span>
+<span class="nc" id="L378">                                Countrybtn1.setText(country1);</span>
+<span class="nc" id="L379">                                Countrybtn2.setText(country2);</span>
+<span class="nc" id="L380">                                Countrybtn3.setText(country3);</span>
+<span class="nc" id="L381">                                Countrybtn4.setText(country4);</span>
+<span class="nc" id="L382">                                CapitalText.setText(&quot;What country has &quot; + capitalQuestion + &quot; as their capital?&quot;);</span>
+<span class="nc" id="L383">                                timeLeftInMilliseconds = 90000;</span>
+<span class="nc" id="L384">                                startStop();</span>
+                            }
+<span class="nc" id="L386">                        }</span>
+
+                        @Override
+                        public void onFailure(Call&lt;ArrayList&lt;GameData&gt;&gt; call, Throwable t) {
+
+<span class="nc" id="L391">                        }</span>
+                    });
+                }
+<span class="nc" id="L394">            }</span>
+        });
+<span class="nc" id="L396">        QuitBtn.setOnClickListener(new View.OnClickListener() {</span>
+            @Override
+            public void onClick(View view) {
+<span class="nc" id="L399">                Intent intent = new Intent(CapitalGame.this, MainActivity.class);</span>
+<span class="nc" id="L400">                startActivity(intent);</span>
+<span class="nc" id="L401">            }</span>
+        });
+
+
+<span class="nc" id="L405">    }</span>
+    public static int getRandomNumber(int min, int max) {
+<span class="nc" id="L407">        return (new Random()).nextInt((max - min) + 1) + min;</span>
+    }
+    public void startStop(){
+<span class="nc bnc" id="L410" title="All 2 branches missed.">        if(timerRunning){</span>
+<span class="nc" id="L411">            stopTimer();</span>
+        }else{
+<span class="nc" id="L413">            startTimer();</span>
+        }
+<span class="nc" id="L415">    }</span>
+    public void startTimer(){
+<span class="nc" id="L417">        countDownTimer = new CountDownTimer(timeLeftInMilliseconds, 1000) {</span>
+            @Override
+            public void onTick(long l) {
+<span class="nc" id="L420">                timeLeftInMilliseconds = l;</span>
+<span class="nc" id="L421">                updateTimer();</span>
+<span class="nc" id="L422">            }</span>
+
+            @Override
+            public void onFinish() {
+
+<span class="nc" id="L427">            }</span>
+<span class="nc" id="L428">        }.start();</span>
+
+<span class="nc" id="L430">        timerRunning = true;</span>
+<span class="nc" id="L431">    }</span>
+
+    public void stopTimer(){
+<span class="nc" id="L434">        countDownTimer.cancel();</span>
+<span class="nc" id="L435">        timerRunning = false;</span>
+<span class="nc" id="L436">    }</span>
+
+    public void updateTimer(){
+<span class="nc" id="L439">        int minutes = (int) timeLeftInMilliseconds / 60000;</span>
+<span class="nc" id="L440">        int seconds = (int) timeLeftInMilliseconds % 60000 / 1000;</span>
+
+        String timeLeftText;
+
+<span class="nc" id="L444">        timeLeftText = &quot;&quot; + minutes;</span>
+<span class="nc" id="L445">        timeLeftText += &quot;:&quot;;</span>
+<span class="nc bnc" id="L446" title="All 2 branches missed.">        if(seconds &lt; 10) timeLeftText += &quot;0&quot;;</span>
+<span class="nc" id="L447">        timeLeftText += seconds;</span>
+
+<span class="nc" id="L449">        TimerText.setText(timeLeftText);</span>
+<span class="nc" id="L450">    }</span>
+    private void updateScore() {
+<span class="nc" id="L452">        score += 1 + (5*(Math.toIntExact(timeLeftInMilliseconds) / 1000));</span>
+<span class="nc" id="L453">        ScoreText.setText(&quot;Score: &quot; + Integer.toString(score));</span>
+<span class="nc" id="L454">    }</span>
+    private void checkGameOver() {
+<span class="nc" id="L456">        question += 1;</span>
+<span class="nc bnc" id="L457" title="All 2 branches missed.">        if (question &gt; questions) {</span>
+<span class="nc" id="L458">            Intent intent = new Intent(CapitalGame.this, ResultScreen.class);</span>
+<span class="nc" id="L459">            intent.putExtra(&quot;score&quot;, score);</span>
+<span class="nc" id="L460">            startActivity(intent);</span>
+        }
+<span class="nc" id="L462">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span>Generated by the Android Gradle plugin 8.1.1</div></body></html>

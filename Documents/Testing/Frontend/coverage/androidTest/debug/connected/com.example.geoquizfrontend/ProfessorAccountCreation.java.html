@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ProfessorAccountCreation.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=0;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">debug</a> &gt; <a href="index.source.html" class="el_package">com.example.geoquizfrontend</a> &gt; <span class="el_source">ProfessorAccountCreation.java</span></div><h1>ProfessorAccountCreation.java</h1><pre class="source lang-java linenums">package com.example.geoquizfrontend;
+
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.geoquizfrontend.models.Professor;
+import com.example.geoquizfrontend.services.ApiService;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+<span class="nc" id="L20">public class ProfessorAccountCreation extends AppCompatActivity {</span>
+
+    Button SignUpBtn;
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+<span class="nc" id="L25">        super.onCreate(savedInstanceState);</span>
+<span class="nc" id="L26">        setContentView(R.layout.activity_professor_account_creation);</span>
+
+<span class="nc" id="L28">        EditText editTextFirstName = findViewById(R.id.firstName_text);</span>
+<span class="nc" id="L29">        EditText editTextLastName = findViewById(R.id.lastName_text);</span>
+<span class="nc" id="L30">        EditText editTextEmail = findViewById(R.id.editTextEmailAddress);</span>
+<span class="nc" id="L31">        EditText editTextPassword = findViewById(R.id.Password_text);</span>
+<span class="nc" id="L32">        EditText editTextConfirmPassword = findViewById(R.id.passwordConfirm_text);</span>
+
+<span class="nc" id="L34">        SignUpBtn = (Button) findViewById(R.id.signup_btn);</span>
+
+<span class="nc" id="L36">        SignUpBtn.setOnClickListener(new View.OnClickListener(){</span>
+            @Override
+            public void onClick(View view) {
+<span class="nc" id="L39">                String firstName = editTextFirstName.getText().toString();</span>
+<span class="nc" id="L40">                String lastName = editTextLastName.getText().toString();</span>
+<span class="nc" id="L41">                String email = editTextEmail.getText().toString();</span>
+<span class="nc" id="L42">                String password = editTextPassword.getText().toString();</span>
+<span class="nc" id="L43">                String confirmPassword = editTextConfirmPassword.getText().toString();</span>
+
+<span class="nc bnc" id="L45" title="All 2 branches missed.">                if (!password.equals(confirmPassword)) {</span>
+<span class="nc" id="L46">                    Toast.makeText(getApplicationContext(), &quot;Passwords do not match&quot;, Toast.LENGTH_SHORT).show();</span>
+<span class="nc" id="L47">                    return;</span>
+                }
+
+<span class="nc" id="L50">                Professor professor = new Professor();</span>
+<span class="nc" id="L51">                professor.setFirstName(firstName);</span>
+<span class="nc" id="L52">                professor.setLastName(lastName);</span>
+<span class="nc" id="L53">                professor.setEmail(email);</span>
+<span class="nc" id="L54">                professor.setPassword(password);</span>
+
+<span class="nc" id="L56">                ApiService apiService = ApiClientFactory.GetGeoQuizApi();</span>
+<span class="nc" id="L57">                Call&lt;Professor&gt; call = apiService.postNewProfessor(professor);</span>
+
+<span class="nc" id="L59">                call.enqueue(new Callback&lt;Professor&gt;() {</span>
+                    @Override
+                    public void onResponse(Call&lt;Professor&gt; call, Response&lt;Professor&gt; response) {
+<span class="nc bnc" id="L62" title="All 2 branches missed.">                        if (response.isSuccessful()) {</span>
+                            // route to home page; success toast message
+<span class="nc" id="L64">                            Professor returnedProfessor = response.body();</span>
+
+<span class="nc" id="L66">                            SharedPreferences sharedPreferences = getSharedPreferences(&quot;UserInfo&quot;, MODE_PRIVATE);</span>
+<span class="nc" id="L67">                            SharedPreferences.Editor editor = sharedPreferences.edit();</span>
+<span class="nc bnc" id="L68" title="All 2 branches missed.">                            assert returnedProfessor != null;</span>
+<span class="nc" id="L69">                            editor.putLong(&quot;id&quot;, returnedProfessor.getId());</span>
+<span class="nc" id="L70">                            editor.putString(&quot;firstName&quot;, returnedProfessor.getFirstName());</span>
+<span class="nc" id="L71">                            editor.putString(&quot;lastName&quot;, returnedProfessor.getLastName());</span>
+<span class="nc" id="L72">                            editor.putString(&quot;email&quot;, returnedProfessor.getEmail());</span>
+<span class="nc" id="L73">                            editor.apply();</span>
+
+<span class="nc" id="L75">                            Toast.makeText(getApplicationContext(), &quot;Welcome, &quot; + sharedPreferences.getString(&quot;firstName&quot;, &quot;&quot;), Toast.LENGTH_SHORT).show();</span>
+<span class="nc" id="L76">                            startActivity(</span>
+                                    new Intent(ProfessorAccountCreation.this, ProfessorAccountHome.class)
+                            );
+<span class="nc" id="L79">                        } else {</span>
+<span class="nc" id="L80">                            Toast.makeText(getApplicationContext(), &quot;Failed to create account&quot;, Toast.LENGTH_SHORT).show();</span>
+                        }
+<span class="nc" id="L82">                    }</span>
+
+                    @Override
+                    public void onFailure(Call&lt;Professor&gt; call, Throwable t) {
+<span class="nc" id="L86">                        Toast.makeText(getApplicationContext(), &quot;Network error&quot;, Toast.LENGTH_SHORT).show();</span>
+<span class="nc" id="L87">                    }</span>
+                });
+<span class="nc" id="L89">            }</span>
+        });
+<span class="nc" id="L91">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span>Generated by the Android Gradle plugin 8.1.1</div></body></html>
